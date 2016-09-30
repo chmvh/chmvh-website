@@ -1,0 +1,101 @@
+{% load sass_tags %}
+{% load static %}
+
+
+<!doctype html>
+
+<html>
+
+  <head>
+
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+
+    <title>{% block page_title %}CHMVH{% endblock %}</title>
+
+    <!-- Stylesheets -->
+    <link rel='stylesheet' href='{% sass_src "css/main.scss" %}' />
+
+  </head>
+
+  <body>
+
+    <header>
+
+      <div class='navbar'>
+        <div class='navbar__wrapper'>
+          <div class='navbar__title-bar'>
+            <div class='navbar__brand'>
+              <a href='#'>CHMVH</a>
+            </div>
+
+            <div class='navbar__toggle' data-target='#nav'>
+              <a href='#'><i class='fa fa-bars'></i></a>
+            </div>
+          </div>
+
+          <nav class='navbar__nav' id='nav'>
+            <ul class='navbar__links'>
+              <li class='navbar__link'><a href='#'>Home</a></li>
+              <li class='navbar__link'><a href='#'>Team</a></li>
+              <li class='navbar__link'><a href='#'>Services</a></li>
+              <li class='navbar__link'><a href='#'>Housecalls</a></li>
+              <li class='navbar__link'><a href='#'>Hours and Area</a></li>
+              <li class='navbar__link'><a href='#'>Resources</a></li>
+              <li class='navbar__link'><a href='#'>Contact</a></li>
+              <li class='navbar__link'><a href='#'>Gallery</a></li>
+              <li class='navbar__link'><a href='#'>Store</a></li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+
+    </header>
+
+    <main>
+      {% block content %}{% endblock %}
+    </main>
+
+    <footer>
+      <div class='footer__wrapper'>
+        <div class='footer'>
+          <div class='footer__contact'>
+            <div>
+              <strong>Dr. Sunita Driehuys</strong>
+            </div>
+            <div>
+              <a href='mailto:info@chapelhilvet.com' target='_blank'>info@chapelhillvet.com</a>
+            </div>
+            <div>
+              (919) 357-3440
+            </div>
+          </div>
+
+          <div class='footer__copyright'>
+            <p>
+              Copyright &copy; {% now "Y" %} Chapel Hill Mobile Veterinary House
+              Calls
+            </p>
+          </div>
+
+          <img class='footer__logo' src='{% static "images/logo.gif" %}' alt='CHMVH Logo' />
+
+        </div>
+      </div>
+    </footer>
+
+    <script src='https://code.jquery.com/jquery-3.1.1.min.js' integrity='sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=' crossorigin='anonymous'></script>
+    <script src="https://use.fontawesome.com/e7f7b92603.js"></script>
+    <script src='{% static "js/navbar.js" %}'></script>
+
+    <script>
+      $('.navbar__link').click(function(e) {
+        e.preventDefault();
+
+        $('.navbar__link.active').removeClass('active');
+        $(this).addClass('active');
+      });
+    </script>
+
+  </body>
+
+</html>
