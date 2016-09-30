@@ -1,0 +1,17 @@
+.blockquote {
+  border-left: $blockquote-border;
+  padding: $blockquote-padding;
+
+  @include element('author') {
+    color: $blockquote-author-color;
+    font-size: $blockquote-author-size;
+
+    &::before {
+      content: '\2014';
+    }
+  }
+
+  @include element('body') {
+    font-weight: $blockquote-body-font-weight;
+  }
+}

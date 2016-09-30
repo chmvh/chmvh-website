@@ -1,0 +1,7 @@
+.vertcenter {
+  @include element('wrapper') {
+    align-items: center;
+    display: flex;
+    height: 100%;
+  }
+}

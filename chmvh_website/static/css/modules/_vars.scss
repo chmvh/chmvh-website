@@ -1,10 +1,24 @@
 // General
+$border-radius: 5px;
+
+$color-brand: #840053;
 $color-navigation-bg: #333;
 $color-navigation-text: #ddd;
+$color-text: #000;
+
+$container-max-width: 50em;
+
+// Blockquote
+$blockquote-author-color: lighten($color-text, 30%);
+$blockquote-author-size: .85em;
+$blockquote-body-font-weight: bolder;
+$blockquote-border: solid 3px lighten($color-text, 70%);
+$blockquote-padding: 0 0 0 .5em;
 
 // Breakpoints
 $mobile-down: new-breakpoint(max-width 480px);
 $tablet-up: new-breakpoint(min-width 481px);
+$desktop-up: new-breakpoint(min-width 941px);
 
 // Footer
 $footer-bg: $color-navigation-bg;
@@ -27,3 +41,11 @@ $navbar-link-padding: 1em .5em;
 $navbar-max-width: 60em;
 $navbar-mobile-offset: 3.25em;
 $navbar-toggle-font-size: 1.5em;
+
+// Welcome Message
+$welcome-bg: #d8d8d8;
+$welcome-font-size: 1.25em;
+$welcome-font-size-desktop: 1.75em;
+$welcome-font-size-tablet: 1.5em;
+$welcome-padding: 2em .5em;
+$welcome-padding-tablet: 2em 1em;

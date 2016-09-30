@@ -1,8 +1,41 @@
 {% extends 'base.html' %}
 
 
+{% block main_classes %}vertcenter__wrapper bg--brand{% endblock %}
+
 {% block content %}
 
-  <h1>Hello, World!</h1>
+  <div class='container vertcenter'>
+    <div class='welcome-message'>
+      <h1 class='welcome-message__title'>
+        Welcome!
+      </h1>
+      <p class='welcome-message__text'>
+        Chapel Hill Mobile Veterinary Housecalls was founded in 2006 to
+        provide in-home veterinary services in Chapel Hill, Durham, and the
+        surrounding areas.
+      </p>
+
+      <div class='blockquote'>
+        <p class='blockquote__body'>
+          My mission as a housecall veterinarian is to provide high-caliber,
+          personalized care to enhance the lives of pets and their human
+          companions.
+        </p>
+        <p class='blockquote__author'>
+          Sunita Driehuys, VMD, Diplomate, American Board of Veterinary
+          Practitioners (Canine &amp; Feline Practice)
+        </p>
+      </div>
+    </div>
+  </div>
+
+{% endblock %}
+
+{% block extra_scripts %}
+
+  <script>
+    activateNavLink('#home');
+  </script>
 
 {% endblock %}
