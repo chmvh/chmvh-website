@@ -54,8 +54,13 @@
     text-align: right;
 
     @include media($navbar-breakpoint) {
+      background: $navbar-bg;
       display: none;
+      left: 0;
+      position: absolute;
       text-align: left;
+      top: $navbar-mobile-offset;
+      width: 100%;
     }
   }
 
