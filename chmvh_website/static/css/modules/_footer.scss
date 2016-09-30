@@ -1,0 +1,41 @@
+.footer {
+  color: $footer-color;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: $footer-max-width;
+  padding: $footer-padding;
+
+  @include element('contact') {
+    border-bottom: $footer-divider;
+    display: flex;
+    justify-content: space-around;
+
+    @include media($mobile-down) {
+      align-items: center;
+      flex-direction: column;
+    }
+
+    div {
+      padding-bottom: .5em;
+    }
+  }
+
+  @include element('copyright') {
+    font-size: $footer-copyright-size;
+    text-align: center;
+  }
+
+  @include element('logo') {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  @include element('wrapper') {
+    background: $footer-bg;
+  }
+
+  a {
+    color: $footer-link-color;
+  }
+}

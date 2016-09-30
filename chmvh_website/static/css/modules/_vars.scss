@@ -1,14 +1,27 @@
+// General
+$color-navigation-bg: #333;
+$color-navigation-text: #ddd;
+
 // Breakpoints
 $mobile-down: new-breakpoint(max-width 480px);
 $tablet-up: new-breakpoint(min-width 481px);
 
+// Footer
+$footer-bg: $color-navigation-bg;
+$footer-color: $color-navigation-text;
+$footer-copyright-size: .75em;
+$footer-divider: solid 2px darken($footer-color, 50%);
+$footer-link-color: darken($footer-color, 20%);
+$footer-max-width: 60em;
+$footer-padding: 1em 0;
+
 // Navbar
-$navbar-bg: #333;
+$navbar-bg: $color-navigation-bg;
 $navbar-brand-font-size: 1.5em;
 $navbar-brand-padding: .5em;
 $navbar-breakpoint: new-breakpoint(max-width 850px);
 $navbar-link-bg-active: rgba(#000, .5);
-$navbar-link-color: #ddd;
+$navbar-link-color: $color-navigation-text;
 $navbar-link-color-hover: darken($navbar-link-color, 10%);
 $navbar-link-padding: 1em .5em;
 $navbar-max-width: 60em;
