@@ -1,0 +1,15 @@
+// Breakpoints
+$mobile-down: new-breakpoint(max-width 480px);
+$tablet-up: new-breakpoint(min-width 481px);
+
+// Navbar
+$navbar-bg: #333;
+$navbar-brand-font-size: 1.5em;
+$navbar-brand-padding: .5em;
+$navbar-breakpoint: new-breakpoint(max-width 850px);
+$navbar-link-bg-active: rgba(#000, .5);
+$navbar-link-color: #ddd;
+$navbar-link-color-hover: darken($navbar-link-color, 10%);
+$navbar-link-padding: 1em .5em;
+$navbar-max-width: 60em;
+$navbar-toggle-font-size: 1.5em;

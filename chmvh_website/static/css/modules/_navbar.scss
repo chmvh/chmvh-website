@@ -1,0 +1,95 @@
+.navbar {
+  background: $navbar-bg;
+
+  @include element('brand') {
+    flex-grow: 1;
+    font-size: $navbar-brand-font-size;
+    font-weight: bold;
+    padding: $navbar-brand-padding;
+
+    a {
+      color: $navbar-link-color;
+      text-decoration: none;
+
+      &:hover {
+        color: $navbar-link-color-hover;
+      }
+    }
+  }
+
+  @include element('link') {
+    display: inline-block;
+    padding: $navbar-link-padding;
+
+    @include media($navbar-breakpoint) {
+      display: block;
+      margin: 0 -1em;
+      padding-left: 2em;
+    }
+
+    a {
+      color: $navbar-link-color;
+      display: block;
+      text-decoration: none;
+      width: 100%;
+
+      &:hover {
+        color: $navbar-link-color-hover;
+      }
+    }
+
+    &.active {
+      background: $navbar-link-bg-active;
+    }
+  }
+
+  @include element('links') {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  @include element('nav') {
+    flex-grow: 1;
+    text-align: right;
+
+    @include media($navbar-breakpoint) {
+      display: none;
+      text-align: left;
+    }
+  }
+
+  @include element('title-bar') {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+  }
+
+  @include element('toggle') {
+    display: none;
+    font-size: $navbar-toggle-font-size;
+
+    @include media($navbar-breakpoint) {
+      display: block;
+      flex-grow: 0;
+    }
+
+    a {
+    color: $navbar-link-color;
+    }
+  }
+
+  @include element('wrapper') {
+    align-items: center;
+    display: flex;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: $navbar-max-width;
+
+    @include media($navbar-breakpoint) {
+      align-items: stretch;
+      flex-direction: column;
+      padding: 0 1em;
+    }
+  }
+}
