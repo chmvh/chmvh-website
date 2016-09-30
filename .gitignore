@@ -93,3 +93,7 @@ ENV/
 # Sublime Text Files
 *.sublime-project
 *.sublime-workspace
+
+# Compiled CSS
+*.css
+*.css.map
