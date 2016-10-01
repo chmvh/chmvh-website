@@ -1,6 +1,7 @@
 // General
 $border-radius: 5px;
 
+$color-body-bg: #faf8f2;
 $color-brand: #840053;
 $color-navigation-bg: #333;
 $color-navigation-text: #ddd;
@@ -19,6 +20,9 @@ $blockquote-padding: 0 0 0 .5em;
 $mobile-down: new-breakpoint(max-width 480px);
 $tablet-up: new-breakpoint(min-width 481px);
 $desktop-up: new-breakpoint(min-width 941px);
+
+// Divider Color
+$divider-color: lighten($color-text, 50%);
 
 // Footer
 $footer-bg: $color-navigation-bg;
@@ -41,6 +45,10 @@ $navbar-link-padding: 1em .5em;
 $navbar-max-width: 60em;
 $navbar-mobile-offset: 3.25em;
 $navbar-toggle-font-size: 1.5em;
+
+// Team Member
+$team-member-padding: 0 .5em;
+$team-member-padding-tablet: 0 1em;
 
 // Welcome Message
 $welcome-bg: #d8d8d8;

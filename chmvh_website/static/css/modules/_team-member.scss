@@ -1,0 +1,27 @@
+.team-member {
+  padding: $team-member-padding;
+
+  @include element('image') {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+
+    @include media($tablet-up) {
+      float: left;
+      padding-bottom: .5em;
+      padding-right: 1em;
+    }
+  }
+
+  @include element('name') {
+    text-align: center;
+
+    @include media($tablet-up) {
+      text-align: left;
+    }
+  }
+
+  @include media($tablet-up) {
+    padding: $team-member-padding-tablet;
+  }
+}

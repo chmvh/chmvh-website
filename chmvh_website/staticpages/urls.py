@@ -2,7 +2,11 @@ from django.conf.urls import url
 from django.views.generic import TemplateView
 
 
+homepage_view = TemplateView.as_view(template_name='staticpages/index.html')
+team_view = TemplateView.as_view(template_name='staticpages/team.html')
+
+
 urlpatterns = [
-    url(r'^$', TemplateView.as_view(template_name='staticpages/index.html'),
-        name='homepage'),
+    url(r'^$', homepage_view, name='homepage'),
+    url(r'^team/$', team_view, name='team'),
 ]

@@ -1,3 +1,18 @@
+.divider {
+  border-bottom: 1px solid $divider-color;
+  margin-left: auto;
+  margin-right: auto;
+  width: 90%;
+
+  @include media(new-breakpoint(min-width $container-max-width)) {
+    width: 100%;
+  }
+}
+
+.text-center {
+  text-align: center;
+}
+
 .vertcenter {
   @include element('wrapper') {
     align-items: center;
