@@ -17,6 +17,11 @@ main {
   flex: 1 0;
 }
 
+.horiz-center-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
 .two-col-layout {
   @include clearfix;
 

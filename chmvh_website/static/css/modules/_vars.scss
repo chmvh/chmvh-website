@@ -24,6 +24,11 @@ $mobile-down: new-breakpoint(max-width 480px);
 $tablet-up: new-breakpoint(min-width 481px);
 $desktop-up: new-breakpoint(min-width 941px);
 
+// Buttons
+$button-margin: .5em 0;
+$button-padding: .5em 1em;
+$button-primary-color: #fff;
+
 // Divider Color
 $divider-color: $color-light-gray;
 
