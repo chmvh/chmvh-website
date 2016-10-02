@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+
+{% block page_title %}Hours and Area{% endblock %}
+
+{% block content %}
+
+  <div class='container'>
+    <div class='two-col-layout'>
+      <div class='two-col-layout__col'>
+        <h2>Hours</h2>
+        <p>
+          Dr. Driehuys is available by phone at (919)&nbsp;357‑3440 and email at
+          <a href='mailto:sdriehuys@chapelhillvet.com' target='_blank'>sdriehuys@chapelhillvet.com</a>
+          weekdays from 8&nbsp;a.m.&nbsp;&ndash;&nbsp;6&nbsp;p.m. Appointments
+          can be scheduled at mutually convenient times during weekdays.
+        </p>
+
+        <p>
+          <strong>CHMVH does not see routine appointments on Fridays.</strong>
+        </p>
+      </div>
+
+      <div class='two-col-layout__col'>
+        <h2>Emergencies</h2>
+        <p>
+          After hour emergencies are referred to the Veterinary Specialty
+          Hospital in Durham. The emergency clinic can be reached at
+          (919)&nbsp;600‑6600.
+        </p>
+
+        <div class='address'>
+          <p class='address__title'><i class='fa fa-map-marker'></i>VSH &ndash; Durham</p>
+          <p class='address__line1'>7015 Hwy. 751</p>
+          <p class='address__city-state'>Durham, NC 27707</p>
+        </div>
+      </div>
+    </div>
+
+    <h2>Service Area</h2>
+
+    <p><strong>We are not currently accepting new clients.</strong></p>
+
+    <div class='map-canvas' id='map-canvas'></div>
+  </div>
+
+{% endblock %}
+
+{% block extra_scripts %}
+
+  <script async defer src='https://maps.googleapis.com/maps/api/js?key=AIzaSyB9EgRvC5WPwkM9PBbovjUvmkoUVk39IS4&callback=initializeMap'></script>
+  <script src='{% static "js/map.js" %}'></script>
+
+  <script>
+    activateNavLink('#hoursandarea');
+  </script>
+
+{% endblock %}

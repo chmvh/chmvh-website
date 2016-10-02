@@ -1,0 +1,29 @@
+.service {
+  border: $service-border;
+  border-bottom: 0;
+  padding: $service-padding;
+
+  @include element('note') {
+    margin-bottom: 0;
+  }
+
+  @include element('title') {
+    font-size: $service-title-size;
+    font-weight: bold;
+    margin: 0;
+  }
+
+  &:first-child {
+    @include border-top-radius($border-radius);
+  }
+
+  &:last-child {
+    @include border-bottom-radius($border-radius);
+
+    border-bottom: $service-border;
+  }
+}
+
+.services {
+  margin-bottom: 2em;
+}

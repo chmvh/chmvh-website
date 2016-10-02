@@ -1,0 +1,125 @@
+{% extends 'base.html' %}
+
+
+{% block page_title %}Housecalls{% endblock %}
+
+{% block content %}
+
+  <div class='container--large'>
+    <h1 class='text-center'>What Happens During a Housecall?</h1>
+
+    <div class='gridlist'>
+      <div class='gridlist__item'>
+        <span class='gridlist__icon'>1</span>
+        <h3 class='gridlist__title'>Arrival</h3>
+        <p class='gridlist__body'>
+          At your scheduled appointment time, Dr. Driehuys will arrive at your
+          home with her assistant, Kari, and the equipment and supplies necessary
+          for your pet.
+        </p>
+      </div>
+
+      <div class='gridlist__item'>
+        <span class='gridlist__icon'>2</span>
+        <h3 class='gridlist__title'>Interview</h3>
+        <p class='gridlist__body'>
+          Dr. Driehuys will ask you questions to obtain an understanding of your
+          pet's personality, behavior, nutrition, activity, and health concerns.
+          This initial interview provides time for your pet to become acclimated
+          to Dr. Driehuys and allows her to observe your pet in his/her home
+          environment.
+        </p>
+      </div>
+
+      <div class='gridlist__item'>
+        <span class='gridlist__icon'>3</span>
+        <h3 class='gridlist__title'>Examination</h3>
+        <p class='gridlist__body'>
+          Your pet will then have a complete physical examination. All findings
+          will be recorded in a medical record which will be kept electronically
+          using state-of-the-art veterinary software.
+        </p>
+      </div>
+
+      <div class='gridlist__item'>
+        <span class='gridlist__icon'>4</span>
+        <h3 class='gridlist__title'>Conclusion</h3>
+        <p class='gridlist__body'>
+          Finally, any recommended diagnostics, vaccinations, medications, or
+          preventive care will be discussed with you and together a plan will be
+          formulated for comprehensive care of your pet. At the conclusion of the
+          visit, educational material and an invoice will be provided.
+        </p>
+      </div>
+    </div>
+
+    <div class='divider'></div>
+
+    <h1 class='text-center'>Housecall FAQs</h1>
+
+    <div class='faqs'>
+      <div class='faq'>
+        <h3 class='faq__title'>Why choose CHMVH?</h3>
+        <p class='faq__body'>
+          CHMVH is a private veterinary practice started by Dr. Sunita Driehuys. Dr.
+          Driehuys has many years of experience in small animal veterinary medicine
+          in the Triangle area. Her desire to provide high quality care for dogs and
+          cats with personal attention for each client and patient led to the
+          development of this unique practice in Chapel Hill.
+        </p>
+      </div>
+
+      <div class='faq'>
+        <h3 class='faq__title'>What services can be provided?</h3>
+        <p class='faq__body'>
+          Most of the professional services that comprise an outpatient office
+          visit in a traditional hospital can be done in the housecall setting.
+          Many of the services Dr. Driehuys provides are listed on the
+          <a href='{% url "services" %}'>services</a> page of this website.
+        </p>
+      </div>
+
+      <div class='faq'>
+        <h3 class='faq__title'>What if my pet is anxious?</h3>
+        <p class='faq__body'>
+          Most pets are more relaxed at home than in a veterinary hospital and
+          respond well to home examination. Dr. Driehuys will instruct the owner
+          on specific calming techniques for individual patients as needed.
+          Occasionally soft cloth muzzles are used to prevent biting. Cats should
+          be confined to a bathroom or pet carrier prior to the scheduled
+          appointment.
+        </p>
+      </div>
+    </div>
+
+    <div class='faqs'>
+      <div class='faq--full-width'>
+        <h3 class='faq__title'>What costs can be expected?</h3>
+        <p class='faq__body'>
+          In general the cost of veterinary care with CHMVH is comparable to the
+          cost at traditional veterinary hospitals. Clients appreciate the
+          convenience of home appointments, direct access to Dr. Driehuys, and
+          thorough examinations and discussions of their pet's needs. Pet health
+          insurance will reimburse for CHMVH services. Within the five-mile radius
+          shown on the <a href='{% url "hours_and_area" %}'>Hours &amp; Area</a>
+          page a travel fee of $37 is assessed for each housecall, regardless of
+          the number of pets treated. There is no travel fee for clients within
+          Southern Village. Physical examination/consultation is $55-$75 per
+          pet. An estimate for all other services will gladly be provided upon
+          request. Prices for inventory products are comparable to other
+          hospitals and internet providers. CHMVH matches internet prices for
+          flea/tick prevention and heartworm prevention.
+        </p>
+      </div>
+    </div>
+  </div>
+
+{% endblock %}
+
+{% block extra_scripts %}
+
+  <script>
+    activateNavLink('#housecalls');
+  </script>
+
+{% endblock %}
