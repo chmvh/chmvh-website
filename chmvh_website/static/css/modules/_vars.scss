@@ -3,11 +3,13 @@ $border-radius: 5px;
 
 $color-body-bg: #faf8f2;
 $color-brand: #840053;
+$color-light-gray: #ddd;
 $color-navigation-bg: #333;
 $color-navigation-text: #ddd;
 $color-text: #000;
 
 $container-max-width: 50em;
+$container-max-width-large: 100em;
 
 // Blockquote
 $blockquote-author-color: lighten($color-text, 30%);
@@ -22,7 +24,13 @@ $tablet-up: new-breakpoint(min-width 481px);
 $desktop-up: new-breakpoint(min-width 941px);
 
 // Divider Color
-$divider-color: lighten($color-text, 50%);
+$divider-color: $color-light-gray;
+
+// FAQ
+$faq-max-width: 70em;
+$faq-padding: 0 2em;
+$faq-title-size: 1.5em;
+$faq-title-underline: 1px solid $color-light-gray;
 
 // Footer
 $footer-bg: $color-navigation-bg;
@@ -32,6 +40,15 @@ $footer-divider: solid 2px darken($footer-color, 50%);
 $footer-link-color: darken($footer-color, 20%);
 $footer-max-width: 60em;
 $footer-padding: 1em 0;
+
+// Gridlist
+$gridlist-icon-bg: $color-brand;
+$gridlist-icon-color: #fff;
+$gridlist-item-padding: 0 2em;
+$gridlist-item-max-width: 25em;
+$gridlist-item-min-width: 20em;
+$gridlist-title-size: 1.5em;
+$gridlist-title-underline: 1px solid $color-light-gray;
 
 // Navbar
 $navbar-bg: $color-navigation-bg;

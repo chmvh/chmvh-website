@@ -2,6 +2,11 @@
   margin: 0 auto;
   max-width: $container-max-width;
 
+  @include modifier('large') {
+    margin: 0 auto;
+    max-width: $container-max-width-large;
+  }
+
   @include modifier('padded-mobile') {
     @extend .container;
 
