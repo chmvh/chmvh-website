@@ -10,6 +10,7 @@ $color-text: #000;
 
 $container-max-width: 50em;
 $container-max-width-large: 100em;
+$container-padding-small: 1em;
 
 // Blockquote
 $blockquote-author-color: lighten($color-text, 30%);
@@ -49,6 +50,10 @@ $gridlist-item-max-width: 25em;
 $gridlist-item-min-width: 20em;
 $gridlist-title-size: 1.5em;
 $gridlist-title-underline: 1px solid $color-light-gray;
+
+// Map
+$map-height: 300px;
+$map-margin: 2em;
 
 // Navbar
 $navbar-bg: $color-navigation-bg;

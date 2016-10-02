@@ -16,3 +16,15 @@ header {
 main {
   flex: 1 0;
 }
+
+.two-col-layout {
+  @include clearfix;
+
+  @include element('col') {
+    @include span-columns(2 of 2);
+
+    @include media($tablet-up) {
+      @include span-columns(1 of 2);
+    }
+  }
+}
