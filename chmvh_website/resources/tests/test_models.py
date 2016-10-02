@@ -10,9 +10,22 @@ class TestCategoryModel(TestCase):
 
         The category should accept a title as a parameter.
         """
-        category = models.Category.objects.create(title='New Category')
+        category = models.Category.objects.create(
+            title='New Category',
+            important=True)
 
         self.assertEqual('New Category', category.title)
+        self.assertTrue(category.important)
+
+    def test_string_conversion(self):
+        """Test converting a category to a string.
+
+        Converting a category to a string should return the category's
+        title.
+        """
+        category = models.Category(title='Test Category')
+
+        self.assertEqual(category.title, str(category))
 
 
 class TestResourceModel(TestCase):
