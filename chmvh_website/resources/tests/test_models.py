@@ -36,7 +36,9 @@ class TestResourceModel(TestCase):
         A resource should require a title, but be able to accept a
         variety of different information.
         """
+        category = models.Category.objects.create(title='Test Category')
         resource = models.Resource.objects.create(
+            category=category,
             title='Resource',
             description='Test resource.',
             phone='(555) 555-5555',
@@ -44,6 +46,7 @@ class TestResourceModel(TestCase):
             url='http://example.com',
             email='test@example.com')
 
+        self.assertEqual(category, resource.category)
         self.assertEqual('Resource', resource.title)
         self.assertEqual('Test resource.', resource.description)
         self.assertEqual('(555) 555-5555', resource.phone)

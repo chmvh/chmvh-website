@@ -23,6 +23,9 @@ class Resource(models.Model):
     address = models.TextField(
         blank=True,
         verbose_name='address')
+    category = models.ForeignKey(
+        to='Category',
+        verbose_name='resource category')
     description = models.TextField(
         blank=True,
         verbose_name='description')
