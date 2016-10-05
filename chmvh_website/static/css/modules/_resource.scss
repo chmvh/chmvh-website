@@ -43,8 +43,21 @@
   padding: $resource-category-padding;
 
   @include element('title') {
-    border-bottom: $resource-category-title-underline;
+    flex: 1;
     margin: 0;
+  }
+
+  @include element('title-bar') {
+    align-items: center;
+    border-bottom: $resource-category-title-underline;
+    display: flex;
     padding-bottom: $resource-category-title-padding-bottom;
+    transition: border 1s;
+  }
+
+  @include element('toggle') {
+    display: none;
+    flex: 0;
+    font-size: 1.5em;
   }
 }

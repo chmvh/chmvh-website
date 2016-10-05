@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 
+{% load static %}
+
 
 {% block page_title %}Resources{% endblock %}
 
@@ -24,6 +26,7 @@
 
 {% block extra_scripts %}
 
+  <script src='{% static "resources/js/resource_list.js" %}'></script>
   <script>
     activateNavLink('#resources');
   </script>

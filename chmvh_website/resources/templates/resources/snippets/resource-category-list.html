@@ -5,7 +5,11 @@
     {% for category in categories %}
 
       <div class='resource-category'>
-        <h2 class='resource-category__title'>{{ category.title }}</h2>
+        <div class='resource-category__title-bar'>
+          <h2 class='resource-category__title'>{{ category.title }}</h2>
+
+          <span class='resource-category__toggle'><i class='fa fa-plus'></i></span>
+        </div>
 
         <div class='resources'>
 
