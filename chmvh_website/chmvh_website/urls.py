@@ -18,5 +18,6 @@ from django.contrib import admin
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'^resources/', include('resources.urls', namespace='resources')),
     url(r'^', include('staticpages.urls')),
 ]

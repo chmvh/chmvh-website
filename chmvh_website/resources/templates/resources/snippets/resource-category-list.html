@@ -1,0 +1,67 @@
+{% if categories %}
+
+  <div class='resource-categories'>
+
+    {% for category in categories %}
+
+      <div class='resource-category'>
+        <h2 class='resource-category__title'>{{ category.title }}</h2>
+
+        <div class='resources'>
+
+          {% for resource in category.resource_set.all %}
+
+            <div class='resource'>
+              <h3 class='resource__title'>{{ resource.title }}</h3>
+              <p class='resource__description'>
+                {{ resource.description }}
+              </p>
+
+              {% if resource.address %}
+
+                <div class='resource__address'>
+                  <i class='fa fa-map-marker'></i><p>{{ resource.address|linebreaks }}</p>
+                </div>
+
+              {% endif %}
+
+              {% if resource.phone %}
+
+                <p class='resource__phone'>
+                  <i class='fa fa-phone'></i> {{ resource.phone }}
+                </p>
+
+              {% endif %}
+
+              {% if resource.email %}
+
+                <p class='resource__email'>
+                  <i class='fa fa-envelope'></i> <a href='mailto:{{ resource.email }}' target='_blank'>{{ resource.email }}</a>
+                </p>
+
+              {% endif %}
+
+              {% if resource.url %}
+
+                <a class='button--primary' href='{{ resource.url }}' target='_blank'><i class='fa fa-globe'></i> Visit Website</a>
+
+              {% endif %}
+
+            </div>
+
+            {% if not forloop.last %}
+
+              <div class='divider'></div>
+
+            {% endif %}
+
+          {% endfor %}
+
+        </div>
+      </div>
+
+    {% endfor %}
+
+  </div>
+
+{% endif %}

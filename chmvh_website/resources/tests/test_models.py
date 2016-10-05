@@ -17,6 +17,16 @@ class TestCategoryModel(TestCase):
         self.assertEqual('New Category', category.title)
         self.assertTrue(category.important)
 
+    def test_ordering(self):
+        """Test the ordering of multiple categories."""
+        c1 = models.Category.objects.create(title='B')
+        c2 = models.Category.objects.create(title='C')
+        c3 = models.Category.objects.create(title='A')
+
+        self.assertQuerysetEqual(
+            models.Category.objects.all(),
+            ['<Category: {}>'.format(c) for c in [c3, c1, c2]])
+
     def test_string_conversion(self):
         """Test converting a category to a string.
 
@@ -54,6 +64,20 @@ class TestResourceModel(TestCase):
             '123 Example Drive\nNew York, NY 12345', resource.address)
         self.assertEqual('http://example.com', resource.url)
         self.assertEqual('test@example.com', resource.email)
+
+    def test_ordering(self):
+        """Test the order of multiple resources.
+
+        Resources should be ordered by title.
+        """
+        c = models.Category.objects.create(title='Test')
+        r1 = models.Resource.objects.create(category=c, title='B')
+        r2 = models.Resource.objects.create(category=c, title='C')
+        r3 = models.Resource.objects.create(category=c, title='A')
+
+        self.assertQuerysetEqual(
+            models.Resource.objects.all(),
+            ['<Resource: {}>'.format(r) for r in [r3, r1, r2]])
 
     def test_string_conversion(self):
         """Test converting a resource to a string.

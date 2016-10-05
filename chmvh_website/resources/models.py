@@ -13,6 +13,9 @@ class Category(models.Model):
         unique=True,
         verbose_name='title')
 
+    class Meta:
+        ordering = ('title',)
+
     def __str__(self):
         """Return the category's title"""
         return self.title
@@ -43,6 +46,9 @@ class Resource(models.Model):
     url = models.URLField(
         blank=True,
         verbose_name='website URL')
+
+    class Meta:
+        ordering = ('title',)
 
     def __str__(self):
         """Return the resource's title"""
