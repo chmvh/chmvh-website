@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+
+{% block page_title %}Resources{% endblock %}
+
+{% block content %}
+
+  <div class='container'>
+    <h1 class='text-center'>Resources</h1>
+
+    {% include 'resources/snippets/resource-category-list.html' with categories=important_categories %}
+
+    {% if categories %}
+
+      <div class='divider'></div>
+
+    {% endif %}
+
+    {% include 'resources/snippets/resource-category-list.html' %}
+
+  </div>
+
+{% endblock %}
+
+{% block extra_scripts %}
+
+  <script src='{% static "resources/js/resource_list.js" %}'></script>
+  <script>
+    activateNavLink('#resources');
+  </script>
+
+{% endblock %}

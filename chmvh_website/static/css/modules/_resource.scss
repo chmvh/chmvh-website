@@ -1,0 +1,63 @@
+.resource {
+  padding-bottom: $resource-padding-bottom;
+
+  @include element('address') {
+    display: flex;
+
+    div {
+      flex: 1;
+    }
+
+    i {
+      color: $color-brand;
+      flex: 0;
+      padding-right: .5em;
+    }
+
+    p {
+      margin: 0;
+    }
+  }
+
+  @include element('email') {
+    a {
+      color: transparentize($color-brand, .25);
+      text-decoration: none;
+    }
+
+    i {
+      color: $color-brand;
+    }
+  }
+
+  @include element('phone') {
+    i {
+      color: $color-brand;
+    }
+  }
+}
+
+.resource-category {
+  box-shadow: $resource-category-shadow;
+  margin: $resource-category-margin;
+  padding: $resource-category-padding;
+
+  @include element('title') {
+    flex: 1;
+    margin: 0;
+  }
+
+  @include element('title-bar') {
+    align-items: center;
+    border-bottom: $resource-category-title-underline;
+    display: flex;
+    padding-bottom: $resource-category-title-padding-bottom;
+    transition: border .25s ease-in, padding .25s;
+  }
+
+  @include element('toggle') {
+    display: none;
+    flex: 0;
+    font-size: 1.5em;
+  }
+}
