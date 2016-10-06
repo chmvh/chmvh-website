@@ -5,7 +5,7 @@ function collapseAll() {
         var resources = $(this).find('.resources');
 
         title.css({
-            'border-bottom': 'none',
+            'border-color': 'transparent',
             'padding-bottom': '0'
         });
         icon.removeClass('fa-minus').addClass('fa-plus');
@@ -54,7 +54,7 @@ $('.resource-category__title-bar').click(function(e) {
         icon.removeClass('fa-plus').addClass('fa-minus');
     } else {
         categoryTitle.css({
-            'border-bottom': 'none',
+            'border-color': 'transparent',
             'padding-bottom': '0'
         });
         resources.slideToggle();
