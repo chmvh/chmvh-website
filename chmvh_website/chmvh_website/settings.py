@@ -130,6 +130,10 @@ STATICFILES_FINDERS = [
     'sass_processor.finders.CssFinder',
 ]
 
+# Media Files (User Uploaded)
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
 
 # Config for django-sass-processor
 

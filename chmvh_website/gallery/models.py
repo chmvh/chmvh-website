@@ -15,7 +15,8 @@ def patient_image_path(instance, filename):
             The file path to upload the provided image to.
     """
     path = 'patients/{0}/{1}'.format(
-        instance.first_name[0], instance.first_name, instance.last_name)
+        instance.first_name[0].upper(), instance.first_name,
+        instance.last_name)
 
     if instance.last_name:
         path = '{0} {1}'.format(path, instance.last_name)
@@ -44,3 +45,7 @@ class Patient(models.Model):
         upload_to=patient_image_path,
         verbose_name='picture',
         width_field='picture_width')
+    picture_height = models.IntegerField(
+        verbose_name='picture height')
+    picture_width = models.IntegerField(
+        verbose_name='picture width')
