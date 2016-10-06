@@ -12,6 +12,9 @@ $container-max-width: 50em;
 $container-max-width-large: 100em;
 $container-padding-small: 1em;
 
+$font-family-body: 'Open Sans', sans-serif;
+$font-family-headings: 'Roboto', sans-serif;
+
 // Blockquote
 $blockquote-author-color: lighten($color-text, 30%);
 $blockquote-author-size: .85em;
@@ -84,7 +87,7 @@ $resource-padding-bottom: 1em;
 // Service
 $service-border: 1px solid lighten($color-text, 50%);
 $service-padding: 1em;
-$service-title-size: 1.05em;
+$service-title-size: 1.1em;
 
 // Team Member
 $team-member-padding: 0 .5em;
