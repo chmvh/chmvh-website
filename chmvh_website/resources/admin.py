@@ -4,6 +4,11 @@ from resources import models
 
 
 class CategoryAdmin(admin.ModelAdmin):
+    fieldsets = (
+        (None, {
+            'fields': ('title', 'important')
+        }),
+    )
     list_display = ('title', 'important')
     search_fields = ('title',)
 
@@ -17,8 +22,8 @@ class ResourceAdmin(admin.ModelAdmin):
             'fields': ('address', 'email', 'phone', 'url')
         }),
     )
-    list_display = ('title',)
-    search_fields = ('title', 'description', 'url')
+    list_display = ('title', 'category')
+    search_fields = ('title', 'category', 'description', 'url')
 
 
 admin.site.register(models.Category, CategoryAdmin)
