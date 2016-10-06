@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'sass_processor',
 
     # Custom Apps
+    'gallery',
     'resources',
     'staticpages',
 ]
