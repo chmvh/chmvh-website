@@ -14,14 +14,8 @@ def patient_image_path(instance, filename):
         str:
             The file path to upload the provided image to.
     """
-    path = 'patients/{0}/{1}'.format(
-        instance.first_name[0].upper(), instance.first_name,
-        instance.last_name)
-
-    if instance.last_name:
-        path = '{0} {1}'.format(path, instance.last_name)
-
-    return path
+    return 'patients/{0}/{1}'.format(
+        instance.first_name[0].upper(), instance.first_name)
 
 
 class Patient(models.Model):
@@ -31,6 +25,9 @@ class Patient(models.Model):
         help_text=("Patients marked as deceased will have their picture "
                    "displayed in the 'In Memoriam' section."),
         verbose_name='deceased')
+    first_letter = models.CharField(
+        max_length=1,
+        verbose_name='first letter')
     first_name = models.CharField(
         max_length=100,
         verbose_name='first name')
@@ -49,3 +46,11 @@ class Patient(models.Model):
         verbose_name='picture height')
     picture_width = models.IntegerField(
         verbose_name='picture width')
+
+    class Meta:
+        ordering = ('first_name', 'last_name')
+
+    def save(self, *args, **kwargs):
+        self.first_letter = self.first_name[0].upper()
+
+        return super(Patient, self).save(*args, **kwargs)
