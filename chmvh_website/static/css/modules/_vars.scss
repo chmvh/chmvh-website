@@ -1,6 +1,8 @@
 // General
 $border-radius: 5px;
 
+$card-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
+
 $color-body-bg: #faf8f2;
 $color-brand: #840053;
 $color-light-gray: #ddd;
@@ -34,6 +36,17 @@ $button-primary-color: #fff;
 
 // Divider Color
 $divider-color: $color-light-gray;
+
+// Dropdown
+$dropdown-description-border: 1px solid darken($color-light-gray, 50%);
+$dropdown-description-padding: .25em .5em;
+$dropdown-description-size: 1.1em;
+$dropdown-item-border: 1px solid $color-light-gray;
+$dropdown-max-height: 20em;
+$dropdown-max-width: 15em;
+$dropdown-item-bg-hover: $color-light-gray;
+$dropdown-item-padding: .25em;
+$dropdown-items-padding: 0;
 
 // FAQ
 $faq-max-width: 70em;
@@ -79,7 +92,7 @@ $navbar-toggle-font-size: 1.5em;
 // Resources
 $resource-category-margin: 2em 0;
 $resource-category-padding: 1em;
-$resource-category-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
+$resource-category-shadow: $card-shadow;
 $resource-category-title-padding-bottom: .5em;
 $resource-category-title-underline: 1px solid darken($color-light-gray, 50%);
 $resource-padding-bottom: 1em;
