@@ -1,9 +1,8 @@
 $(document).ready(function() {
     $('.dropdown__description').css({
-        'border-width': '0',
         'cursor': 'pointer'
     });
-    $('.dropdown__items').css('display', 'none');
+    $('.dropdown__menu').css('display', 'none');
 });
 
 $('.dropdown__description').click(function(e) {
@@ -11,12 +10,16 @@ $('.dropdown__description').click(function(e) {
 
     var description = $(this);
     var container = description.parent();
-    var items = container.find('.dropdown__items');
+    var items = container.find('.dropdown__menu');
 
     if (items.is(':hidden')) {
-        description.css('border-width', '1px');
+        description.css({
+            'margin-bottom': '1em'
+        });
     } else {
-        description.css('border-width', '0');
+        description.css({
+            'margin-bottom': '0'
+        });
     }
 
     items.slideToggle();

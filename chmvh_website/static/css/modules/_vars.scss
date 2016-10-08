@@ -38,13 +38,13 @@ $button-primary-color: #fff;
 $divider-color: $color-light-gray;
 
 // Dropdown
-$dropdown-description-border: 1px solid darken($color-light-gray, 50%);
 $dropdown-description-padding: .25em .5em;
 $dropdown-description-size: 1.1em;
 $dropdown-item-border: 1px solid $color-light-gray;
 $dropdown-max-height: 20em;
 $dropdown-max-width: 15em;
 $dropdown-item-bg-hover: $color-light-gray;
+$dropdown-item-color: $color-brand;
 $dropdown-item-padding: .25em;
 $dropdown-items-padding: 0;
 
@@ -62,6 +62,10 @@ $footer-divider: solid 2px darken($footer-color, 50%);
 $footer-link-color: darken($footer-color, 20%);
 $footer-max-width: 60em;
 $footer-padding: 1em 0;
+
+// Gallery
+$gallery-item-margin: 2em 1em;
+$gallery-item-max-height: 300px;
 
 // Gridlist
 $gridlist-icon-bg: $color-brand;

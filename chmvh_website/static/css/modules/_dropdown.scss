@@ -6,7 +6,6 @@
   }
 
   @include element('description') {
-    border-bottom: $dropdown-description-border;
     display: block;
     font-size: $dropdown-description-size;
     margin: 0;
@@ -26,9 +25,16 @@
     }
 
     a {
+      color: $dropdown-item-color;
       display: block;
       padding: $dropdown-item-padding;
       text-decoration: none;
+    }
+
+    @include modifier('active') {
+      @extend .dropdown__item;
+
+      background: $color-light-gray;
     }
   }
 
@@ -36,8 +42,26 @@
     list-style: none;
     margin: 0;
     max-height: $dropdown-max-height;
-    overflow-x: hidden;
+    overflow-x: show;
     overflow-y: scroll;
     padding: $dropdown-items-padding;
+    width: $dropdown-max-width;
+  }
+
+  @include element('menu') {
+    background: $color-body-bg;
+    box-shadow: $card-shadow;
+    position: absolute;
+
+    &::before {
+      @include position(absolute, 0 0 0 0);
+      color: $color-body-bg;
+      content: "\25b2";
+      font-size: 1.4em;
+      pointer-events: none;
+      text-align: center;
+      text-shadow: 0 -2px 2px transparentize(black, 0.7);
+      top: -0.8em;
+    }
   }
 }
