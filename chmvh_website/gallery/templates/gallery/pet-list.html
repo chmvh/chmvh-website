@@ -1,11 +1,11 @@
 {% extends 'gallery/base.html' %}
 
 
-{% block page_title %}Gallery - {{ letter }}{% endblock %}
+{% block page_title %}Gallery - {{ category }}{% endblock %}
 
 {% block content %}
 
-  <h1 class='text-center'>Gallery - {{ letter }}</h1>
+  <h1 class='text-center'>Gallery - {{ category }}</h1>
 
   {% include 'gallery/snippets/categories.html' %}
 

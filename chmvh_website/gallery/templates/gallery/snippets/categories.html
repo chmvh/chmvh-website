@@ -4,13 +4,21 @@
     <div class='dropdown__menu'>
       <ul class='dropdown__items'>
 
-        {% for category in pet_categories %}
+        {% for c in pet_categories %}
 
-          <li class='dropdown__item{% if category == letter %}--active{% endif %}'>
-            <a href='{% url "gallery:pet-list" category %}'>{{ category }}</a>
+          <li class='dropdown__item{% if c == category %}--active{% endif %}'>
+            <a href='{% url "gallery:pet-list" c %}'>{{ c }}</a>
           </li>
 
         {% endfor %}
+
+        {% if in_memoriam %}
+
+          <li class='dropdown__item{% if category == "In Memoriam" %}--active{% endif %}'>
+            <a href='{% url "gallery:pet-memoriam" %}'>In Memoriam</a>
+          </li>
+
+        {% endif %}
 
       </ul>
     </div>
