@@ -1,26 +1,17 @@
-<div class='dropdown'>
-  <div class='dropdown__container'>
-    <p class='dropdown__description'>Select Category <i class='fa fa-chevron-down'></i></p>
-    <div class='dropdown__menu'>
-      <ul class='dropdown__items'>
+<div class='link-list'>
 
-        {% for c in pet_categories %}
+  {% for c in pet_categories %}
 
-          <li class='dropdown__item{% if c == category %}--active{% endif %}'>
-            <a href='{% url "gallery:pet-list" c %}'>{{ c }}</a>
-          </li>
+    <a class='link-list__item{% if c == category %}--active{% endif %}' href='{% url "gallery:pet-list" c %}'>{{ c }}</a>
 
-        {% endfor %}
+  {% endfor %}
 
-        {% if in_memoriam %}
-
-          <li class='dropdown__item{% if category == "In Memoriam" %}--active{% endif %}'>
-            <a href='{% url "gallery:pet-memoriam" %}'>In Memoriam</a>
-          </li>
-
-        {% endif %}
-
-      </ul>
-    </div>
-  </div>
 </div>
+
+{% if in_memoriam %}
+
+  <div class='link-list'>
+    <a class='link-list__item{% if category == "In Memoriam" %}--active{% endif %}' href='{% url "gallery:pet-memoriam" %}'>In Memoriam</a>
+  </div>
+
+{% endif %}
