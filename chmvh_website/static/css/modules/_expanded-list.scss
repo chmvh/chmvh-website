@@ -20,11 +20,6 @@
   }
 
   @include element('email') {
-    a {
-      color: transparentize($color-brand, .25);
-      text-decoration: none;
-    }
-
     i {
       color: $color-brand;
     }
