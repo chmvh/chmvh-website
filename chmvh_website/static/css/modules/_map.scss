@@ -1,0 +1,9 @@
+.map-canvas {
+  height: $map-height;
+  margin: $map-margin $container-padding-small * -1;
+
+  @include media(new-breakpoint(min-width $container-max-width)) {
+    margin-left: 0;
+    margin-right: 0;
+  }
+}

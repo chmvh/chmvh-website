@@ -1,0 +1,21 @@
+.container {
+  margin: 0 auto;
+  max-width: $container-max-width;
+
+  @include media(new-breakpoint(max-width $container-max-width)) {
+    padding: 0 $container-padding-small;
+  }
+
+  @include modifier('large') {
+    margin: 0 auto;
+    max-width: $container-max-width-large;
+  }
+
+  @include modifier('padded-mobile') {
+    @extend .container;
+
+    @include media($mobile-down) {
+      padding: 0 .5em;
+    }
+  }
+}

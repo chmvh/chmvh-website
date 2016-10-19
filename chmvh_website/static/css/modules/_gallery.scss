@@ -1,0 +1,33 @@
+.gallery {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+
+  @include element('img') {
+    display: block;
+    height: auto;
+    max-height: $gallery-item-max-height;
+    max-width: 100%;
+    width: auto;
+  }
+
+  @include element('item') {
+    box-shadow: $card-shadow;
+    margin: $gallery-item-margin;
+    max-width: 100%;
+
+    @include media($tablet-up) {
+      max-width: 50%;
+    }
+
+    @include media($desktop-up) {
+      max-width: 33%;
+    }
+  }
+
+  @include element('item-title') {
+    font-weight: bold;
+    text-align: center;
+  }
+}

@@ -1,0 +1,35 @@
+body {
+  background: $color-body-bg;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+footer {
+  flex: 0 0;
+}
+
+header {
+  flex: 0 0;
+}
+
+main {
+  flex: 1 0;
+}
+
+.horiz-center-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.two-col-layout {
+  @include clearfix;
+
+  @include element('col') {
+    @include span-columns(2 of 2);
+
+    @include media($tablet-up) {
+      @include span-columns(1 of 2);
+    }
+  }
+}

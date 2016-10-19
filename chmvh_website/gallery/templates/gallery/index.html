@@ -1,0 +1,72 @@
+{% extends 'gallery/base.html' %}
+
+{% load static %}
+
+
+{% block extra_styles %}
+
+  <link rel='stylesheet' href='{% static "slick/slick.css" %}' />
+  <link rel='stylesheet' href='{% static "slick/slick-theme.css" %}' />
+
+{% endblock %}
+
+{% block content %}
+
+  <div class='container'>
+
+    <h1 class='text-center'>CHMVH Gallery</h1>
+
+    {% if featured_pets %}
+
+      <h2 class='text-center'>Featured Pets</h2>
+
+      <p class='text-center'>
+        Welcome to our patient gallery. Check back weekly for our featured pets.
+      </p>
+
+      <div class='slider__wrapper'>
+        <div class='slider'>
+
+          {% for pet in featured_pets %}
+
+            <div class='slider__item'>
+              <h4 class='slider__caption'>{{ pet.first_name }}</h4>
+              <img class='slider__img' src='{{ pet.picture.url }}' alt='{{ pet.first_name }}' />
+            </div>
+
+          {% endfor %}
+
+        </div>
+      </div>
+
+    {% endif %}
+
+    <h2 class='text-center'>Browse by Pet Name</h2>
+
+    {% include 'gallery/snippets/categories.html' %}
+
+  </div>
+
+{% endblock %}
+
+{% block extra_scripts %}
+
+  <script src='{% static "slick/slick.min.js" %}'></script>
+  <script src='{% static "js/slider.js" %}'></script>
+  <script>
+    activateNavLink('#gallery');
+
+    $(document).ready(function() {
+      $('.slider').slick({
+        arrows: false,
+        autoplay: true,
+        autoplaySpeed: 3000,
+        dots: true,
+        infinite: true,
+        slidesToShow: 1,
+        speed: 1000,
+      });
+    })
+  </script>
+
+{% endblock %}

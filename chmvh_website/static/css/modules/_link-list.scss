@@ -1,0 +1,24 @@
+.link-list {
+  margin: 0 auto;
+  text-align: center;
+
+  @include element('item') {
+    color: $color-brand;
+    display: inline-block;
+    font-size: $link-list-font-size;
+    font-weight: bold;
+    margin: $link-list-margin;
+    padding: $link-list-padding;
+    text-decoration: none;
+
+    @include media($tablet-up) {
+      margin: $link-list-margin-tablet;
+    }
+
+    @include modifier('active') {
+      @extend .link-list__item;
+
+      border-bottom: $link-list-underline;
+    }
+  }
+}

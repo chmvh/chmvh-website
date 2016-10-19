@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+
+{% block page_title %}Team{% endblock %}
+
+{% block content %}
+
+  <div class='container'>
+    <h1 class='text-center'>Meet The Team!</h1>
+
+    <div class='divider'></div>
+
+    <div class='team-member'>
+      <h2 class='team-member__name'>Dr. Driehuys</h2>
+      <img class='team-member__image' src='{% static "images/drdriehuys.jpg" %}' alt='Dr. Driehuys' />
+      <div class='team-member__description'>
+        <p>
+          Dr. Sunita Driehuys has been a practicing small animal veterinarian
+          since 1994. She received her bachelor’s degree from Franklin &amp;
+          Marshall College in Lancaster, PA. She received her veterinary degree
+          in 1994 from the University of Pennsylvania with magna cum laude
+          honors. She furthered her training with a one year internship that
+          emphasized emergency and critical care medicine.
+        </p>
+
+        <p>
+          Since moving to the Triangle in 1996 she has practiced at several
+          high-caliber small animal practices. These experiences led to her
+          desire to create a veterinary practice that could combine the highest
+          quality veterinary care with personalized attention and relationships.
+        </p>
+
+        <p>
+          This vision is now being fulfilled through Chapel Hill Mobile
+          Veterinary Housecalls. A core practice philosophy is that the
+          continuous pursuit of knowledge and education is the best way to care
+          for her clients and patients. Dr. Driehuys has been certified as a
+          Diplomate by the American Board of Veterinary Practitioners (ABVP)
+          specializing in canine and feline practice. She lives in Chapel Hill,
+          NC, with her husband and 3 sons.
+        </p>
+      </div>
+    </div>
+
+    <div class='divider'></div>
+
+    <div class='team-member'>
+      <h2 class='team-member__name'>Kari Ysland</h2>
+      <div class='team-member__description'>
+        <p>
+          Kari Ysland joined CHMVH in 2011. Kari grew up in Norway, but moved
+          back to the States to continue her studies at the University of North
+          Carolina at Wilmington. There she obtained her Bachelor's degree in
+          Biology. Kari volunteered at the North Carolina Aquarium at Fort
+          Fisher for two years before she was hired on as an aquarist
+          technician. She was responsible for several exhibits of reptiles,
+          amphibians and fish during her time there. She also took part in
+          introducing operant conditioning to all the American alligators within
+          the facility. She now enjoys living in a small town setting again and
+          working at CHMVH.
+        </p>
+
+        <p>
+          In her spare time, Kari enjoys any form of art work, wildlife and
+          gardening. Her two dogs, Jack and Viper along with her cats, Matrix,
+          Amazon and Pardus, run her household and are also loving the country
+          life.
+        </p>
+      </div>
+    </div>
+  </div>
+
+{% endblock %}
+
+{% block extra_scripts %}
+
+  <script>
+    activateNavLink('#team');
+  </script>
+
+{% endblock %}

@@ -1,0 +1,17 @@
+<div class='link-list'>
+
+  {% for c in pet_categories %}
+
+    <a class='link-list__item{% if c == category %}--active{% endif %}' href='{% url "gallery:pet-list" c %}'>{{ c }}</a>
+
+  {% endfor %}
+
+</div>
+
+{% if in_memoriam %}
+
+  <div class='link-list'>
+    <a class='link-list__item{% if category == "In Memoriam" %}--active{% endif %}' href='{% url "gallery:pet-memoriam" %}'>In Memoriam</a>
+  </div>
+
+{% endif %}

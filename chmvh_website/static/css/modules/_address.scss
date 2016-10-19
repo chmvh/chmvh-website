@@ -1,0 +1,15 @@
+.address {
+  @include element('title') {
+    font-weight: bold;
+    padding-bottom: .25em;
+
+    i {
+      color: $color-brand;
+      margin-right: .5em;
+    }
+  }
+
+  p {
+    margin: 0;
+  }
+}

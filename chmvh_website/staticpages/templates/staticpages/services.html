@@ -1,0 +1,147 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+
+{% block page_title %}Services{% endblock %}
+
+{% block content %}
+
+  <div class='container--padded-mobile'>
+    <h1 class='text-center'>Services</h1>
+
+    <p>
+      Chapel Hill Mobile Veterinary Housecalls provides comprehensive care for
+      dogs and cats in their home environment. Dr. Driehuys is equipped for
+      complete physical exams, vaccinations, health certificates, laboratory
+      diagnostics, and treatment of outpatient conditions. This service is
+      convenient for clients and ideal for many patients. Most pets are more
+      comfortable and less anxious at home than in a veterinary hospital.
+    </p>
+
+    <div class='divider'></div>
+
+    <h2>Services Offered</h2>
+
+    <div class='services'>
+      <div class='service'>
+        <p class='service__title'>Puppy and kitten check-ups</p>
+      </div>
+
+      <div class='service'>
+        <p class='service__title'>Adult wellness exams</p>
+      </div>
+
+      <div class='service'>
+        <p class='service__title'>Senior pet evaluations</p>
+      </div>
+
+      <div class='service'>
+        <p class='service__title'>Vaccinations</p>
+        <p class='service__note'>
+          Individual schedules based on each patient's health.
+        </p>
+      </div>
+
+      <div class='service'>
+        <p class='service__title'>Intestinal parasite tests</p>
+      </div>
+
+      <div class='service'>
+        <p class='service__title'>Heartworm tests, treatment, and prevention</p>
+      </div>
+
+      <div class='service'>
+        <p class='service__title'>Deworming</p>
+      </div>
+
+      <div class='service'>
+        <p class='service__title'>Nail trims, clipping of matted fur</p>
+      </div>
+
+      <div class='service'>
+        <p class='service__title'>Flea and tick treatment and prevention</p>
+      </div>
+
+      <div class='service'>
+        <p class='service__title'>Diagnostic laboratory tests</p>
+        <p class='service__note'>
+          Bloodwork, urinalysis, and clinical pathology by a commercial
+          veterinary laboratory
+        </p>
+      </div>
+
+      <div class='service'>
+        <p class='service__title'>Behavior consultations and modification programs</p>
+      </div>
+
+      <div class='service'>
+        <p class='service__title'>Diagnosis and treatment for a variety of ailments</p>
+        <p class='service__note'>
+          Including, but not limited to: skin disease, ear infections,
+          allergies, vomiting, diarrhea, urinary tract disease, arthritis,
+          limping, eye disorders, diabetes, Cushing's disease, and wounds
+      </div>
+
+      <div class='service'>
+        <p class='service__title'>Nutrition evaluation and diet recommendations</p>
+      </div>
+
+      <div class='service'>
+        <p class='service__title'>Oral and dental preventive care</p>
+      </div>
+
+      <div class='service'>
+        <p class='service__title'>Microchip services</p>
+      </div>
+
+      <div class='service'>
+        <p class='service__title'>Blood pressure readings</p>
+      </div>
+
+      <div class='service'>
+        <p class='service__title'>Digital Tonometry</p>
+        <p class='service__note'>Eye pressure measurement for glaucoma</p>
+      </div>
+
+      <div class='service'>
+        <p class='service__title'>Palliative care and euthanasia for established patients</p>
+      </div>
+    </div>
+
+    <div class='divider'></div>
+
+    <h2>Hospitalization</h2>
+
+    <p>
+      For patients who require inpatient hospitalization, surgery, or radiology
+      (x-rays or ultrasound), CHMVH has referral arrangements with local primary
+      care and referral veterinary hospitals.
+    </p>
+
+    <div class='divider'></div>
+
+    <h2>Payment Options</h2>
+
+    <p>
+      We accept many forms of payment, including cash, check, and credit card.
+      We accept Visa, MasterCard, Discover, and debit cards. <strong>Payment is
+      expected at the time that services are rendered.</strong>
+    </p>
+
+    <div class='payment-options'>
+      <img src='{% static "images/visa.gif" %}' alt='Visa' />
+      <img src='{% static "images/mastercard.gif" %}' alt='Mastercard' />
+      <img src='{% static "images/discover.gif" %}' alt='Discover' />
+    </div>
+  </div>
+
+{% endblock %}
+
+{% block extra_scripts %}
+
+  <script>
+    activateNavLink('#services');
+  </script>
+
+{% endblock %}
