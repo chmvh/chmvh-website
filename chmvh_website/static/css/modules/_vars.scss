@@ -38,17 +38,6 @@ $button-primary-color: #fff;
 // Divider Color
 $divider-color: $color-light-gray;
 
-// Dropdown
-$dropdown-description-padding: .25em .5em;
-$dropdown-description-size: 1.1em;
-$dropdown-item-border: 1px solid $color-light-gray;
-$dropdown-max-height: 20em;
-$dropdown-max-width: 15em;
-$dropdown-item-bg-hover: $color-light-gray;
-$dropdown-item-color: $color-brand;
-$dropdown-item-padding: .25em;
-$dropdown-items-padding: 0;
-
 // Expanding List
 $expanding-list-margin: 2em 0;
 $expanding-list-padding: 1em;
@@ -56,12 +45,6 @@ $expanding-list-shadow: $card-shadow;
 $expanding-list-title-padding-bottom: .5em;
 $expanding-list-title-underline: 1px solid darken($color-light-gray, 50%);
 $elist-item-padding-bottom: 1em;
-
-// FAQ
-$faq-max-width: 70em;
-$faq-padding: 0 2em;
-$faq-title-size: 1.5em;
-$faq-title-underline: 1px solid $color-light-gray;
 
 // Footer
 $footer-bg: $color-navigation-bg;
@@ -75,15 +58,6 @@ $footer-padding: 1em 0;
 // Gallery
 $gallery-item-margin: 2em 1em;
 $gallery-item-max-height: 300px;
-
-// Gridlist
-$gridlist-icon-bg: $color-brand;
-$gridlist-icon-color: #fff;
-$gridlist-item-padding: 0 2em;
-$gridlist-item-max-width: 25em;
-$gridlist-item-min-width: 20em;
-$gridlist-title-size: 1.5em;
-$gridlist-title-underline: 1px solid $color-light-gray;
 
 // Iconlist
 $iconlist-icon-color: $color-brand;
@@ -132,22 +106,9 @@ $navbar-max-width: 60em;
 $navbar-mobile-offset: 3.25em;
 $navbar-toggle-font-size: 1.5em;
 
-// Service
-$service-border: 1px solid lighten($color-text, 50%);
-$service-padding: 1em;
-$service-title-size: 1.1em;
-
 // Slider
 $slider-margin-bottom: 4em;
 
 // Team Member
 $team-member-padding: 0 .5em;
 $team-member-padding-tablet: 0 1em;
-
-// Welcome Message
-$welcome-bg: #d8d8d8;
-$welcome-font-size: 1.25em;
-$welcome-font-size-desktop: 1.75em;
-$welcome-font-size-tablet: 1.5em;
-$welcome-padding: 2em .5em;
-$welcome-padding-tablet: 2em 1em;
