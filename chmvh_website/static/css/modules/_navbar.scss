@@ -1,5 +1,6 @@
 .navbar {
   background: $navbar-bg;
+  z-index: $z-nav;
 
   @include element('brand') {
     flex-grow: 1;
