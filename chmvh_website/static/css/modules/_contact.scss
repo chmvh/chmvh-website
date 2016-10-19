@@ -1,0 +1,33 @@
+.contact-wrapper {
+  display: flex;
+}
+
+.contact-form {
+  flex: $contact-form-width;
+}
+
+.contact-info {
+  flex: $contact-info-width;
+
+  @include element('item') {
+    align-items: center;
+    display: flex;
+    margin-top: $contact-info-item-margin-top;
+  }
+
+  a {
+    color: $color-brand;
+    text-decoration: none;
+  }
+
+  i {
+    color: $contact-info-icon-color;
+    font-size: $contact-info-icon-size;
+    text-align: center;
+    width: $contact-info-icon-width;
+  }
+
+  p {
+    margin: 0;
+  }
+}
