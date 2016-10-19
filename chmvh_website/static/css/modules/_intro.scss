@@ -5,15 +5,7 @@
 
   @include element('body') {
     align-items: center;
-    display: flex;
-    flex-direction: column;
     flex-grow: 1;
-    flex-wrap: wrap;
-    justify-content: space-between;
-
-    @include media($desktop-up) {
-      flex-direction: row;
-    }
   }
 
   @include element('content') {
@@ -21,10 +13,12 @@
     display: flex;
     flex-basis: 100%;
     flex-direction: column;
+    font-size: $intro-content-size;
     padding: $intro-content-padding;
 
     @include media($tablet-up) {
       flex-basis: 100% - $intro-stripe-width;
+      font-size: $intro-content-size-tablet;
       padding: $intro-content-padding-tablet;
     }
 
@@ -34,34 +28,15 @@
   }
 
   @include element('cta') {
-    flex: 1;
-    font-size: $intro-cta-size;
-
     @include media($tablet-up) {
-      font-size: $intro-cta-size-tablet;
+      margin-bottom: $intro-cta-margin-bottom-tablet;
     }
-
-    @include media($desktop-up) {
-      margin-right: $intro-body-space / 2;
-    }
-  }
-
-  @include element('header') {
-    flex-grow: 1;
   }
 
   @include element('pre-title') {
     color: $intro-content-color;
     margin-top: 0;
     text-transform: uppercase;
-  }
-
-  @include element('quote') {
-    flex: 1;
-
-    @include media($desktop-up) {
-      margin-left: $intro-body-space / 2;
-    }
   }
 
   @include element('stripe') {
@@ -80,6 +55,7 @@
 
     @include media($tablet-up) {
       font-size: $intro-title-size-tablet;
+      margin-bottom: $intro-title-margin-bottom-tablet;
     }
   }
 }
