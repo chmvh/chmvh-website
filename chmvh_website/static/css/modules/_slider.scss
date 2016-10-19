@@ -1,0 +1,15 @@
+.slider {
+  @include element('caption') {
+    text-align: center;
+  }
+
+  @include element('img') {
+    height: auto;
+    margin: 0 auto;
+    max-width: 100%;
+  }
+
+  @include element('wrapper') {
+    margin-bottom: $slider-margin-bottom;
+  }
+}

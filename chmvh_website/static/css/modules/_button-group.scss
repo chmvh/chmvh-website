@@ -1,0 +1,55 @@
+$btn-group-breakpoint: new-breakpoint(min-width 1200px);
+
+.btn-group {
+  margin: 0 auto;
+
+  @include element('dropdown-btn') {
+    display: inline-block;
+
+    @include media($btn-group-breakpoint) {
+      display: none;
+    }
+  }
+
+  @include element('item') {
+    border: 1px solid $color-brand;
+    list-style: none;
+
+    @include media($btn-group-breakpoint) {
+      border-left: 0;
+      flex: 0;
+      margin-bottom: 0;
+      min-width: auto;
+    }
+
+    &:first-child {
+      border-left: 1px solid $color-brand;
+    }
+
+    &:hover {
+      background: transparentize($color-brand, .85);
+    }
+
+    a {
+      color: $color-brand;
+      display: block;
+      padding: .5em 1em;
+      text-align: center;
+      text-decoration: none;
+    }
+  }
+
+  @include element('items') {
+    justify-content: center;
+    margin: 0;
+    max-height: 15em;
+    max-width: 10em;
+    overflow-y: scroll;
+    padding: 0;
+
+    @include media($btn-group-breakpoint) {
+      display: flex;
+      max-height: auto;
+    }
+  }
+}

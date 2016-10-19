@@ -97,3 +97,6 @@ ENV/
 # Compiled CSS
 *.css
 *.css.map
+
+# User Uploaded Files
+media/

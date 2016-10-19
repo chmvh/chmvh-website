@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'sass_processor',
 
     # Custom Apps
+    'gallery',
     'resources',
     'staticpages',
 ]
@@ -128,6 +129,11 @@ STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
     'sass_processor.finders.CssFinder',
 ]
+
+# Media Files (User Uploaded)
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
 
 
 # Config for django-sass-processor

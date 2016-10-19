@@ -1,0 +1,25 @@
+{% extends 'gallery/base.html' %}
+
+
+{% block page_title %}Gallery - {{ category }}{% endblock %}
+
+{% block content %}
+
+  <h1 class='text-center'>Gallery - {{ category }}</h1>
+
+  {% include 'gallery/snippets/categories.html' %}
+
+  <div class='gallery'>
+
+    {% for pet in pets %}
+
+      <div class='gallery__item'>
+        <img class='gallery__img' src='{{ pet.picture.url }}' alt='{{ pet.first_name }}'>
+        <p class='gallery__item-title'>{{ pet.first_name }}</p>
+      </div>
+
+    {% endfor %}
+
+  </div>
+
+{% endblock %}
