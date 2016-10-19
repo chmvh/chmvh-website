@@ -1,5 +1,5 @@
-.resource {
-  padding-bottom: $resource-padding-bottom;
+.elist-item {
+  padding-bottom: $elist-item-padding-bottom;
 
   @include element('address') {
     display: flex;
@@ -37,10 +37,11 @@
   }
 }
 
-.resource-category {
-  box-shadow: $resource-category-shadow;
-  margin: $resource-category-margin;
-  padding: $resource-category-padding;
+.expanding-list {
+  box-shadow: $expanding-list-shadow;
+  margin: $expanding-list-margin;
+  padding: $expanding-list-padding;
+  width: 100%;
 
   @include element('title') {
     flex: 1;
@@ -49,9 +50,9 @@
 
   @include element('title-bar') {
     align-items: center;
-    border-bottom: $resource-category-title-underline;
+    border-bottom: $expanding-list-title-underline;
     display: flex;
-    padding-bottom: $resource-category-title-padding-bottom;
+    padding-bottom: $expanding-list-title-padding-bottom;
     transition: border .25s ease-in, padding .25s;
   }
 

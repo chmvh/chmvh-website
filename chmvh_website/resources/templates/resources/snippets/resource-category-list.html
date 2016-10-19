@@ -4,26 +4,26 @@
 
     {% for category in categories %}
 
-      <div class='resource-category'>
-        <div class='resource-category__title-bar'>
-          <h2 class='resource-category__title'>{{ category.title }}</h2>
+      <div class='expanding-list'>
+        <div class='expanding-list__title-bar'>
+          <h2 class='expanding-list__title'>{{ category.title }}</h2>
 
-          <span class='resource-category__toggle'><i class='fa fa-plus'></i></span>
+          <span class='expanding-list__toggle'><i class='fa fa-plus'></i></span>
         </div>
 
-        <div class='resources'>
+        <div class='elist-items'>
 
           {% for resource in category.resource_set.all %}
 
-            <div class='resource'>
-              <h3 class='resource__title'>{{ resource.title }}</h3>
-              <p class='resource__description'>
+            <div class='elist-item'>
+              <h3 class='elist-item__title'>{{ resource.title }}</h3>
+              <p class='elist-item__description'>
                 {{ resource.description }}
               </p>
 
               {% if resource.address %}
 
-                <div class='resource__address'>
+                <div class='elist-item__address'>
                   <i class='fa fa-map-marker'></i><p>{{ resource.address|linebreaks }}</p>
                 </div>
 
@@ -31,7 +31,7 @@
 
               {% if resource.phone %}
 
-                <p class='resource__phone'>
+                <p class='elist-item__phone'>
                   <i class='fa fa-phone'></i> {{ resource.phone }}
                 </p>
 
@@ -39,7 +39,7 @@
 
               {% if resource.email %}
 
-                <p class='resource__email'>
+                <p class='elist-item__email'>
                   <i class='fa fa-envelope'></i> <a href='mailto:{{ resource.email }}' target='_blank'>{{ resource.email }}</a>
                 </p>
 

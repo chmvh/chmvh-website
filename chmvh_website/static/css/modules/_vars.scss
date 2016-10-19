@@ -49,6 +49,14 @@ $dropdown-item-color: $color-brand;
 $dropdown-item-padding: .25em;
 $dropdown-items-padding: 0;
 
+// Expanding List
+$expanding-list-margin: 2em 0;
+$expanding-list-padding: 1em;
+$expanding-list-shadow: $card-shadow;
+$expanding-list-title-padding-bottom: .5em;
+$expanding-list-title-underline: 1px solid darken($color-light-gray, 50%);
+$elist-item-padding-bottom: 1em;
+
 // FAQ
 $faq-max-width: 70em;
 $faq-padding: 0 2em;
@@ -116,14 +124,6 @@ $navbar-link-padding: 1em .5em;
 $navbar-max-width: 60em;
 $navbar-mobile-offset: 3.25em;
 $navbar-toggle-font-size: 1.5em;
-
-// Resources
-$resource-category-margin: 2em 0;
-$resource-category-padding: 1em;
-$resource-category-shadow: $card-shadow;
-$resource-category-title-padding-bottom: .5em;
-$resource-category-title-underline: 1px solid darken($color-light-gray, 50%);
-$resource-padding-bottom: 1em;
 
 // Service
 $service-border: 1px solid lighten($color-text, 50%);
