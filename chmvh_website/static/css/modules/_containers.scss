@@ -1,6 +1,7 @@
 .container {
   margin: 0 auto;
   max-width: $container-max-width;
+  width: 100%;
 
   @include media(new-breakpoint(max-width $container-max-width)) {
     padding: 0 $container-padding-small;
