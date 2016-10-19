@@ -5,20 +5,54 @@
 
 {% block content %}
 
-  <div class='container horiz-center-wrapper'>
-    <div class='contact-info'>
-      <h1>Dr. Sunita Driehuys</h1>
+  <div class='container'>
+    <h1>Contact Us</h1>
+    <p>Have a question? We'd love to hear from you.</p>
 
-      <div class='address'>
-        <p class='address__line1'>111 Graylyn Drive</p>
-        <p class='address__citystate'>Chapel Hill, NC 27516</p>
-        <p class='address__phone'><i class='fa fa-phone'></i> (919)&nbsp;357-3440</p>
-        <p class='address__fax'><i class='fa fa-fax'></i> (866)&nbsp;422-8401</p>
+    <div class='contact-wrapper'>
+      <div class='contact-form'>
+        <h2>Send us a Message</h2>
+        <form>
+          <div>
+            <label for='name'>Name</label>
+            <input type='text' id='name' name='name' />
+          </div>
+          <div>
+            <label for='email'>Email</label>
+            <input type='email' id='email' name='email' />
+          </div>
+          <div>
+            <label for='content'>Message</label>
+            <textarea id='content' name='content' rows=5 cols=30></textarea>
+          </div>
+        </form>
       </div>
 
-      <a class='button--primary' href='mailto:sdriehuys@chapelhillvet.com' target='_blank'>
-        <i class='fa fa-envelope'></i>Send us an email
-      </a>
+      <div class='contact-info'>
+        <h2>Contact Information</h2>
+
+        <div class='contact-info__item'>
+          <i class='fa fa-map-marker'></i>
+          <div>
+            <p>111 Graylyn Drive</p>
+            <p>Chapel Hill, NC 27516</p>
+          </div>
+        </div>
+
+        <div class='contact-info__item'>
+          <i class='fa fa-envelope'></i>
+          <p><a href='mailto:info@chapelhillvet.com' target='_blank'>info@chapelhillvet.com</a></p>
+        </div>
+
+        <div class='contact-info__item'>
+          <i class='fa fa-phone'></i>
+          <p>(919)&nbsp;357-3440</p>
+        </div>
+
+        <div class='contact-info__item'>
+          <i class='fa fa-fax'></i>
+          <p>(866)&nbsp;422-8401</p>
+        </div>
     </div>
   </div>
 
