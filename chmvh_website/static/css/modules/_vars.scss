@@ -36,12 +36,16 @@ $button-padding: .5em 1em;
 $button-primary-color: #fff;
 
 // Contact Page
+$contact-form-padding: 0 2em 0 0;
 $contact-form-width: 2;
 $contact-info-icon-color: $color-brand;
 $contact-info-icon-size: 1.5em;
 $contact-info-icon-width: 2em;
-$contact-info-item-margin-top: 2em;
+$contact-info-item-margin-top: 1em;
+$contact-info-item-margin-top-desktop: 3em;
 $contact-info-width: 1;
+$contact-intro-size: 1.25em;
+$contact-wrapper-margin: 2em 0;
 
 // Divider Color
 $divider-color: $color-light-gray;
@@ -79,6 +83,13 @@ $footer-divider: solid 2px darken($footer-color, 50%);
 $footer-link-color: darken($footer-color, 20%);
 $footer-max-width: 60em;
 $footer-padding: 1em 0;
+
+// Forms
+$form-input-border: 1px solid $color-gray;
+$form-input-border-focused: 1px solid $color-brand;
+$form-input-margin: 1em 0;
+$form-label-color: $color-gray;
+$form-label-size: .75em;
 
 // Gallery
 $gallery-item-margin: 2em 1em;

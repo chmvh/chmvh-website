@@ -1,0 +1,27 @@
+.form-input {
+  margin: $form-input-margin;
+
+  input,
+  textarea {
+    background: none;
+    border: 0;
+    border-bottom: $form-input-border;
+    max-width: 100%;
+    width: 100%;
+
+    &:focus {
+      border-bottom: $form-input-border-focused;
+      outline: none;
+    }
+  }
+
+  label {
+    color: $form-label-color;
+    display: block;
+    font-size: $form-label-size;
+  }
+
+  textarea {
+    resize: vertical;
+  }
+}

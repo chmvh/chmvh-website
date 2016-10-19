@@ -1,9 +1,19 @@
 .contact-wrapper {
   display: flex;
+  flex-direction: column;
+  margin: $contact-wrapper-margin;
+
+  @include media($desktop-up) {
+    flex-direction: row;
+  }
 }
 
 .contact-form {
   flex: $contact-form-width;
+
+  @include media($desktop-up) {
+    padding: $contact-form-padding;
+  }
 }
 
 .contact-info {
@@ -13,6 +23,10 @@
     align-items: center;
     display: flex;
     margin-top: $contact-info-item-margin-top;
+
+    @include media($desktop-up) {
+      margin-top: $contact-info-item-margin-top-desktop;
+    }
   }
 
   a {
@@ -30,4 +44,8 @@
   p {
     margin: 0;
   }
+}
+
+.contact-intro {
+  font-size: $contact-intro-size;
 }

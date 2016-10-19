@@ -7,29 +7,31 @@
 
   <div class='container'>
     <h1>Contact Us</h1>
-    <p>Have a question? We'd love to hear from you.</p>
+    <p class='contact-intro'>Have a question? We'd love to hear from you.</p>
 
     <div class='contact-wrapper'>
       <div class='contact-form'>
         <h2>Send us a Message</h2>
         <form>
-          <div>
+          <div class='form-input'>
             <label for='name'>Name</label>
-            <input type='text' id='name' name='name' />
+            <input type='text' id='name' name='name' placeholder='Fido' />
           </div>
-          <div>
+          <div class='form-input'>
             <label for='email'>Email</label>
-            <input type='email' id='email' name='email' />
-          </div>
-          <div>
+            <input type='email' id='email' name='email' placeholder='mrwhiskers@example.com' />
+          </div class='form-input'>
+          <div class='form-input'>
             <label for='content'>Message</label>
             <textarea id='content' name='content' rows=5 cols=30></textarea>
           </div>
+
+          <button type='submit' class='button--primary'>Send</button>
         </form>
       </div>
 
       <div class='contact-info'>
-        <h2>Contact Information</h2>
+        <h2>Contact Info</h2>
 
         <div class='contact-info__item'>
           <i class='fa fa-map-marker'></i>
