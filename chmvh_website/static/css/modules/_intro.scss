@@ -39,6 +39,10 @@
     text-transform: uppercase;
   }
 
+  @include element('quote') {
+    margin: 0 auto;
+  }
+
   @include element('stripe') {
     background: $intro-stripe-bg;
     display: none;

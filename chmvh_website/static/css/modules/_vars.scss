@@ -21,9 +21,9 @@ $font-family-headings: 'Roboto', sans-serif;
 // Blockquote
 $blockquote-author-color: lighten($color-text, 30%);
 $blockquote-author-size: .85em;
-$blockquote-body-font-weight: bolder;
-$blockquote-border: solid 3px lighten($color-text, 70%);
-$blockquote-padding: 0 0 0 .5em;
+$blockquote-body-margin-bottom: 1em;
+$blockquote-medium-width: 20em;
+$blockquote-padding: .5em;
 
 // Breakpoints
 $mobile-down: new-breakpoint(max-width 480px);
