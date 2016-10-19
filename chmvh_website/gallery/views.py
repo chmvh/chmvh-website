@@ -29,6 +29,9 @@ class GalleryIndexView(generic.base.TemplateView):
 
         context.update(patient_context())
 
+        featured = models.Patient.objects.filter(featured=True)
+        context['featured_pets'] = featured
+
         return context
 
 

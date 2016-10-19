@@ -25,6 +25,11 @@ class Patient(models.Model):
         help_text=("Patients marked as deceased will have their picture "
                    "displayed in the 'In Memoriam' section."),
         verbose_name='deceased')
+    featured = models.BooleanField(
+        default=False,
+        help_text=("Patients marked as featured will be displayed on the "
+                   "gallery home page."),
+        verbose_name='featured')
     first_letter = models.CharField(
         max_length=1,
         verbose_name='first letter')

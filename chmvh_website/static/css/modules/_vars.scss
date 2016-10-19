@@ -6,6 +6,7 @@ $card-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12),
 $color-body-bg: #faf8f2;
 $color-brand: #840053;
 $color-light-gray: #ddd;
+$color-gray: #333;
 $color-navigation-bg: #333;
 $color-navigation-text: #ddd;
 $color-text: #000;
@@ -112,6 +113,9 @@ $resource-padding-bottom: 1em;
 $service-border: 1px solid lighten($color-text, 50%);
 $service-padding: 1em;
 $service-title-size: 1.1em;
+
+// Slider
+$slider-margin-bottom: 4em;
 
 // Team Member
 $team-member-padding: 0 .5em;
