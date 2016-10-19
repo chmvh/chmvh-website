@@ -1,0 +1,85 @@
+.intro {
+  display: flex;
+  flex: 1;
+  height: 100%;
+
+  @include element('body') {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    flex-wrap: wrap;
+    justify-content: space-between;
+
+    @include media($desktop-up) {
+      flex-direction: row;
+    }
+  }
+
+  @include element('content') {
+    background: $intro-content-bg;
+    display: flex;
+    flex-basis: 100%;
+    flex-direction: column;
+    padding: $intro-content-padding;
+
+    @include media($tablet-up) {
+      flex-basis: 100% - $intro-stripe-width;
+      padding: $intro-content-padding-tablet;
+    }
+
+    @include media($desktop-up) {
+      padding: $intro-content-padding-desktop;
+    }
+  }
+
+  @include element('cta') {
+    flex: 1;
+    font-size: $intro-cta-size;
+
+    @include media($tablet-up) {
+      font-size: $intro-cta-size-tablet;
+    }
+
+    @include media($desktop-up) {
+      margin-right: $intro-body-space / 2;
+    }
+  }
+
+  @include element('header') {
+    flex-grow: 1;
+  }
+
+  @include element('pre-title') {
+    color: $intro-content-color;
+    margin-top: 0;
+    text-transform: uppercase;
+  }
+
+  @include element('quote') {
+    flex: 1;
+
+    @include media($desktop-up) {
+      margin-left: $intro-body-space / 2;
+    }
+  }
+
+  @include element('stripe') {
+    background: $intro-stripe-bg;
+    display: none;
+    flex-basis: $intro-stripe-width;
+
+    @include media($tablet-up) {
+      display: block;
+    }
+  }
+
+  @include element('title') {
+    font-size: $intro-title-size;
+    margin: 0;
+
+    @include media($tablet-up) {
+      font-size: $intro-title-size-tablet;
+    }
+  }
+}
