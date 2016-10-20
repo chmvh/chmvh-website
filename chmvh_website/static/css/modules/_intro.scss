@@ -1,0 +1,66 @@
+.intro {
+  display: flex;
+  flex: 1;
+  height: 100%;
+
+  @include element('body') {
+    align-items: center;
+    flex-grow: 1;
+  }
+
+  @include element('content') {
+    background: $intro-content-bg;
+    display: flex;
+    flex-basis: 100%;
+    flex-direction: column;
+    font-size: $intro-content-size;
+    padding: $intro-content-padding;
+
+    @include media($tablet-up) {
+      flex-basis: 100% - $intro-stripe-width;
+      font-size: $intro-content-size-tablet;
+      padding: $intro-content-padding-tablet;
+    }
+
+    @include media($desktop-up) {
+      padding: $intro-content-padding-desktop;
+    }
+  }
+
+  @include element('cta') {
+    @include media($tablet-up) {
+      margin-bottom: $intro-cta-margin-bottom-tablet;
+    }
+  }
+
+  @include element('pre-title') {
+    color: $intro-content-color;
+    margin-top: 0;
+    text-transform: uppercase;
+  }
+
+  @include element('quote') {
+    background: $color-body-bg;
+    margin: 0 auto;
+  }
+
+  @include element('stripe') {
+    background: $intro-stripe-bg;
+    display: none;
+    flex-basis: $intro-stripe-width;
+
+    @include media($tablet-up) {
+      display: block;
+    }
+  }
+
+  @include element('title') {
+    font-size: $intro-title-size;
+    margin: 0;
+
+    @include media($tablet-up) {
+      font-size: $intro-title-size-tablet;
+      margin-bottom: $intro-title-margin-bottom-tablet;
+    }
+  }
+}

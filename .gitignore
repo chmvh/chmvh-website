@@ -98,5 +98,9 @@ ENV/
 *.css
 *.css.map
 
+# Track Vendor CSS
+!slick.css
+!slick-theme.css
+
 # User Uploaded Files
 media/

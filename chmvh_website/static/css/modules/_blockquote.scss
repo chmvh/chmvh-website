@@ -1,10 +1,11 @@
 .blockquote {
-  border-left: $blockquote-border;
+  box-shadow: $card-shadow;
   padding: $blockquote-padding;
 
   @include element('author') {
     color: $blockquote-author-color;
     font-size: $blockquote-author-size;
+    margin: 0;
 
     &::before {
       content: '\2014';
@@ -12,6 +13,21 @@
   }
 
   @include element('body') {
-    font-weight: $blockquote-body-font-weight;
+    font-weight: bold;
+    margin: 0 0 $blockquote-body-margin-bottom;
+
+    &::after {
+      content: '\201d';
+    }
+
+    &::before {
+      content: '\201c';
+    }
+  }
+
+  @include modifier('medium') {
+    @extend .blockquote;
+
+    max-width: $blockquote-medium-width;
   }
 }

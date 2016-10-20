@@ -5,7 +5,7 @@ class Category(models.Model):
     """A category of resources."""
     important = models.BooleanField(
         default=False,
-        help_text=('categories marked important will be shown at the top of ',
+        help_text=('Categories marked important will be shown at the top of '
                    'the resource list'),
         verbose_name='important')
     title = models.CharField(

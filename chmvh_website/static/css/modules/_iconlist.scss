@@ -1,0 +1,39 @@
+.iconlist {
+  @include element('content') {
+    flex: 2;
+  }
+
+  @include element('icon') {
+    color: $iconlist-icon-color;
+    display: inline-block;
+    flex: 1;
+    font-size: $iconlist-icon-size;
+    text-align: center;
+    width: 100%;
+  }
+
+  @include element('item') {
+    align-items: center;
+    margin: $iconlist-item-margin;
+
+    @include media($tablet-up) {
+      display: flex;
+      margin: $iconlist-item-margin-tablet;
+    }
+
+    &:nth-child(even) {
+      .iconlist__icon {
+        order: 2;
+      }
+    }
+  }
+
+  @include element('title') {
+    font-size: $iconlist-title-size;
+    text-align: center;
+
+    @include media($tablet-up) {
+      text-align: left;
+    }
+  }
+}
