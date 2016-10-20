@@ -1,0 +1,51 @@
+.contact-wrapper {
+  display: flex;
+  flex-direction: column;
+  margin: $contact-wrapper-margin;
+
+  @include media($desktop-up) {
+    flex-direction: row;
+  }
+}
+
+.contact-form {
+  flex: $contact-form-width;
+
+  @include media($desktop-up) {
+    padding: $contact-form-padding;
+  }
+}
+
+.contact-info {
+  flex: $contact-info-width;
+
+  @include element('item') {
+    align-items: center;
+    display: flex;
+    margin-top: $contact-info-item-margin-top;
+
+    @include media($desktop-up) {
+      margin-top: $contact-info-item-margin-top-desktop;
+    }
+  }
+
+  a {
+    color: $color-brand;
+    text-decoration: none;
+  }
+
+  i {
+    color: $contact-info-icon-color;
+    font-size: $contact-info-icon-size;
+    text-align: center;
+    width: $contact-info-icon-width;
+  }
+
+  p {
+    margin: 0;
+  }
+}
+
+.contact-intro {
+  font-size: $contact-intro-size;
+}

@@ -1,0 +1,34 @@
+.thanks {
+  align-items: center;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+
+  @include element('icon') {
+    color: $thanks-icon-color;
+    font-size: $thanks-icon-size;
+
+    @include media($tablet-up) {
+      font-size: $thanks-icon-size-tablet;
+    }
+  }
+
+  @include element('message') {
+    font-size: $thanks-message-size;
+
+    @include media($tablet-up) {
+      font-size: $thanks-message-size-tablet;
+    }
+  }
+
+  @include element('title') {
+    font-size: $thanks-title-size;
+    margin: $thanks-title-margin;
+
+    @include media($tablet-up) {
+      font-size: $thanks-title-size-tablet;
+    }
+  }
+}

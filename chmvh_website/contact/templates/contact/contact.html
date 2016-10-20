@@ -1,0 +1,91 @@
+{% extends 'contact/base.html' %}
+
+
+{% block content %}
+
+  <div class='container'>
+    <h1>Contact Us</h1>
+    <p class='contact-intro'>Have a question? We'd love to hear from you.</p>
+
+    <div class='contact-wrapper'>
+      <div class='contact-form'>
+        <h2>Send us a Message</h2>
+        <form method='post'>
+
+          {% csrf_token %}
+
+          {% if form.non_field_errors %}
+
+            <div class='form__errors'>
+
+              {% for error in form.non_field_errors %}
+
+                <p class='form__error'>{{ error }}</p>
+
+              {% endfor %}
+
+            </div>
+
+          {% endif %}
+
+          <div class='form-input'>
+            <label for='name'>Name</label>
+            {{ form.name }}
+          </div>
+          <div class='form-input'>
+
+            {% if form.email.errors %}
+
+              <div class='form__errors'>
+
+                {% for error in form.email.errors %}
+
+                  <p class='form__error'>{{ error }}</p>
+
+                {% endfor %}
+
+              </div>
+
+            {% endif %}
+
+            <label for='email'>Email</label>
+            {{ form.email }}
+          </div class='form-input'>
+          <div class='form-input'>
+            <label for='message'>Message</label>
+            {{ form.message }}
+          </div>
+
+          <button type='submit' class='button--primary'>Send</button>
+        </form>
+      </div>
+
+      <div class='contact-info'>
+        <h2>Contact Info</h2>
+
+        <div class='contact-info__item'>
+          <i class='fa fa-map-marker'></i>
+          <div>
+            <p>111 Graylyn Drive</p>
+            <p>Chapel Hill, NC 27516</p>
+          </div>
+        </div>
+
+        <div class='contact-info__item'>
+          <i class='fa fa-envelope'></i>
+          <p><a href='mailto:info@chapelhillvet.com' target='_blank'>info@chapelhillvet.com</a></p>
+        </div>
+
+        <div class='contact-info__item'>
+          <i class='fa fa-phone'></i>
+          <p>(919)&nbsp;357-3440</p>
+        </div>
+
+        <div class='contact-info__item'>
+          <i class='fa fa-fax'></i>
+          <p>(866)&nbsp;422-8401</p>
+        </div>
+    </div>
+  </div>
+
+{% endblock %}
