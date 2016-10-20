@@ -1,0 +1,18 @@
+{% extends 'contact/base.html' %}
+
+{% load static %}
+
+
+{% block page_title %}Thanks!{% endblock %}
+
+{% block content %}
+
+  <div class='container'>
+    <h1 class='text-center'>Thank You</h1>
+    <h2 class='text-center'>We'll get back to you as soon as we can!</h2>
+    <p>Here's something to entertain you while you wait.</p>
+
+    <img class='img-responsive' src='{% static "contact/kittens.jpg" %}' alt='Kittens' />
+  </div>
+
+{% endblock %}
