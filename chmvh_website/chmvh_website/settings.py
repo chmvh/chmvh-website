@@ -137,6 +137,12 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
 
+# Email Settings
+DEFAULT_FROM_EMAIL = 'no-reply@chapelhillvet.com'
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_SUBJECT_PREFIX = '[CHMVH Website] '
+
+
 # Config for django-sass-processor
 
 SASS_PROCESSOR_ROOT = os.path.join(BASE_DIR, 'static')
