@@ -10,6 +10,13 @@
   }
 }
 
+.img-responsive {
+  display: block;
+  margin: 1em auto;
+  max-width: 100%;
+  height: auto;
+}
+
 .padded-paragraph {
   padding-bottom: 2em;
 }

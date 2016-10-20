@@ -1,4 +1,5 @@
 .button {
+  border: 0;
   display: inline-block;
   margin: $button-margin;
   padding: $button-padding;
@@ -14,6 +15,10 @@
       background: darken($color-brand, 5%);
       color: darken($button-primary-color, 10%);
     }
+  }
+
+  &:focus {
+    outline: none;
   }
 
   i {

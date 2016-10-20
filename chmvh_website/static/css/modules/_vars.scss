@@ -5,6 +5,7 @@ $card-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12),
 
 $color-body-bg: #faf8f2;
 $color-brand: #840053;
+$color-error: rgba(255, 0, 0, .25);
 $color-light-gray: #ddd;
 $color-gray: #333;
 $color-navigation-bg: #333;
@@ -37,6 +38,18 @@ $button-margin: .5em 0;
 $button-padding: .5em 1em;
 $button-primary-color: #fff;
 
+// Contact Page
+$contact-form-padding: 0 2em 0 0;
+$contact-form-width: 2;
+$contact-info-icon-color: $color-brand;
+$contact-info-icon-size: 1.5em;
+$contact-info-icon-width: 2em;
+$contact-info-item-margin-top: 1em;
+$contact-info-item-margin-top-desktop: 2.5em;
+$contact-info-width: 1;
+$contact-intro-size: 1.25em;
+$contact-wrapper-margin: 2em 0;
+
 // Divider Color
 $divider-color: $color-light-gray;
 
@@ -56,6 +69,15 @@ $footer-divider: solid 2px darken($footer-color, 50%);
 $footer-link-color: darken($footer-color, 20%);
 $footer-max-width: 60em;
 $footer-padding: 1em 0;
+
+// Forms
+$form-error-margin: 1em 0 .5em 0;
+$form-error-padding: .5em;
+$form-input-border: 1px solid $color-gray;
+$form-input-border-focused: 1px solid $color-brand;
+$form-input-margin: 1em 0;
+$form-label-color: $color-gray;
+$form-label-size: .75em;
 
 // Gallery
 $gallery-item-margin: 2em 1em;
@@ -118,3 +140,13 @@ $slider-margin-bottom: 4em;
 // Team Member
 $team-member-padding: 0 .5em;
 $team-member-padding-tablet: 0 1em;
+
+// Thanks
+$thanks-icon-color: $color-brand;
+$thanks-icon-size: 5em;
+$thanks-icon-size-tablet: 7em;
+$thanks-message-size: 1.5em;
+$thanks-message-size-tablet: 2em;
+$thanks-title-margin: .5em 0;
+$thanks-title-size: 3em;
+$thanks-title-size-tablet: 5em;

@@ -2,7 +2,6 @@ from django.conf.urls import url
 from django.views.generic import TemplateView
 
 
-contact_view = TemplateView.as_view(template_name='staticpages/contact.html')
 homepage_view = TemplateView.as_view(template_name='staticpages/index.html')
 hours_and_area_view = TemplateView.as_view(
     template_name='staticpages/hours-and-area.html')
@@ -14,7 +13,6 @@ team_view = TemplateView.as_view(template_name='staticpages/team.html')
 
 urlpatterns = [
     url(r'^$', homepage_view, name='homepage'),
-    url(r'^contact/$', contact_view, name='contact'),
     url(r'^hours-and-area/$', hours_and_area_view, name='hours_and_area'),
     url(r'^housecalls/$', housecalls_view, name='housecalls'),
     url(r'^services/$', services_view, name='services'),
