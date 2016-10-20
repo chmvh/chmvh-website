@@ -21,6 +21,21 @@
             {{ form.name }}
           </div>
           <div class='form-input'>
+
+            {% if form.email.errors %}
+
+              <div class='form__errors'>
+
+                {% for error in form.email.errors %}
+
+                  <p class='form__error'>{{ error }}</p>
+
+                {% endfor %}
+
+              </div>
+
+            {% endif %}
+
             <label for='email'>Email</label>
             {{ form.email }}
           </div class='form-input'>

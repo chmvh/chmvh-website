@@ -1,3 +1,16 @@
+.form {
+  @include element('error') {
+    margin: 0;
+  }
+
+  @include element('errors') {
+    background: $color-error;
+    box-shadow: $card-shadow;
+    margin: $form-error-margin;
+    padding: $form-error-padding;
+  }
+}
+
 .form-input {
   margin: $form-input-margin;
 
