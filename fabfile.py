@@ -11,6 +11,7 @@ settings.configure()
 
 ACTIVATE_ENV = '. env/bin/activate'
 DB_NAME = 'djangodb'
+DB_PASSWORD = prompt("Enter database password:")
 DB_USER = 'django'
 REMOTE_PROJECT_DIR = '/home/chathan/chmvh-website'
 
@@ -30,11 +31,9 @@ def configure_db():
     with open('templates/createdb.sql.template') as f:
         template = Engine().from_string(f.read())
 
-    db_password = prompt("Enter database password:")
-
     context = Context({
         'db_name': DB_NAME,
-        'db_password': db_password,
+        'db_password': DB_PASSWORD,
         'db_user': DB_USER,
     })
 
@@ -76,6 +75,28 @@ def configure_nginx():
     sudo('systemctl restart nginx')
 
 
+def copy_settings():
+    """Copy appropriate local settings."""
+    with open('templates/local_settings.py.template') as f:
+        template = Engine().from_string(f.read())
+
+    context = Context({
+        'db_name': DB_NAME,
+        'db_password': DB_PASSWORD,
+        'db_user': DB_USER,
+    })
+
+    output = template.render(context)
+
+    out_name = '/tmp/chmvh-website/local_settings.py'
+    os.makedirs(os.path.dirname(out_name), exist_ok=True)
+    with open(out_name, 'w') as f:
+        f.write(output)
+
+    with cd(REMOTE_PROJECT_DIR):
+        put(out_name, 'chmvh_website/chmvh_website')
+
+
 def create_env():
     """Create a virtualenv if it doesn't exist"""
     with cd(REMOTE_PROJECT_DIR):
@@ -88,6 +109,7 @@ def deploy():
     update_remote()
     configure_db()
     create_env()
+    copy_settings()
     configure_gunicorn()
     configure_nginx()
     generate_static()
