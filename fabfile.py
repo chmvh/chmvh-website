@@ -251,7 +251,7 @@ def _upload_template(template_path, remote_dest, context={}, out_path=None,
     output = template.render(Context(context))
 
     out_file = os.path.basename(template_path).replace('.template', '')
-    out_path = out_path or os.path.join('tmp', 'chmvh-website', out_file)
+    out_path = out_path or os.path.join('/', 'tmp', 'chmvh-website', out_file)
 
     os.makedirs(os.path.dirname(out_path), exist_ok=True)
     with open(out_path, 'w') as f:
