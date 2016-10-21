@@ -35,6 +35,7 @@ REMOTE_PROJECT_DIR = '/home/chathan/chmvh-website'
 
 required_packages = (
     'git',
+    'letsencrypt',
     'libjpeg-dev',
     'libpq-dev',
     'postgresql', 'postgresql-contrib',
