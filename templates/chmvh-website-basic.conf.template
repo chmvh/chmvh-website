@@ -1,0 +1,9 @@
+server {
+    listen 80 default_server;
+    server_name {{ domain_name }};
+
+    location ~ /.well-known {
+        allow all;
+        root /var/www/chmvh-website/html;
+    }
+}

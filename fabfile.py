@@ -1,13 +1,14 @@
 import os
 
-from django.conf import settings
+from django.conf import settings as django_settings
 from django.template import Context, Engine
 
-from fabric.api import abort, cd, lcd, local, prompt, put, run, sudo
+from fabric.api import (
+    abort, cd, env, lcd, local, prompt, put, run, sudo)
 from fabric.contrib.console import confirm
 
 
-settings.configure()
+django_settings.configure()
 
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -35,6 +36,7 @@ REMOTE_PROJECT_DIR = '/home/chathan/chmvh-website'
 
 required_packages = (
     'git',
+    'letsencrypt',
     'libjpeg-dev',
     'libpq-dev',
     'postgresql', 'postgresql-contrib',
@@ -79,17 +81,67 @@ def configure_gunicorn():
 
 def configure_nginx():
     """Set up nginx."""
-    with cd(REMOTE_PROJECT_DIR):
-        sudo('cp nginx-config /etc/nginx/sites-available/chmvh-website')
+    context = {
+        'domain_name': env.host,
+    }
+    _upload_template(
+        'templates/chmvh-website-basic.conf.template',
+        '/etc/nginx/sites-available/chmvh-website',
+        context,
+        use_sudo=True)
 
     sudo('ln -fs /etc/nginx/sites-available/chmvh-website '
          '/etc/nginx/sites-enabled')
 
     # Remove default nginx site if it exists
-    sudo('rm -f /etc/nginx/sites-available/default')
+    sudo('rm -f /etc/nginx/sites-available/default '
+         '/etc/nginx/sites-enabled/default')
 
+    # Test basic config
     sudo('nginx -t')
     sudo('systemctl restart nginx')
+
+
+def configure_ssl():
+    """Configure SSL with letsencrypt"""
+    configured = sudo(('if sudo test -d /etc/letsencrypt/live/{0}; then echo '
+                       'exists; fi').format(env.host))
+
+    if configured == 'exists':
+        _renew_ssl()
+    else:
+        _set_up_ssl()
+
+    # Configure nginx to use the certificate
+    context = {
+        'domain_name': env.host,
+    }
+
+    _upload_template(
+        'templates/chmvh-website.conf.template',
+        '/etc/nginx/sites-available/chmvh-website',
+        context)
+    _upload_template(
+        'templates/ssl-domain.conf.template',
+        '/etc/nginx/snippets/ssl-{0}.conf'.format(env.host),
+        context,
+        use_sudo=True)
+    put(
+        'templates/ssl-params.conf',
+        '/etc/nginx/snippets/ssl-params.conf',
+        use_sudo=True)
+
+    # Test nginx and restart
+    sudo('nginx -t')
+    sudo('systemctl restart nginx')
+
+    # Set up cron job for certificate renewal
+    with cd('/tmp'):
+        run('echo "30 2 * * 1 /usr/bin/letsencrypt renew >> '
+            '/var/log/le-renew.log" > newcron')
+        run('echo "35 2 * * 1 /bin/systemctl reload nginx" >> newcron')
+        run('crontab newcron')
+        run('rm newcron')
 
 
 def copy_settings():
@@ -129,6 +181,7 @@ def deploy():
     copy_settings()
     configure_gunicorn()
     configure_nginx()
+    configure_ssl()
     generate_static()
     restart_services()
 
@@ -160,10 +213,54 @@ def update_remote():
         run('if ! test -d chmvh-website; '
             'then git clone https://github.com/cdriehuys/chmvh-website; fi')
 
-        run('git checkout {0} && git pull'.format(current_branch))
+    with cd(REMOTE_PROJECT_DIR):
+        run('git pull && git checkout {0}'.format(current_branch))
 
 
 def _in_env(command):
     """Run a command in the remote virtualenv."""
     with cd(REMOTE_PROJECT_DIR):
         run('{} && {}'.format(ACTIVATE_ENV, command))
+
+
+def _renew_ssl():
+    sudo('letsencrypt renew')
+
+
+def _set_up_ssl():
+    # Create web-root if doesn't exist
+    sudo('if ! test -d /var/www/chmvh-website/html; then mkdir -p '
+         '/var/www/chmvh-website/html && chown -R www-data:www-data '
+         '/var/www/chmvh-website; fi')
+
+    create_cert_cmd = ' '.join((
+        'letsencrypt certonly',
+        '-a webroot',
+        '--agree-tos',
+        '-d {0}'.format(env.host),
+        '--email cdriehuys@gmail.com',
+        '--webroot-path=/var/www/chmvh-website/html',
+    ))
+
+    sudo(create_cert_cmd)
+
+    # Generate Strong Diffie-Hellman Group
+    sudo('openssl dhparam -out /etc/ssl/certs/dhparam.pem 2048')
+
+
+def _upload_template(template_path, remote_dest, context={}, out_path=None,
+                     **kwargs):
+    """Process and upload a template to the remote machine."""
+    with open(template_path) as f:
+        template = Engine().from_string(f.read())
+
+    output = template.render(Context(context))
+
+    out_file = os.path.basename(template_path).replace('.template', '')
+    out_path = out_path or os.path.join('/', 'tmp', 'chmvh-website', out_file)
+
+    os.makedirs(os.path.dirname(out_path), exist_ok=True)
+    with open(out_path, 'w') as f:
+        f.write(output)
+
+    put(out_path, remote_dest, **kwargs)
