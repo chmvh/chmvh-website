@@ -1,4 +1,6 @@
 from fabric.api import cd, run
+from fabric.operations import sudo
+
 
 ACTIVATE_ENV = '. env/bin/activate'
 REMOTE_PROJECT_DIR = '/home/chathan/chmvh-website'
@@ -18,26 +20,25 @@ required_packages = (
 def configure_gunicorn():
     """Set up gunicorn service."""
     with cd(REMOTE_PROJECT_DIR):
-        run('sudo cp gunicorn.service /etc/systemd/system')
+        sudo('cp gunicorn.service /etc/systemd/system')
 
-    run('sudo systemctl start gunicorn && sudo systemctl daemon-reload')
-    run('sudo systemctl enable gunicorn')
+    sudo('systemctl start gunicorn && sudo systemctl daemon-reload')
+    sudo('systemctl enable gunicorn')
 
 
 def configure_nginx():
     """Set up nginx."""
     with cd(REMOTE_PROJECT_DIR):
-        run('sudo cp nginx-config /etc/nginx/sites-available/chmvh-website')
+        sudo('cp nginx-config /etc/nginx/sites-available/chmvh-website')
 
-    run('sudo ln -fs /etc/nginx/sites-available/chmvh-website '
-        '/etc/nginx/sites-enabled')
+    sudo('ln -fs /etc/nginx/sites-available/chmvh-website '
+         '/etc/nginx/sites-enabled')
 
     # Remove default nginx site if it exists
-    run('test -d /etc/nginx/sites-available/default && '
-        'sudo rm /etc/nginx/sites-available/default')
+    sudo('rm -f /etc/nginx/sites-available/default')
 
-    run('sudo nginx -t')
-    run('sudo systemctl restart nginx')
+    sudo('nginx -t')
+    sudo('systemctl restart nginx')
 
 
 def create_env():
@@ -67,7 +68,7 @@ def generate_static():
 
 def prepare_remote():
     """Install required packages."""
-    run('sudo apt-get update -y && sudo apt-get install -y {}'.format(
+    sudo('apt-get update -y && sudo apt-get install -y {}'.format(
         ' '.join(required_packages)))
 
     run('pip3 install virtualenv')
@@ -75,7 +76,7 @@ def prepare_remote():
 
 def restart_services():
     """Restart services on remote server."""
-    run('sudo systemctl restart gunicorn nginx')
+    sudo('systemctl restart gunicorn nginx')
 
 
 def update_remote():
