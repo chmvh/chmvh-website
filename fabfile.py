@@ -112,6 +112,26 @@ def configure_ssl():
     else:
         _set_up_ssl()
 
+    # Configure nginx to use the certificate
+    context = {
+        'domain_name': env.host,
+    }
+
+    _upload_template(
+        'templates/chmvh-website.conf.template',
+        '/etc/nginx/sites-available/chmvh-website',
+        context)
+    _upload_template(
+        'templates/ssl-domain.conf.template',
+        '/etc/nginx/snippets/ssl-{0}.conf'.format(env.host),
+        context,
+        use_sudo=True)
+    put(
+        'templates/ssl-params.conf',
+        '/etc/nginx/snippets/ssl-params.conf',
+        use_sudo=True)
+
+    # Test nginx and restart
     sudo('nginx -t')
     sudo('systemctl restart nginx')
 
@@ -226,25 +246,6 @@ def _set_up_ssl():
 
     # Generate Strong Diffie-Hellman Group
     sudo('openssl dhparam -out /etc/ssl/certs/dhparam.pem 2048')
-
-    # Configure nginx to use the certificate
-    context = {
-        'domain_name': env.host,
-    }
-
-    _upload_template(
-        'templates/chmvh-website.conf.template',
-        '/etc/nginx/sites-available/chmvh-website',
-        context)
-    _upload_template(
-        'templates/ssl-domain.conf.template',
-        '/etc/nginx/snippets/ssl-{0}.conf'.format(env.host),
-        context,
-        use_sudo=True)
-    put(
-        'templates/ssl-params.conf',
-        '/etc/nginx/snippets/ssl-params.conf',
-        use_sudo=True)
 
 
 def _upload_template(template_path, remote_dest, context={}, out_path=None,
