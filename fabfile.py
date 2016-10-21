@@ -3,10 +3,27 @@ import os
 from django.conf import settings
 from django.template import Context, Engine
 
-from fabric.api import cd, prompt, put, run, sudo
+from fabric.api import abort, cd, lcd, local, prompt, put, run, sudo
+from fabric.contrib.console import confirm
 
 
 settings.configure()
+
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+
+# From http://stackoverflow.com/a/11958481/3762084
+with lcd(BASE_DIR):
+    current_branch = local(
+        'git rev-parse --symbolic-full-name --abbrev-ref HEAD',
+        capture=True)
+if current_branch != 'master':
+    if not confirm(
+            'Would you like to deploy the {0} branch?'.format(current_branch),
+            default=False):
+
+        abort("Aborting deployment of non-master branch.")
 
 
 ACTIVATE_ENV = '. env/bin/activate'
@@ -140,11 +157,10 @@ def restart_services():
 def update_remote():
     """Pull code onto remote machine."""
     with cd('/home/chathan'):
-        run('if test -d chmvh-website; then cd chmvh-website && git pull; '
-            'else git clone https://github.com/cdriehuys/chmvh-website; fi')
+        run('if ! test -d chmvh-website; '
+            'then git clone https://github.com/cdriehuys/chmvh-website; fi')
 
-    with cd(REMOTE_PROJECT_DIR):
-        run('git checkout auto-deploy && git pull')
+        run('git checkout {0} && git pull'.format(current_branch))
 
 
 def _in_env(command):
