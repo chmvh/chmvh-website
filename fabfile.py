@@ -20,7 +20,7 @@ def configure_gunicorn():
     with cd(REMOTE_PROJECT_DIR):
         run('sudo cp gunicorn.service /etc/systemd/system')
 
-    run('sudo systemctl start gunicorn')
+    run('sudo systemctl start gunicorn && sudo systemctl daemon-reload')
     run('sudo systemctl enable gunicorn')
 
 
@@ -29,7 +29,7 @@ def configure_nginx():
     with cd(REMOTE_PROJECT_DIR):
         run('sudo cp nginx-config /etc/nginx/sites-available/chmvh-website')
 
-    run('sudo ln -s /etc/nginx/sites-available/chmvh-website '
+    run('sudo ln -fs /etc/nginx/sites-available/chmvh-website '
         '/etc/nginx/sites-enabled')
     run('sudo nginx -t')
     run('sudo systemctl restart nginx')
