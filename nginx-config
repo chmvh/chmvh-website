@@ -1,0 +1,22 @@
+server {
+    client_max_body_size 5M;
+    listen 80;
+
+    location = /favicon.ico {
+        access_log off;
+        root /home/chathan/chmvh-website/chmvh_website/staticfiles/;
+    }
+
+    location /media/ {
+        root /home/chathan/chmvh-website/chmvh_website;
+    }
+
+    location /static/ {
+        alias /home/chathan/chmvh-website/chmvh_website/staticfiles/;
+    }
+
+    location / {
+        include proxy_params;
+        proxy_pass http://unix:/home/chathan/chmvh-website/chmvh_website/chmvh_website.sock;
+    }
+}
