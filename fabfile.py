@@ -114,6 +114,14 @@ def configure_ssl():
     sudo('nginx -t')
     sudo('systemctl restart nginx')
 
+    # Set up cron job for certificate renewal
+    with cd('/tmp'):
+        run('echo "30 2 * * 1 /usr/bin/letsencrypt renew >> '
+            '/var/log/le-renew.log" > newcron')
+        run('echo "35 2 * * 1 /bin/systemctl reload nginx" >> newcron')
+        run('crontab newcron')
+        run('rm newcron')
+
 
 def copy_settings():
     """Copy appropriate local settings."""
@@ -236,10 +244,6 @@ def _set_up_ssl():
         'templates/ssl-params.conf',
         '/etc/nginx/snippets/ssl-params.conf',
         use_sudo=True)
-
-    # Test new configuration and restart nginx
-    sudo('nginx -t')
-    sudo('systemctl restart nginx')
 
 
 def _upload_template(template_path, remote_dest, context={}, out_path=None,
