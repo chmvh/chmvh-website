@@ -4,7 +4,7 @@ server {
 
     location = /favicon.ico {
         access_log off;
-        root /home/chathan/chmvh-website/chmvh_website/staticfiles/;
+        root /home/chathan/chmvh-website/chmvh_website/staticfiles/images;
     }
 
     location /media/ {
