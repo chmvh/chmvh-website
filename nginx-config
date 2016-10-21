@@ -15,6 +15,11 @@ server {
         alias /home/chathan/chmvh-website/chmvh_website/staticfiles/;
     }
 
+    location ~ /.well-known {
+        allow all;
+        root /var/www/chmvh-website/html;
+    }
+
     location / {
         include proxy_params;
         proxy_pass http://unix:/home/chathan/chmvh-website/chmvh_website/chmvh_website.sock;
