@@ -1,0 +1,45 @@
+CREATE EXTENSION IF NOT EXISTS dblink;
+
+{# Create database if it doesn't exist. #}
+{# code from http://stackoverflow.com/a/18389184 #}
+
+DO
+$do$
+BEGIN
+   IF EXISTS (SELECT 1 FROM pg_database WHERE datname = '{{ db_name }}') THEN
+      RAISE NOTICE 'Database already exists';
+   ELSE
+      PERFORM dblink_exec('dbname=' || current_database()  -- current db
+                        , 'CREATE DATABASE {{ db_name }}');
+   END IF;
+END
+$do$;
+
+
+{# Create user if they don't exists. If they do exist, make sure the #}
+{# password is correct. #}
+
+{# code from http://stackoverflow.com/a/8099557/3762084 #}
+
+DO
+$body$
+BEGIN
+    IF NOT EXISTS (
+            SELECT *
+            FROM   pg_catalog.pg_user
+            WHERE  usename = '{{ db_user }}') THEN
+
+        CREATE ROLE {{ db_user }} LOGIN PASSWORD '{{ db_password }}';
+
+    ELSE
+        ALTER ROLE {{ db_user }} WITH PASSWORD '{{ db_password }}';
+
+    END IF;
+END
+$body$;
+
+ALTER ROLE {{ db_user }} SET client_encoding TO 'utf8';
+ALTER ROLE {{ db_user }} SET default_transaction_isolation TO 'read committed';
+ALTER ROLE {{ db_user }} SET timezone TO 'UTC';
+
+GRANT ALL PRIVILEGES ON DATABASE {{ db_name }} TO {{ db_user }};
