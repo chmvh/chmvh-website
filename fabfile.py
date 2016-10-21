@@ -1,8 +1,17 @@
-from fabric.api import cd, run
-from fabric.operations import sudo
+import os
+
+from django.conf import settings
+from django.template import Context, Engine
+
+from fabric.api import cd, prompt, put, run, sudo
+
+
+settings.configure()
 
 
 ACTIVATE_ENV = '. env/bin/activate'
+DB_NAME = 'djangodb'
+DB_USER = 'django'
 REMOTE_PROJECT_DIR = '/home/chathan/chmvh-website'
 
 
@@ -15,6 +24,32 @@ required_packages = (
     'python3-dev', 'python3-pip',
     'zlib1g-dev',
 )
+
+
+def configure_db():
+    with open('templates/createdb.sql.template') as f:
+        template = Engine().from_string(f.read())
+
+    db_password = prompt("Enter database password:")
+
+    context = Context({
+        'db_name': DB_NAME,
+        'db_password': db_password,
+        'db_user': DB_USER,
+    })
+
+    output = template.render(context)
+
+    out_name = '/tmp/chmvh-website/createdb.sql'
+    os.makedirs(os.path.dirname(out_name), exist_ok=True)
+    with open(out_name, 'w') as f:
+        f.write(output)
+
+    # Upload SQL script to remote
+    put(out_name, '/tmp')
+
+    # Run script on remote
+    sudo('sudo -u postgres psql -f /tmp/createdb.sql')
 
 
 def configure_gunicorn():
@@ -51,6 +86,7 @@ def create_env():
 def deploy():
     prepare_remote()
     update_remote()
+    configure_db()
     create_env()
     configure_gunicorn()
     configure_nginx()
