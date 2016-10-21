@@ -31,6 +31,11 @@ def configure_nginx():
 
     run('sudo ln -fs /etc/nginx/sites-available/chmvh-website '
         '/etc/nginx/sites-enabled')
+
+    # Remove default nginx site if it exists
+    run('test -d /etc/nginx/sites-available/default && '
+        'sudo rm /etc/nginx/sites-available/default')
+
     run('sudo nginx -t')
     run('sudo systemctl restart nginx')
 
