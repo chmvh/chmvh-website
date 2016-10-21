@@ -18,7 +18,7 @@ required_packages = (
 def configure_gunicorn():
     """Set up gunicorn service."""
     with cd(REMOTE_PROJECT_DIR):
-        run('sudo mv gunicorn.service /etc/systemd/system')
+        run('sudo cp gunicorn.service /etc/systemd/system')
 
     run('sudo systemctl start gunicorn')
     run('sudo systemctl enable gunicorn')
@@ -27,7 +27,7 @@ def configure_gunicorn():
 def configure_nginx():
     """Set up nginx."""
     with cd(REMOTE_PROJECT_DIR):
-        run('sudo mv nginx-config /etc/nginx/sites-available/chmvh-website')
+        run('sudo cp nginx-config /etc/nginx/sites-available/chmvh-website')
 
     run('sudo ln -s /etc/nginx/sites-available/chmvh-website '
         '/etc/nginx/sites-enabled')
