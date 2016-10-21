@@ -79,6 +79,9 @@ def update_remote():
         run('if test -d chmvh-website; then cd chmvh-website && git pull; '
             'else git clone https://github.com/cdriehuys/chmvh-website; fi')
 
+    with cd(REMOTE_PROJECT_DIR):
+        run('git checkout auto-deploy && git pull')
+
 
 def _in_env(command):
     """Run a command in the remote virtualenv."""
