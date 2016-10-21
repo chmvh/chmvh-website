@@ -93,7 +93,8 @@ def configure_nginx():
          '/etc/nginx/sites-enabled')
 
     # Remove default nginx site if it exists
-    sudo('rm -f /etc/nginx/sites-available/default')
+    sudo('rm -f /etc/nginx/sites-available/default '
+         '/etc/nginx/sites-enabled/default')
 
     # Test basic config
     sudo('nginx -t')
