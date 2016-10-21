@@ -87,7 +87,8 @@ def configure_nginx():
     _upload_template(
         'templates/chmvh-website-basic.conf.template',
         '/etc/nginx/sites-available/chmvh-website',
-        context)
+        context,
+        use_sudo=True)
 
     sudo('ln -fs /etc/nginx/sites-available/chmvh-website '
          '/etc/nginx/sites-enabled')
