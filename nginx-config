@@ -1,6 +1,6 @@
 server {
     client_max_body_size 5M;
-    listen 80;
+    listen 80 default_server;
 
     location = /favicon.ico {
         access_log off;
