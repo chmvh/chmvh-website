@@ -102,9 +102,8 @@ def configure_nginx():
 
 def configure_ssl():
     """Configure SSL with letsencrypt"""
-    configured = run(
-        'if test -d /etc/letsencrypt/live/{0}; then echo exists; fi'.format(
-            env.host))
+    configured = sudo(('if sudo test -d /etc/letsencrypt/live/{0}; then echo '
+                       'exists; fi').format(env.host))
 
     if configured == 'exists':
         _renew_ssl()
