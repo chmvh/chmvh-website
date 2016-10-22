@@ -32,6 +32,7 @@ required_packages = (
     'postgresql', 'postgresql-contrib',
     'nginx',
     'python3-dev', 'python3-pip',
+    'ufw',
     'zlib1g-dev',
 )
 
