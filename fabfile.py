@@ -4,7 +4,7 @@ from django.conf import settings as django_settings
 from django.template import Context, Engine
 
 from fabric.api import (
-    cd, env, local, prefix, prompt, put, run, sudo)
+    abort, cd, env, local, prefix, prompt, put, run, sudo)
 from fabric.contrib.console import confirm
 
 import yaml
@@ -85,12 +85,14 @@ def prepare_local():
         capture=True)
 
     if env.current_branch != 'master':
-        if not confirm(
-                "You are trying to deploy from the '{0}' branch. Continue?",
-                default=False):
+        if confirm("You are trying to deploy from the '{0}' branch. "
+                   "Continue?".format(env.current_branch),
+                   default=False):
             env.current_branch = prompt(
                 "Enter branch to deploy from:",
                 default='master')
+        else:
+            abort("Aborted deployment from non-master branch.")
 
 
 def remote_setup():
@@ -118,18 +120,17 @@ def update_remote():
     with cd(REMOTE_PROJECT_DIR):
         run('git pull && git checkout {0}'.format(env.current_branch))
 
+    _configure_env()
+
     # Run migrations and collect static files
     with cd(REMOTE_PROJECT_DIR), prefix('source env/bin/activate'):
-        with prefix('chmvh_website/manage.py'):
-            run('migrate')
-            run('compilescss')
-            run('collectstatic -i *.scss --noinput')
+        run('chmvh_website/manage.py migrate')
+        run('chmvh_website/manage.py compilescss')
+        run('chmvh_website/manage.py collectstatic -i *.scss --noinput')
 
 
 def post_update():
     """Runs after the remote machine has updated its codebase"""
-    _configure_env()
-
     # Upload local settings
     context = Context({
         'db_name': Credentials.get('db_name'),
@@ -137,9 +138,13 @@ def post_update():
         'db_user': Credentials.get('db_user'),
     })
     _upload_template(
-        'templates/local_settings.py.template'
-        '{}/chmvh_website/chmvh_website/local_settings.py',
+        'templates/local_settings.py.template',
+        '{}/chmvh_website/chmvh_website/local_settings.py'.format(
+            REMOTE_PROJECT_DIR),
         context)
+
+    # Restart gunicorn to reflect app changes
+    sudo('systemctl restart gunicorn')
 
 
 def deploy():
@@ -147,6 +152,7 @@ def deploy():
         env.sudo_password = Credentials.get('sudo_password')
 
     prepare_local()
+    remote_setup()
     update_remote()
     post_update()
 
@@ -181,16 +187,9 @@ def _configure_gunicorn():
         '/etc/systemd/system/gunicorn.service',
         use_sudo=True)
 
-    running = sudo('systemctl status gunicorn | grep "active (running)"')
-    enabled = sudo('systemctl status gunicorn | grep "; enabled;"')
-
-    if running:
-        sudo('systemctl daemon-reload')
-    else:
-        sudo('systemctl start gunicorn')
-
-    if not enabled:
-        sudo('systemctl enable gunicorn')
+    sudo('systemctl daemon-reload')
+    sudo('systemctl start gunicorn')
+    sudo('systemctl enable gunicorn')
 
 
 def _configure_nginx():
