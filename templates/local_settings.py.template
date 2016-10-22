@@ -1,3 +1,22 @@
+SECRET_KEY = '{{ secret_key }}'
+
+DEBUG = False
+
+ALLOWED_HOSTS = [
+    '{{ domain_name }}',
+]
+
+# Cookie Settings
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+
+# Security Options
+CSRF_COOKIE_HTTPONLY = True
+SECURE_BROWSER_XSS_FILTER = True
+SECURE_CONTENT_TYPE_NOSNIFF = True
+SECURE_SSL_REDIRECT = True
+X_FRAME_OPTIONS = 'DENY'
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -8,3 +27,10 @@ DATABASES = {
         'PORT': '',
     }
 }
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.sendgrid.net'
+EMAIL_HOST_USER = '{{ sendgrid_user }}'
+EMAIL_HOST_PASSWORD = '{{ sendgrid_password }}'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True

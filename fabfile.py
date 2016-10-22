@@ -4,7 +4,7 @@ from django.conf import settings as django_settings
 from django.template import Context, Engine
 
 from fabric.api import (
-    cd, env, local, prefix, prompt, put, run, sudo)
+    cd, env, local, prefix, prompt, put, run, sudo, task)
 from fabric.contrib.console import confirm
 
 import yaml
@@ -18,6 +18,9 @@ CREDENTIAL_MAP = {
     'db_name': 'database name',
     'db_password': 'database password',
     'db_user': 'database user',
+    'secret_key': 'Django secret key',
+    'sendgrid_password': 'SendGrid password',
+    'sendgrid_user': 'SendGrid username',
     'sudo_password': 'sudo password',
 }
 REMOTE_PROJECT_DIR = '/home/chathan/chmvh-website'
@@ -78,6 +81,7 @@ class Credentials:
             yaml.dump(cls.credentials, f)
 
 
+@task
 def prepare_local():
     """Prepare local machine for deployment"""
     # From http://stackoverflow.com/a/11958481/3762084
@@ -94,6 +98,7 @@ def prepare_local():
                 default='master')
 
 
+@task
 def remote_setup():
     """Set up the remote machine"""
     sudo('apt-get update -y')
@@ -121,6 +126,7 @@ def remote_setup():
     sudo('ufw status')
 
 
+@task
 def update_remote():
     """Update the code on the remote machine."""
     with cd('/home/chathan'):
@@ -144,6 +150,7 @@ def update_remote():
         run('chmvh_website/manage.py collectstatic -i *.scss --noinput')
 
 
+@task
 def post_update():
     """Runs after the remote machine has updated its codebase"""
     # Upload local settings
@@ -151,6 +158,10 @@ def post_update():
         'db_name': Credentials.get('db_name'),
         'db_password': Credentials.get('db_password'),
         'db_user': Credentials.get('db_user'),
+        'domain_name': env.host,
+        'secret_key': Credentials.get('secret_key'),
+        'sendgrid_password': Credentials.get('sendgrid_password'),
+        'sendgrid_user': Credentials.get('sendgrid_user'),
     })
     _upload_template(
         'templates/local_settings.py.template',
@@ -162,7 +173,9 @@ def post_update():
     sudo('systemctl restart gunicorn')
 
 
+@task
 def deploy():
+    """Automatically set up and deploy the application"""
     if not env.sudo_password:
         env.sudo_password = Credentials.get('sudo_password')
 
