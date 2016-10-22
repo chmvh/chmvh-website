@@ -14,8 +14,10 @@ def patient_image_path(instance, filename):
         str:
             The file path to upload the provided image to.
     """
-    return 'patients/{0}/{1}'.format(
-        instance.first_name[0].upper(), instance.first_name)
+    ext = filename.rsplit('.', 1)[-1]
+
+    return 'patients/{0}/{1}.{2}'.format(
+        instance.first_name[0].upper(), instance.first_name, ext)
 
 
 class Patient(models.Model):

@@ -1,0 +1,6 @@
+<form action='{% url "gallery:search" %}'>
+  <div class='search-form'>
+    <input type='search' id='search' name='q' {% if query %}value='{{ query }}'{% endif %} placeholder='Search for your pet' onclick='this.setSelectionRange(0, this.value.length)' />
+    <button type='submit' class='button--primary'>Search</button>
+  </div>
+</form>
