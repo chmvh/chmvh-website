@@ -10,11 +10,24 @@
   <div class='container'>
     <h1 class='text-center'>Resources</h1>
 
-    {% include 'resources/snippets/resource-category-list.html' with categories=important_categories %}
+    <p>
+      Welcome to our resources page. Here you can find a variety of information
+      regarding pet care.
+    </p>
+
+    {% if important_categories %}
+
+      <h3>Important Resources</h3>
+
+      {% include 'resources/snippets/resource-category-list.html' with categories=important_categories %}
+
+    {% endif %}
 
     {% if important_categories and categories %}
 
       <div class='divider'></div>
+
+      <h3>Other Resources</h3>
 
     {% endif %}
 
