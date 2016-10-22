@@ -110,7 +110,7 @@ def remote_setup():
     _configure_ssl()
 
     # Set up firewall
-    sudo('ufw reset')
+    sudo('ufw --force reset')
     sudo('ufw default deny incoming')
     sudo('ufw default deny outgoing')
     sudo('ufw allow ssh')
