@@ -146,7 +146,7 @@ def update_remote():
 
     # Clear out static files
     with cd(REMOTE_PROJECT_DIR):
-        run('rm -rf chmvh_websites/staticfiles')
+        run('rm -rf chmvh_website/staticfiles')
 
     # Run migrations and collect static files
     with cd(REMOTE_PROJECT_DIR), prefix('source env/bin/activate'):
