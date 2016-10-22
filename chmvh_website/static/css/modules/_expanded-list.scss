@@ -1,33 +1,23 @@
 .elist-item {
   padding-bottom: $elist-item-padding-bottom;
 
+  i {
+    color: $color-brand;
+    font-size: $elist-icon-size;
+    width: $elist-icon-width;
+  }
+
   @include element('address') {
+    align-items: center;
     display: flex;
 
     div {
       flex: 1;
     }
 
-    i {
-      color: $color-brand;
-      flex: 0;
-      padding-right: .5em;
-    }
-
     p {
-      margin: 0;
-    }
-  }
-
-  @include element('email') {
-    i {
-      color: $color-brand;
-    }
-  }
-
-  @include element('phone') {
-    i {
-      color: $color-brand;
+      margin-bottom: 0;
+      margin-top: 0;
     }
   }
 }
