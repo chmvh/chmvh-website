@@ -4,34 +4,24 @@ from django.conf import settings as django_settings
 from django.template import Context, Engine
 
 from fabric.api import (
-    abort, cd, env, lcd, local, prompt, put, run, sudo)
+    abort, cd, env, local, prefix, prompt, put, run, sudo)
 from fabric.contrib.console import confirm
+
+import yaml
 
 
 django_settings.configure()
 
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-
-
-# From http://stackoverflow.com/a/11958481/3762084
-with lcd(BASE_DIR):
-    current_branch = local(
-        'git rev-parse --symbolic-full-name --abbrev-ref HEAD',
-        capture=True)
-if current_branch != 'master':
-    if not confirm(
-            'Would you like to deploy the {0} branch?'.format(current_branch),
-            default=False):
-
-        abort("Aborting deployment of non-master branch.")
-
-
-ACTIVATE_ENV = '. env/bin/activate'
-DB_NAME = 'djangodb'
-DB_PASSWORD = prompt("Enter database password:")
-DB_USER = 'django'
+BASE_PATH = os.path.dirname(os.path.abspath(__file__))
+CREDENTIAL_MAP = {
+    'db_name': 'database name',
+    'db_password': 'database password',
+    'db_user': 'database user',
+    'sudo_password': 'sudo password',
+}
 REMOTE_PROJECT_DIR = '/home/chathan/chmvh-website'
+REPOSITORY_URL = 'https://github.com/cdriehuys/chmvh-website'
 
 
 required_packages = (
@@ -46,40 +36,163 @@ required_packages = (
 )
 
 
-def configure_db():
-    with open('templates/createdb.sql.template') as f:
-        template = Engine().from_string(f.read())
+class Credentials:
+    FILE_PATH = os.path.join(BASE_PATH, 'secure-config.yml')
 
+    credentials = None
+
+    @classmethod
+    def get(cls, name):
+        if cls.credentials is None:
+            cls.load_credentials()
+
+        host_credentials = cls.credentials.get(env.host, {})
+
+        existing = host_credentials.get(name, None)
+
+        # If that credential is already stored, return it
+        if existing is not None:
+            return existing
+
+        # Credential doesn't exist, so prompt for it and then save it
+        message = 'Enter {0} for {1}:'.format(CREDENTIAL_MAP[name], env.host)
+        host_credentials[name] = prompt(message)
+
+        cls.credentials[env.host] = host_credentials
+        cls._save_credentials()
+
+        return host_credentials[name]
+
+    @classmethod
+    def load_credentials(cls):
+        if os.path.exists(cls.FILE_PATH):
+            with open(cls.FILE_PATH, 'r') as f:
+                cls.credentials = yaml.load(f)
+        else:
+            cls.credentials = {}
+
+    @classmethod
+    def _save_credentials(cls):
+        with open(cls.FILE_PATH, 'w') as f:
+            yaml.dump(cls.credentials, f)
+
+
+def prepare_local():
+    """Prepare local machine for deployment"""
+    # From http://stackoverflow.com/a/11958481/3762084
+    env.current_branch = local(
+        'git rev-parse --symbolic-full-name --abbrev-ref HEAD',
+        capture=True)
+
+    if env.current_branch != 'master':
+        if confirm("You are trying to deploy from the '{0}' branch. "
+                   "Continue?".format(env.current_branch),
+                   default=False):
+            env.current_branch = prompt(
+                "Enter branch to deploy from:",
+                default='master')
+        else:
+            abort("Aborted deployment from non-master branch.")
+
+
+def remote_setup():
+    """Set up the remote machine"""
+    sudo('apt-get update -y')
+
+    # Install required packages
+    sudo('apt-get install -y {0}'.format(' '.join(required_packages)))
+
+    # Set up the database
+    _configure_database()
+
+    # Set up webserver
+    _configure_gunicorn()
+    _configure_nginx()
+    _configure_ssl()
+
+
+def update_remote():
+    """Update the code on the remote machine."""
+    with cd('/home/chathan'):
+        run('if ! test -d chmvh-website; then git clone {0}; fi'.format(
+            REPOSITORY_URL))
+
+    with cd(REMOTE_PROJECT_DIR):
+        run('git pull && git checkout {0}'.format(env.current_branch))
+
+    _configure_env()
+
+    # Run migrations and collect static files
+    with cd(REMOTE_PROJECT_DIR), prefix('source env/bin/activate'):
+        run('chmvh_website/manage.py migrate')
+        run('chmvh_website/manage.py compilescss')
+        run('chmvh_website/manage.py collectstatic -i *.scss --noinput')
+
+
+def post_update():
+    """Runs after the remote machine has updated its codebase"""
+    # Upload local settings
     context = Context({
-        'db_name': DB_NAME,
-        'db_password': DB_PASSWORD,
-        'db_user': DB_USER,
+        'db_name': Credentials.get('db_name'),
+        'db_password': Credentials.get('db_password'),
+        'db_user': Credentials.get('db_user'),
     })
+    _upload_template(
+        'templates/local_settings.py.template',
+        '{}/chmvh_website/chmvh_website/local_settings.py'.format(
+            REMOTE_PROJECT_DIR),
+        context)
 
-    output = template.render(context)
+    # Restart gunicorn to reflect app changes
+    sudo('systemctl restart gunicorn')
 
-    out_name = '/tmp/chmvh-website/createdb.sql'
-    os.makedirs(os.path.dirname(out_name), exist_ok=True)
-    with open(out_name, 'w') as f:
-        f.write(output)
 
-    # Upload SQL script to remote
-    put(out_name, '/tmp')
+def deploy():
+    if not env.sudo_password:
+        env.sudo_password = Credentials.get('sudo_password')
 
-    # Run script on remote
+    prepare_local()
+    remote_setup()
+    update_remote()
+    post_update()
+
+
+def _configure_database():
+    """Create the database for the application."""
+    context = {
+        'db_name': Credentials.get('db_name'),
+        'db_password': Credentials.get('db_password'),
+        'db_user': Credentials.get('db_user'),
+    }
+    _upload_template(
+        'templates/createdb.sql.template',
+        '/tmp/createdb.sql',
+        context)
     sudo('sudo -u postgres psql -f /tmp/createdb.sql')
 
 
-def configure_gunicorn():
-    """Set up gunicorn service."""
+def _configure_env():
+    """Configure the virtualenv for the application"""
     with cd(REMOTE_PROJECT_DIR):
-        sudo('cp gunicorn.service /etc/systemd/system')
+        run('if ! test -d env; then virtualenv --python=python3 env; fi')
 
-    sudo('systemctl start gunicorn && sudo systemctl daemon-reload')
+        with prefix('source env/bin/activate'):
+            run('pip install -r requirements.txt')
+
+
+def _configure_gunicorn():
+    """Set up gunicorn service."""
+    _upload_template(
+        'templates/gunicorn.service',
+        '/etc/systemd/system/gunicorn.service',
+        use_sudo=True)
+
+    sudo('systemctl daemon-reload')
+    sudo('systemctl start gunicorn')
     sudo('systemctl enable gunicorn')
 
 
-def configure_nginx():
+def _configure_nginx():
     """Set up nginx."""
     context = {
         'domain_name': env.host,
@@ -102,7 +215,7 @@ def configure_nginx():
     sudo('systemctl restart nginx')
 
 
-def configure_ssl():
+def _configure_ssl():
     """Configure SSL with letsencrypt"""
     configured = sudo(('if sudo test -d /etc/letsencrypt/live/{0}; then echo '
                        'exists; fi').format(env.host))
@@ -126,8 +239,7 @@ def configure_ssl():
         '/etc/nginx/snippets/ssl-{0}.conf'.format(env.host),
         context,
         use_sudo=True)
-    put(
-        'templates/ssl-params.conf',
+    put('templates/ssl-params.conf',
         '/etc/nginx/snippets/ssl-params.conf',
         use_sudo=True)
 
@@ -142,85 +254,6 @@ def configure_ssl():
         run('echo "35 2 * * 1 /bin/systemctl reload nginx" >> newcron')
         run('crontab newcron')
         run('rm newcron')
-
-
-def copy_settings():
-    """Copy appropriate local settings."""
-    with open('templates/local_settings.py.template') as f:
-        template = Engine().from_string(f.read())
-
-    context = Context({
-        'db_name': DB_NAME,
-        'db_password': DB_PASSWORD,
-        'db_user': DB_USER,
-    })
-
-    output = template.render(context)
-
-    out_name = '/tmp/chmvh-website/local_settings.py'
-    os.makedirs(os.path.dirname(out_name), exist_ok=True)
-    with open(out_name, 'w') as f:
-        f.write(output)
-
-    with cd(REMOTE_PROJECT_DIR):
-        put(out_name, 'chmvh_website/chmvh_website')
-
-
-def create_env():
-    """Create a virtualenv if it doesn't exist"""
-    with cd(REMOTE_PROJECT_DIR):
-        run('test -d env || virtualenv --python=python3 env')
-        _in_env('pip install -r requirements.txt')
-
-
-def deploy():
-    prepare_remote()
-    update_remote()
-    configure_db()
-    create_env()
-    copy_settings()
-    configure_gunicorn()
-    configure_nginx()
-    configure_ssl()
-    generate_static()
-    restart_services()
-
-
-def generate_static():
-    """Generate static files on the remote server."""
-    with cd(REMOTE_PROJECT_DIR):
-        _in_env('chmvh_website/manage.py migrate')
-        _in_env('chmvh_website/manage.py compilescss')
-        _in_env('chmvh_website/manage.py collectstatic -i *.scss --noinput')
-
-
-def prepare_remote():
-    """Install required packages."""
-    sudo('apt-get update -y && sudo apt-get install -y {}'.format(
-        ' '.join(required_packages)))
-
-    run('pip3 install virtualenv')
-
-
-def restart_services():
-    """Restart services on remote server."""
-    sudo('systemctl restart gunicorn nginx')
-
-
-def update_remote():
-    """Pull code onto remote machine."""
-    with cd('/home/chathan'):
-        run('if ! test -d chmvh-website; '
-            'then git clone https://github.com/cdriehuys/chmvh-website; fi')
-
-    with cd(REMOTE_PROJECT_DIR):
-        run('git pull && git checkout {0}'.format(current_branch))
-
-
-def _in_env(command):
-    """Run a command in the remote virtualenv."""
-    with cd(REMOTE_PROJECT_DIR):
-        run('{} && {}'.format(ACTIVATE_ENV, command))
 
 
 def _renew_ssl():
@@ -264,3 +297,5 @@ def _upload_template(template_path, remote_dest, context={}, out_path=None,
         f.write(output)
 
     put(out_path, remote_dest, **kwargs)
+
+    os.remove(out_path)

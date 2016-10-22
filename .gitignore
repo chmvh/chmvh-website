@@ -104,3 +104,6 @@ ENV/
 
 # User Uploaded Files
 media/
+
+# Credentials
+secure-config.yml
