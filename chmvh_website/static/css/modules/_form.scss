@@ -38,3 +38,35 @@
     resize: vertical;
   }
 }
+
+.search-form {
+  display: flex;
+  flex-direction: column;
+  margin: $form-search-margin;
+  max-width: $form-search-max-width;
+
+  @include media($tablet-up) {
+    flex-direction: row;
+  }
+
+  button {
+    flex: 0;
+    margin: 0;
+
+    @include media($tablet-up) {
+      margin-left: $form-search-button-margin;
+    }
+  }
+
+  input {
+    background: none;
+    border: 0;
+    border-bottom: $form-input-border;
+    width: 100%;
+
+    &:focus {
+      border-bottom: $form-input-border-focused;
+      outline: none;
+    }
+  }
+}

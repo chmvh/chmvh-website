@@ -1,0 +1,40 @@
+{% extends 'gallery/base.html' %}
+
+
+{% block page_title %}{% if query %}{{ query }} - {% endif %}Search Gallery{% endblock %}
+
+{% block content %}
+
+  <h1 class='text-center'>Search Gallery</h1>
+
+  {% include 'gallery/snippets/search-form.html' %}
+  {% include 'gallery/snippets/categories.html' %}
+
+  {% if query %}
+
+    <h2 class='text-center'>Results for: {{ query }}</h2>
+
+    {% if pets %}
+
+      <div class='gallery'>
+
+        {% for pet in pets %}
+
+          <div class='gallery__item'>
+            <img class='gallery__img' src='{{ pet.picture.url }}' alt='{{ pet.first_name }}'>
+            <p class='gallery__item-title'>{{ pet.first_name }}</p>
+          </div>
+
+        {% endfor %}
+
+      </div>
+
+    {% else %}
+
+      <h3 class='text-center'>There are no pets matching your search.</h3>
+
+    {% endif %}
+
+  {% endif %}
+
+{% endblock %}
