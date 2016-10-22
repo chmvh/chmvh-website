@@ -4,7 +4,7 @@ from django.conf import settings as django_settings
 from django.template import Context, Engine
 
 from fabric.api import (
-    abort, cd, env, lcd, local, prompt, put, run, sudo)
+    abort, cd, env, lcd, local, prefix, prompt, put, run, sudo)
 from fabric.contrib.console import confirm
 
 import yaml
@@ -32,7 +32,6 @@ if current_branch != 'master':
             current_branch = 'master'
 
 
-ACTIVATE_ENV = '. /home/chathan/chmvh-website/env/bin/activate'
 CREDENTIAL_MAP = {
     'db_name': 'database name',
     'db_password': 'database password',
@@ -219,7 +218,9 @@ def create_env():
     """Create a virtualenv if it doesn't exist"""
     with cd(REMOTE_PROJECT_DIR):
         run('test -d env || virtualenv --python=python3 env')
-        _in_env('pip install -r requirements.txt')
+
+        with prefix('source env/bin/activate'):
+            run('pip install -r requirements.txt')
 
 
 def deploy():
@@ -240,10 +241,10 @@ def deploy():
 
 def generate_static():
     """Generate static files on the remote server."""
-    with cd(REMOTE_PROJECT_DIR):
-        _in_env('chmvh_website/manage.py migrate')
-        _in_env('chmvh_website/manage.py compilescss')
-        _in_env('chmvh_website/manage.py collectstatic -i *.scss --noinput')
+    with cd(REMOTE_PROJECT_DIR), prefix('source env/bin/activate'):
+        run('chmvh_website/manage.py migrate')
+        run('chmvh_website/manage.py compilescss')
+        run('chmvh_website/manage.py collectstatic -i *.scss --noinput')
 
 
 def prepare_remote():
@@ -267,12 +268,6 @@ def update_remote():
 
     with cd(REMOTE_PROJECT_DIR):
         run('git pull && git checkout {0}'.format(current_branch))
-
-
-def _in_env(command):
-    """Run a command in the remote virtualenv."""
-    with cd(REMOTE_PROJECT_DIR):
-        run('{} && {}'.format(ACTIVATE_ENV, command))
 
 
 def _renew_ssl():
