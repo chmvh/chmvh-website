@@ -1,6 +1,29 @@
 from django.contrib import sitemaps
 from django.urls import reverse
 
+from gallery import models
+
+
+class GallerySitemap(sitemaps.Sitemap):
+    """Sitemap for the gallery"""
+    changefreq = 'daily'
+    priority = 0.5
+
+    def items(self):
+        urls = [('gallery:index', {})]
+
+        for letter in 'ABCDEFGHIJKLMNOPQRSTUVWXYZ':
+            if models.Patient.objects.filter(first_letter=letter).exists():
+                urls.append(('gallery:pet-list', {'first_letter': letter}))
+
+        if models.Patient.objects.filter(deceased=True).exists():
+            urls.append(('gallery:pet-memoriam', {}))
+
+        return urls
+
+    def location(self, item):
+        return reverse(item[0], kwargs=item[1])
+
 
 class StaticPageSitemap(sitemaps.Sitemap):
     """Sitemap for the static pages"""
@@ -20,5 +43,6 @@ class StaticPageSitemap(sitemaps.Sitemap):
 
 
 sitemaps = {
+    'gallery': GallerySitemap,
     'static': StaticPageSitemap,
 }
