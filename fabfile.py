@@ -18,6 +18,7 @@ CREDENTIAL_MAP = {
     'db_name': 'database name',
     'db_password': 'database password',
     'db_user': 'database user',
+    'secret_key': 'Django secret key',
     'sendgrid_password': 'SendGrid password',
     'sendgrid_user': 'SendGrid username',
     'sudo_password': 'sudo password',
@@ -141,6 +142,8 @@ def post_update():
         'db_name': Credentials.get('db_name'),
         'db_password': Credentials.get('db_password'),
         'db_user': Credentials.get('db_user'),
+        'domain_name': env.host,
+        'secret_key': Credentials.get('secret_key'),
         'sendgrid_password': Credentials.get('sendgrid_password'),
         'sendgrid_user': Credentials.get('sendgrid_user'),
     })
