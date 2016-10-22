@@ -116,7 +116,8 @@ def update_remote():
             REPOSITORY_URL))
 
     with cd(REMOTE_PROJECT_DIR):
-        run('git pull && git checkout {0}'.format(env.current_branch))
+        run('git pull && git checkout {0} && git pull'.format(
+            env.current_branch))
 
     _configure_env()
 
