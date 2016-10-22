@@ -33,13 +33,13 @@ if current_branch != 'master':
 
 
 ACTIVATE_ENV = '. /home/chathan/chmvh-website/env/bin/activate'
+CREDENTIAL_MAP = {
+    'db_name': 'database name',
+    'db_password': 'database password',
+    'db_user': 'database user',
+    'sudo_password': 'sudo password',
+}
 REMOTE_PROJECT_DIR = '/home/chathan/chmvh-website'
-REQUIRED_CREDENTIALS = (
-    ('db_name', 'database name'),
-    ('db_password', 'database password'),
-    ('db_user', 'database user'),
-    ('sudo_pwd', 'sudo password'),
-)
 
 
 required_packages = (
@@ -54,16 +54,55 @@ required_packages = (
 )
 
 
+class Credentials:
+    FILE_PATH = os.path.join(BASE_PATH, 'secure-config.yml')
+
+    credentials = None
+
+    @classmethod
+    def get(cls, name):
+        if cls.credentials is None:
+            cls.load_credentials()
+
+        host_credentials = cls.credentials.get(env.host, {})
+
+        existing = host_credentials.get(name, None)
+
+        # If that credential is already stored, return it
+        if existing is not None:
+            return existing
+
+        # Credential doesn't exist, so prompt for it and then save it
+        message = 'Enter {0} for {1}:'.format(CREDENTIAL_MAP[name], env.host)
+        host_credentials[name] = prompt(message)
+
+        cls.credentials[env.host] = host_credentials
+        cls._save_credentials()
+
+        return host_credentials[name]
+
+    @classmethod
+    def load_credentials(cls):
+        if os.path.exists(cls.FILE_PATH):
+            with open(cls.FILE_PATH, 'r') as f:
+                cls.credentials = yaml.load(f)
+        else:
+            cls.credentials = {}
+
+    @classmethod
+    def _save_credentials(cls):
+        with open(cls.FILE_PATH, 'w') as f:
+            yaml.dump(cls.credentials, f)
+
+
 def configure_db():
     with open('templates/createdb.sql.template') as f:
         template = Engine().from_string(f.read())
 
-    credentials = load_credentials()[env.host]
-
     context = Context({
-        'db_name': credentials['db_name'],
-        'db_password': credentials['db_password'],
-        'db_user': credentials['db_user'],
+        'db_name': Credentials.get('db_name'),
+        'db_password': Credentials.get('db_password'),
+        'db_user': Credentials.get('db_user'),
     })
 
     output = template.render(context)
@@ -159,12 +198,10 @@ def copy_settings():
     with open('templates/local_settings.py.template') as f:
         template = Engine().from_string(f.read())
 
-    credentials = load_credentials()[env.host]
-
     context = Context({
-        'db_name': credentials['db_name'],
-        'db_password': credentials['db_password'],
-        'db_user': credentials['db_user'],
+        'db_name': Credentials.get('db_name'),
+        'db_password': Credentials.get('db_password'),
+        'db_user': Credentials.get('db_user'),
     })
 
     output = template.render(context)
@@ -187,7 +224,7 @@ def create_env():
 
 def deploy():
     if not env.sudo_password:
-        env.sudo_password = load_credentials()[env.host]['sudo_pwd']
+        env.sudo_password = Credentials.get('sudo_password')
 
     prepare_remote()
     update_remote()
@@ -207,35 +244,6 @@ def generate_static():
         _in_env('chmvh_website/manage.py migrate')
         _in_env('chmvh_website/manage.py compilescss')
         _in_env('chmvh_website/manage.py collectstatic -i *.scss --noinput')
-
-
-def load_credentials():
-    """Load credentials from either a config file or the user."""
-    credential_path = os.path.join(BASE_PATH, 'secure-config.yml')
-    if os.path.exists(credential_path):
-        with open(credential_path, 'r') as f:
-            data = yaml.load(f)
-    else:
-        data = {}
-
-    credentials = {}
-    host_credentials = data.get(env.host, {})
-
-    for key, name in REQUIRED_CREDENTIALS:
-        existing_val = host_credentials.get(key, None)
-
-        if existing_val is None:
-            host_credentials[key] = prompt('Enter {0} for {1}:'.format(
-                name, env.host))
-        else:
-            host_credentials[key] = existing_val
-
-    credentials[env.host] = host_credentials
-
-    with open(credential_path, 'w') as f:
-        yaml.dump(credentials, f)
-
-    return credentials
 
 
 def prepare_remote():
