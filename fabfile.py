@@ -119,7 +119,7 @@ def remote_setup():
     sudo('ufw default deny incoming')
     sudo('ufw default deny outgoing')
     sudo('ufw allow ssh')
-    sudo('ufw allow web')
+    sudo('ufw allow www')
     sudo('ufw allow 443/tcp')
     sudo('ufw disable')
     sudo('ufw enable')
