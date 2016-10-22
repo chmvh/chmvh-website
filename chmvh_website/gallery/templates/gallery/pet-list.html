@@ -1,7 +1,15 @@
 {% extends 'gallery/base.html' %}
 
+{% load static %}
+
 
 {% block page_title %}Gallery - {{ category }}{% endblock %}
+
+{% block extra_styles %}
+
+  <link href='//cdn.rawgit.com/noelboss/featherlight/1.5.0/release/featherlight.min.css' type='text/css' rel='stylesheet' />
+
+{% endblock %}
 
 {% block content %}
 
@@ -21,5 +29,15 @@
     {% endfor %}
 
   </div>
+
+{% endblock %}
+
+{% block extra_scripts %}
+
+  <script src='//cdn.rawgit.com/noelboss/featherlight/1.5.0/release/featherlight.min.js' type='text/javascript' charset='utf-8'></script>
+  <script src='{% static "js/gallery.js" %}'></script>
+  <script>
+    activateNavLink('#gallery');
+  </script>
 
 {% endblock %}
