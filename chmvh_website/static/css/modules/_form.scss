@@ -51,6 +51,7 @@
 
   button {
     flex: 0;
+    margin: 0;
 
     @include media($tablet-up) {
       margin-left: $form-search-button-margin;

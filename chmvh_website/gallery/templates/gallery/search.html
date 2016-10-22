@@ -14,18 +14,26 @@
 
     <h2 class='text-center'>Results for: {{ query }}</h2>
 
-    <div class='gallery'>
+    {% if pets %}
 
-      {% for pet in pets %}
+      <div class='gallery'>
 
-        <div class='gallery__item'>
-          <img class='gallery__img' src='{{ pet.picture.url }}' alt='{{ pet.first_name }}'>
-          <p class='gallery__item-title'>{{ pet.first_name }}</p>
-        </div>
+        {% for pet in pets %}
 
-      {% endfor %}
+          <div class='gallery__item'>
+            <img class='gallery__img' src='{{ pet.picture.url }}' alt='{{ pet.first_name }}'>
+            <p class='gallery__item-title'>{{ pet.first_name }}</p>
+          </div>
 
-    </div>
+        {% endfor %}
+
+      </div>
+
+    {% else %}
+
+      <h3 class='text-center'>There are no pets matching your search.</h3>
+
+    {% endif %}
 
   {% endif %}
 
