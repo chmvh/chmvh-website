@@ -1,3 +1,6 @@
+from functools import reduce
+
+from django.db.models import Q
 from django.views import generic
 
 from gallery import models
@@ -67,5 +70,26 @@ class PetMemoriamView(generic.base.TemplateView):
         context['pets'] = pets
 
         context.update(patient_context())
+
+        return context
+
+
+class PetSearchView(generic.base.TemplateView):
+    template_name = 'gallery/search.html'
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(PetSearchView, self).get_context_data(*args, **kwargs)
+
+        context.update(patient_context())
+
+        query = self.request.GET.get('q')
+        context['query'] = query
+
+        pets = models.Patient.objects.filter(
+            reduce(
+                lambda q, f: q & Q(first_name__icontains=f),
+                query.split(),
+                Q()))
+        context['pets'] = pets
 
         return context
