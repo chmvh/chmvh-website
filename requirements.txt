@@ -1,3 +1,4 @@
+celery
 django ~= 1.10
 django-compressor
 django-sass-processor
