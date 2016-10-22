@@ -13,7 +13,8 @@ class GallerySitemap(sitemaps.Sitemap):
         urls = [('gallery:index', {})]
 
         for letter in 'ABCDEFGHIJKLMNOPQRSTUVWXYZ':
-            if models.Patient.objects.filter(first_letter=letter).exists():
+            if models.Patient.objects.filter(
+                    deceased=False, first_letter=letter).exists():
                 urls.append(('gallery:pet-list', {'first_letter': letter}))
 
         if models.Patient.objects.filter(deceased=True).exists():
