@@ -298,3 +298,5 @@ def _upload_template(template_path, remote_dest, context={}, out_path=None,
         f.write(output)
 
     put(out_path, remote_dest, **kwargs)
+
+    os.remove(out_path)
