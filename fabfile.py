@@ -4,7 +4,7 @@ from django.conf import settings as django_settings
 from django.template import Context, Engine
 
 from fabric.api import (
-    abort, cd, env, local, prefix, prompt, put, run, sudo)
+    cd, env, local, prefix, prompt, put, run, sudo)
 from fabric.contrib.console import confirm
 
 import yaml
@@ -85,14 +85,12 @@ def prepare_local():
         capture=True)
 
     if env.current_branch != 'master':
-        if confirm("You are trying to deploy from the '{0}' branch. "
-                   "Continue?".format(env.current_branch),
-                   default=False):
+        if not confirm("You are trying to deploy from the '{0}' branch. "
+                       "Is this what you want?".format(env.current_branch),
+                       default=False):
             env.current_branch = prompt(
                 "Enter branch to deploy from:",
                 default='master')
-        else:
-            abort("Aborted deployment from non-master branch.")
 
 
 def remote_setup():
