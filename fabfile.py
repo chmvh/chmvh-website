@@ -93,9 +93,14 @@ def prepare_local():
         if not confirm("You are trying to deploy from the '{0}' branch. "
                        "Is this what you want?".format(env.current_branch),
                        default=False):
+            env.orig_branch = env.current_branch
             env.current_branch = prompt(
                 "Enter branch to deploy from:",
                 default='master')
+
+            local('git checkout {}'.format(env.current_branch))
+
+    local('git push')
 
 
 @task
@@ -174,6 +179,13 @@ def post_update():
 
 
 @task
+def cleanup():
+    """Clean up local machine after deployment"""
+    if env.get('orig_branch'):
+        local('git checkout {}'.format(env.orig_branch))
+
+
+@task
 def deploy():
     """Automatically set up and deploy the application"""
     if not env.sudo_password:
@@ -183,6 +195,7 @@ def deploy():
     remote_setup()
     update_remote()
     post_update()
+    cleanup()
 
 
 def _configure_database():
