@@ -18,6 +18,8 @@ CREDENTIAL_MAP = {
     'db_name': 'database name',
     'db_password': 'database password',
     'db_user': 'database user',
+    'sendgrid_password': 'SendGrid password',
+    'sendgrid_user': 'SendGrid username',
     'sudo_password': 'sudo password',
 }
 REMOTE_PROJECT_DIR = '/home/chathan/chmvh-website'
@@ -139,6 +141,8 @@ def post_update():
         'db_name': Credentials.get('db_name'),
         'db_password': Credentials.get('db_password'),
         'db_user': Credentials.get('db_user'),
+        'sendgrid_password': Credentials.get('sendgrid_password'),
+        'sendgrid_user': Credentials.get('sendgrid_user'),
     })
     _upload_template(
         'templates/local_settings.py.template',
