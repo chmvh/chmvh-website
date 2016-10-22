@@ -20,6 +20,13 @@ def patient_image_path(instance, filename):
         instance.first_name[0].upper(), instance.first_name, ext)
 
 
+def patient_thumbnail_path(instance, filename):
+    parts = instance.picture.name.rsplit('.', 1)
+    assert len(parts) == 2
+
+    return '{0}_thumb.{1}'.format(parts[0], parts[1])
+
+
 class Patient(models.Model):
     """A veterinary patient with a name and picture."""
     deceased = models.BooleanField(
@@ -53,6 +60,18 @@ class Patient(models.Model):
         verbose_name='picture height')
     picture_width = models.IntegerField(
         verbose_name='picture width')
+    thumbnail = models.ImageField(
+        height_field='thumbnail_height',
+        null=True,
+        upload_to=patient_thumbnail_path,
+        verbose_name='picture thumbnail',
+        width_field='thumbnail_width')
+    thumbnail_height = models.IntegerField(
+        null=True,
+        verbose_name='picture thumbnail height')
+    thumbnail_width = models.IntegerField(
+        null=True,
+        verbose_name='picture thumbnail width')
 
     class Meta:
         ordering = ('first_name', 'last_name')
