@@ -9,6 +9,7 @@ DATABASES = {
     }
 }
 
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.sendgrid.net'
 EMAIL_HOST_USER = '{{ sendgrid_user }}'
 EMAIL_HOST_PASSWORD = '{{ sendgrid_password }}'
