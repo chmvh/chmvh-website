@@ -122,7 +122,7 @@ def remote_setup():
     sudo('ufw allow www')
     sudo('ufw allow 443/tcp')
     sudo('ufw disable')
-    sudo('ufw enable')
+    sudo('ufw --force enable')
     sudo('ufw status')
 
 
