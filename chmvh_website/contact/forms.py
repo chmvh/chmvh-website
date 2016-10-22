@@ -13,7 +13,8 @@ class ContactForm(forms.Form):
     template = loader.get_template('contact/email/message.txt')
 
     def send_email(self):
-        subject = 'Message from {}'.format(self.cleaned_data['name'])
+        subject = '[CHMVH Website] Message from {}'.format(
+            self.cleaned_data['name'])
 
         context = {
             'name': self.cleaned_data['name'],
