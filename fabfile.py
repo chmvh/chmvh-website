@@ -117,7 +117,7 @@ def remote_setup():
     # Set up firewall
     sudo('ufw --force reset')
     sudo('ufw default deny incoming')
-    sudo('ufw default deny outgoing')
+    sudo('ufw default allow outgoing')
     sudo('ufw allow ssh')
     sudo('ufw allow www')
     sudo('ufw allow 443/tcp')
