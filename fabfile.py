@@ -109,6 +109,17 @@ def remote_setup():
     _configure_nginx()
     _configure_ssl()
 
+    # Set up firewall
+    sudo('ufw reset')
+    sudo('ufw default deny incoming')
+    sudo('ufw default deny outgoing')
+    sudo('ufw allow ssh')
+    sudo('ufw allow web')
+    sudo('ufw allow 443/tcp')
+    sudo('ufw disable')
+    sudo('ufw enable')
+    sudo('ufw status')
+
 
 def update_remote():
     """Update the code on the remote machine."""
