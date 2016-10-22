@@ -23,7 +23,7 @@ class ResourceAdmin(admin.ModelAdmin):
         }),
     )
     list_display = ('title', 'category')
-    search_fields = ('title', 'category', 'description', 'url')
+    search_fields = ('title', 'category__title', 'description', 'url')
 
 
 admin.site.register(models.Category, CategoryAdmin)
