@@ -4,7 +4,7 @@ from django.conf import settings as django_settings
 from django.template import Context, Engine
 
 from fabric.api import (
-    cd, env, local, prefix, prompt, put, run, sudo)
+    cd, env, local, prefix, prompt, put, run, sudo, task)
 from fabric.contrib.console import confirm
 
 import yaml
@@ -80,6 +80,7 @@ class Credentials:
             yaml.dump(cls.credentials, f)
 
 
+@task
 def prepare_local():
     """Prepare local machine for deployment"""
     # From http://stackoverflow.com/a/11958481/3762084
@@ -96,6 +97,7 @@ def prepare_local():
                 default='master')
 
 
+@task
 def remote_setup():
     """Set up the remote machine"""
     sudo('apt-get update -y')
@@ -112,6 +114,7 @@ def remote_setup():
     _configure_ssl()
 
 
+@task
 def update_remote():
     """Update the code on the remote machine."""
     with cd('/home/chathan'):
@@ -135,6 +138,7 @@ def update_remote():
         run('chmvh_website/manage.py collectstatic -i *.scss --noinput')
 
 
+@task
 def post_update():
     """Runs after the remote machine has updated its codebase"""
     # Upload local settings
@@ -157,7 +161,9 @@ def post_update():
     sudo('systemctl restart gunicorn')
 
 
+@task
 def deploy():
+    """Automatically set up and deploy the application"""
     if not env.sudo_password:
         env.sudo_password = Credentials.get('sudo_password')
 
