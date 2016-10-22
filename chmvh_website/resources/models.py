@@ -1,3 +1,5 @@
+import re
+
 from django.db import models
 
 
@@ -54,3 +56,15 @@ class Resource(models.Model):
     def __str__(self):
         """Return the resource's title"""
         return self.title
+
+    def save(self, *args, **kwargs):
+        """Format phone number before saving"""
+        if self.phone:
+            formatted = re.sub(r'[()\-\s]', '', self.phone)
+            match = re.match(r'^[\d+]{10}$', formatted)
+
+            if match:
+                num = match.group(0)
+                self.phone = '({0}) {1}-{2}'.format(num[:3], num[3:6], num[6:])
+
+        return super(Resource, self).save(*args, **kwargs)
