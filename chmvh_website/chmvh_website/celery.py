@@ -8,7 +8,7 @@ from django.conf import settings
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'chmvh_website.settings')
 
 
-app = Celery('chmvh_website')
+app = Celery('chmvh_website', broker='amqp://guest@localhost//')
 
 app.config_from_object('django.conf:settings')
 app.autodiscover_tasks(lambda: settings.INSTALLED_APPS)

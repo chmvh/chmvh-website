@@ -5,7 +5,10 @@ from django.core.files.base import ContentFile
 
 from PIL import Image
 
+from chmvh_website import celery_app
 
+
+@celery_app.task
 def create_thumbnail(patient):
     image = Image.open(patient.picture.path)
 
