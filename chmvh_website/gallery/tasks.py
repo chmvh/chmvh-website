@@ -17,6 +17,10 @@ def create_thumbnail(patient):
         ext = 'jpg'
     elif pil_type == 'PNG':
         ext = 'png'
+    else:
+        print("Can't generate thumbnail for '{0}'".format(pil_type))
+
+        return False
 
     image.thumbnail(settings.GALLERY_THUMBNAIL_SIZE)
 
@@ -31,3 +35,5 @@ def create_thumbnail(patient):
         save=False)
 
     patient.save(update_fields=['thumbnail'])
+
+    return True

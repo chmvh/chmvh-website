@@ -179,7 +179,8 @@ def post_update():
             REMOTE_PROJECT_DIR),
         context)
 
-    # Start celery
+    # Stop celery so it can apply new settings, then start it again
+    sudo('systemctl stop celery')
     sudo('systemctl start celery')
 
     # Restart gunicorn to reflect app changes
@@ -222,7 +223,7 @@ def _configure_celery():
 
     _upload_template(
         'templates/celery.conf',
-        '/etc/conf.d/celery.conf',
+        '/etc/conf.d/celery',
         use_sudo=True)
 
     # Set up paths used for celery
