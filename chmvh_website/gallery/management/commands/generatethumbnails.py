@@ -38,7 +38,8 @@ class Command(BaseCommand):
 
         for patient in patients:
             if kwargs['overwrite'] and patient.thumbnail:
-                patient.thumbnail.delete()
+                patient.thumbnail.delete(save=False)
+                patient.save(update_fields=['thumbnail'])
 
             create_thumbnail(patient)
 
