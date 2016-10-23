@@ -39,7 +39,13 @@ def get_patient_list():
 
 
 def upload_picture(path, name):
-    fname, lname = name.rsplit(' ', 1)
+    parts = name.rsplit(' ', 1)
+    if len(parts) != 2:
+        print('\tCould not parse name {0}. Skipping.'.format(name))
+
+        return False
+
+    fname, lname = parts
     data = {
         'first_name': fname,
         'last_name': lname,
@@ -61,6 +67,8 @@ def upload_pictures(start_folder):
     existing_patients = get_patient_list()
 
     for root, dirs, files in os.walk(start_folder):
+        print("\nScanning {0}".format(root))
+
         for file in files:
             name, ext = os.path.splitext(file)
 
