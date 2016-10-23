@@ -144,6 +144,10 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 EMAIL_SUBJECT_PREFIX = '[CHMVH Website] '
 
 
+# Gallery Settings
+GALLERY_THUMBNAIL_SIZE = 450, 300
+
+
 # Config for django-sass-processor
 
 SASS_PROCESSOR_ROOT = os.path.join(BASE_DIR, 'static')
