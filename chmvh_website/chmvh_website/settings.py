@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     # Third Party Apps
+    'rest_framework',
     'sass_processor',
 
     # Custom Apps
@@ -151,6 +152,19 @@ GALLERY_THUMBNAIL_SIZE = 300, 300
 # Config for django-sass-processor
 
 SASS_PROCESSOR_ROOT = os.path.join(BASE_DIR, 'static')
+
+
+# Config for djangorestframework
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+}
 
 
 # Import local settings if they exist
