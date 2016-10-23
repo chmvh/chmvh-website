@@ -5,7 +5,8 @@ from gallery.tasks import create_thumbnail
 
 
 @receiver(post_save, sender='gallery.Patient')
-def send_notifications(sender, instance, created, *args, **kwargs):
+def send_notifications(sender, instance, update_fields, *args, **kwargs):
     """ Notify users that a reply has been posted """
     if not instance.thumbnail:
-        create_thumbnail(instance)
+        if update_fields and 'thumbnail' not in update_fields:
+            create_thumbnail(instance)

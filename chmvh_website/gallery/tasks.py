@@ -24,4 +24,7 @@ def create_thumbnail(patient):
     path = patient.picture.name.rsplit('.', 1)[0]
     patient.thumbnail.save(
         '{0}_thumbnail.{1}'.format(path, ext),
-        ContentFile(temp_handle.getvalue()))
+        ContentFile(temp_handle.getvalue()),
+        save=False)
+
+    patient.save(update_fields=['thumbnail'])
