@@ -35,6 +35,7 @@ required_packages = (
     'postgresql', 'postgresql-contrib',
     'nginx',
     'python3-dev', 'python3-pip',
+    'rabbitmq-server',
     'ufw',
     'zlib1g-dev',
 )
@@ -114,6 +115,9 @@ def remote_setup():
     _configure_nginx()
     _configure_ssl()
 
+    # Set up celery
+    _configure_celery()
+
     # Set up firewall
     sudo('ufw --force reset')
     sudo('ufw default deny incoming')
@@ -169,6 +173,9 @@ def post_update():
             REMOTE_PROJECT_DIR),
         context)
 
+    # Start celery
+    sudo('systemctl start celery')
+
     # Restart gunicorn to reflect app changes
     sudo('systemctl restart gunicorn')
 
@@ -183,6 +190,21 @@ def deploy():
     remote_setup()
     update_remote()
     post_update()
+
+
+def _configure_celery():
+    """Configure celery daemon"""
+    _upload_template(
+        'templates/celery.service',
+        '/etc/systemd/system/celery.service',
+        use_sudo=True)
+    _upload_template(
+        'templates/celery.conf',
+        '/etc/conf.d/celery.conf',
+        use_sudo=True)
+
+    # Start celery on reboot
+    sudo('systemctl enable celery')
 
 
 def _configure_database():
