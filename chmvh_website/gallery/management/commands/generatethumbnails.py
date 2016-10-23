@@ -36,12 +36,16 @@ class Command(BaseCommand):
 
         self.stdout.write('Generating {}...'.format(count_bit))
 
+        successes = 0
+
         for patient in patients:
             if kwargs['overwrite'] and patient.thumbnail:
                 patient.thumbnail.delete(save=False)
                 patient.save(update_fields=['thumbnail'])
 
-            create_thumbnail(patient)
+            if create_thumbnail(patient):
+                successes += 1
 
         self.stdout.write(self.style.SUCCESS(
-            "Successfully generated {}.".format(count_bit)))
+            "Successfully generated {0} of {1} thumbnails.".format(
+                successes, count)))
