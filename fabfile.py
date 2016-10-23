@@ -222,7 +222,7 @@ def _configure_celery():
 
     _upload_template(
         'templates/celery.conf',
-        '/etc/conf.d/celery.conf',
+        '/etc/conf.d/celery',
         use_sudo=True)
 
     # Set up paths used for celery
