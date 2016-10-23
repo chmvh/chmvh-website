@@ -23,24 +23,53 @@ LOCAL_FOLDER = input('Local folder to sync from: ')
 PICTURE_EXTENSIONS = ('jpg', 'jpeg', 'png')
 
 
-def crawl_pictures(start_folder):
-    for root, dirs, files in os.walk(LOCAL_FOLDER):
-        print("\nScanning '{0}'".format(root))
-
-        for file in files:
-            name, ext = os.path.splitext(file)
-
-            if ext.strip('.').lower() in PICTURE_EXTENSIONS:
-                print("\tFound picture '{0}'".format(name, ext))
-
-
 def get_patient_list():
     """Get a list of patients from the gallery api"""
     response = requests.get(API_URL, auth=(API_USER, API_PASSWORD))
     response.raise_for_status()
 
-    return response.json()
+    patients = []
+
+    for patient in response.json():
+        name = '{0} {1}'.format(patient['first_name'], patient['last_name'])
+
+        patients.append(name)
+
+    return patients
+
+
+def upload_picture(path, name):
+    fname, lname = name.rsplit(' ', 1)
+    data = {
+        'first_name': fname,
+        'last_name': lname,
+    }
+
+    with open(path, 'rb') as f:
+        files = {
+            'picture': f,
+        }
+
+        requests.post(
+            API_URL,
+            auth=(API_USER, API_PASSWORD),
+            data=data,
+            files=files)
+
+
+def upload_pictures(start_folder):
+    existing_patients = get_patient_list()
+
+    for root, dirs, files in os.walk(start_folder):
+        for file in files:
+            name, ext = os.path.splitext(file)
+
+            if ext.strip('.').lower() in PICTURE_EXTENSIONS:
+                if name not in existing_patients:
+                    path = os.path.join(root, file)
+
+                    upload_picture(path, name)
 
 
 if __name__ == '__main__':
-    crawl_pictures(LOCAL_FOLDER)
+    upload_pictures(LOCAL_FOLDER)
