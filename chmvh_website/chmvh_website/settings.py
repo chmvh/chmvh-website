@@ -145,7 +145,7 @@ EMAIL_SUBJECT_PREFIX = '[CHMVH Website] '
 
 
 # Gallery Settings
-GALLERY_THUMBNAIL_SIZE = 450, 300
+GALLERY_THUMBNAIL_SIZE = 300, 300
 
 
 # Config for django-sass-processor
