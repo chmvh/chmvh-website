@@ -14,6 +14,7 @@ django_settings.configure()
 
 
 BASE_PATH = os.path.dirname(os.path.abspath(__file__))
+CELERY_BIN = '/home/chathan/chmvh-website/env/bin/celery'
 CREDENTIAL_MAP = {
     'db_name': 'database name',
     'db_password': 'database password',
@@ -35,6 +36,7 @@ required_packages = (
     'postgresql', 'postgresql-contrib',
     'nginx',
     'python3-dev', 'python3-pip',
+    'rabbitmq-server',
     'ufw',
     'zlib1g-dev',
 )
@@ -119,6 +121,9 @@ def remote_setup():
     _configure_nginx()
     _configure_ssl()
 
+    # Set up celery
+    _configure_celery()
+
     # Set up firewall
     sudo('ufw --force reset')
     sudo('ufw default deny incoming')
@@ -174,6 +179,9 @@ def post_update():
             REMOTE_PROJECT_DIR),
         context)
 
+    # Start celery
+    sudo('systemctl start celery')
+
     # Restart gunicorn to reflect app changes
     sudo('systemctl restart gunicorn')
 
@@ -196,6 +204,36 @@ def deploy():
     update_remote()
     post_update()
     cleanup()
+
+
+def _configure_celery():
+    """Configure celery daemon"""
+    context = {
+        'celery_bin': CELERY_BIN,
+    }
+    _upload_template(
+        'templates/celery.service.template',
+        '/etc/systemd/system/celery.service',
+        context,
+        use_sudo=True)
+
+    # Make sure conf directory exists before uploading config
+    sudo('if ! test -d /etc/conf.d; then mkdir /etc/conf.d; fi')
+
+    _upload_template(
+        'templates/celery.conf',
+        '/etc/conf.d/celery.conf',
+        use_sudo=True)
+
+    # Set up paths used for celery
+    sudo('if ! test -d /var/log/celery; then mkdir /var/log/celery; fi')
+    sudo('chown -R chathan:www-data /var/log/celery')
+
+    sudo('if ! test -d /var/run/celery; then mkdir /var/run/celery; fi')
+    sudo('chown -R chathan:www-data /var/run/celery')
+
+    # Start celery on reboot
+    sudo('systemctl enable celery')
 
 
 def _configure_database():
