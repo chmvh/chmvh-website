@@ -23,6 +23,11 @@ LOCAL_FOLDER = input('Local folder to sync from: ')
 PICTURE_EXTENSIONS = ('jpg', 'jpeg', 'png')
 
 
+def check_deceased(path, name):
+    """Check if the patient at the given path is deceased"""
+    return "In Memoriam" in path
+
+
 def get_patient_list():
     """Get a list of patients from the gallery api"""
     response = requests.get(API_URL, auth=(API_USER, API_PASSWORD))
@@ -49,6 +54,7 @@ def upload_picture(path, name):
     data = {
         'first_name': fname,
         'last_name': lname,
+        'deceased': check_deceased(path, name),
     }
 
     with open(path, 'rb') as f:
