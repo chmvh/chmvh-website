@@ -14,6 +14,7 @@ django_settings.configure()
 
 
 BASE_PATH = os.path.dirname(os.path.abspath(__file__))
+CELERY_BIN = '/home/chathan/chmvh-website/env/bin/celery'
 CREDENTIAL_MAP = {
     'db_name': 'database name',
     'db_password': 'database password',
@@ -194,14 +195,29 @@ def deploy():
 
 def _configure_celery():
     """Configure celery daemon"""
+    context = {
+        'celery_bin': CELERY_BIN,
+    }
     _upload_template(
-        'templates/celery.service',
+        'templates/celery.service.template',
         '/etc/systemd/system/celery.service',
+        context,
         use_sudo=True)
+
+    # Make sure conf directory exists before uploading config
+    sudo('if ! test -d /etc/conf.d; then mkdir /etc/conf.d; fi')
+
     _upload_template(
         'templates/celery.conf',
         '/etc/conf.d/celery.conf',
         use_sudo=True)
+
+    # Set up paths used for celery
+    sudo('if ! test -d /var/log/celery; then mkdir /var/log/celery; fi')
+    sudo('chown -R chathan:www-data /var/log/celery')
+
+    sudo('if ! test -d /var/run/celery; then mkdir /var/run/celery; fi')
+    sudo('chown -R chathan:www-data /var/run/celery')
 
     # Start celery on reboot
     sudo('systemctl enable celery')
