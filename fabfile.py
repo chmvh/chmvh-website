@@ -35,6 +35,7 @@ required_packages = (
     'postgresql', 'postgresql-contrib',
     'nginx',
     'python3-dev', 'python3-pip',
+    'ufw',
     'zlib1g-dev',
 )
 
@@ -92,9 +93,14 @@ def prepare_local():
         if not confirm("You are trying to deploy from the '{0}' branch. "
                        "Is this what you want?".format(env.current_branch),
                        default=False):
+            env.orig_branch = env.current_branch
             env.current_branch = prompt(
                 "Enter branch to deploy from:",
                 default='master')
+
+            local('git checkout {}'.format(env.current_branch))
+
+    local('git push')
 
 
 @task
@@ -113,6 +119,17 @@ def remote_setup():
     _configure_nginx()
     _configure_ssl()
 
+    # Set up firewall
+    sudo('ufw --force reset')
+    sudo('ufw default deny incoming')
+    sudo('ufw default allow outgoing')
+    sudo('ufw allow ssh')
+    sudo('ufw allow www')
+    sudo('ufw allow 443/tcp')
+    sudo('ufw disable')
+    sudo('ufw --force enable')
+    sudo('ufw status')
+
 
 @task
 def update_remote():
@@ -129,7 +146,7 @@ def update_remote():
 
     # Clear out static files
     with cd(REMOTE_PROJECT_DIR):
-        run('rm -rf chmvh_websites/staticfiles')
+        run('rm -rf chmvh_website/staticfiles')
 
     # Run migrations and collect static files
     with cd(REMOTE_PROJECT_DIR), prefix('source env/bin/activate'):
@@ -162,6 +179,13 @@ def post_update():
 
 
 @task
+def cleanup():
+    """Clean up local machine after deployment"""
+    if env.get('orig_branch'):
+        local('git checkout {}'.format(env.orig_branch))
+
+
+@task
 def deploy():
     """Automatically set up and deploy the application"""
     if not env.sudo_password:
@@ -171,6 +195,7 @@ def deploy():
     remote_setup()
     update_remote()
     post_update()
+    cleanup()
 
 
 def _configure_database():

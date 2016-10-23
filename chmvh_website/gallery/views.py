@@ -14,7 +14,8 @@ def patient_context():
 
     categories = []
     for letter in ALPHABET:
-        if models.Patient.objects.filter(first_letter=letter).exists():
+        if models.Patient.objects.filter(
+                deceased=False, first_letter=letter).exists():
             categories.append(letter)
     context['pet_categories'] = categories
 

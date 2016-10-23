@@ -17,14 +17,19 @@
 
             <div class='elist-item'>
               <h3 class='elist-item__title'>{{ resource.title }}</h3>
-              <p class='elist-item__description'>
-                {{ resource.description }}
-              </p>
+
+              {% if resource.description %}
+
+                <div class='elist-item__description'>
+                  {{ resource.description|linebreaks }}
+                </div>
+
+              {% endif %}
 
               {% if resource.address %}
 
                 <div class='elist-item__address'>
-                  <i class='fa fa-map-marker'></i><p>{{ resource.address|linebreaks }}</p>
+                  <i class='fa fa-map-marker'></i><div>{{ resource.address|linebreaks }}</div>
                 </div>
 
               {% endif %}
@@ -32,7 +37,7 @@
               {% if resource.phone %}
 
                 <p class='elist-item__phone'>
-                  <i class='fa fa-phone'></i> {{ resource.phone }}
+                  <i class='fa fa-phone'></i>{{ resource.phone }}
                 </p>
 
               {% endif %}
@@ -40,7 +45,7 @@
               {% if resource.email %}
 
                 <p class='elist-item__email'>
-                  <i class='fa fa-envelope'></i> <a href='mailto:{{ resource.email }}' target='_blank'>{{ resource.email }}</a>
+                  <i class='fa fa-envelope'></i><a href='mailto:{{ resource.email }}' target='_blank'>{{ resource.email }}</a>
                 </p>
 
               {% endif %}

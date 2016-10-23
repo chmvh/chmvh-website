@@ -17,12 +17,18 @@ from django.conf import settings
 from django.conf.urls import include, url
 from django.conf.urls.static import static
 from django.contrib import admin
+from django.contrib.sitemaps.views import sitemap
+
+from chmvh_website.sitemaps import sitemaps
+
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^contact/', include('contact.urls', namespace='contact')),
     url(r'^gallery/', include('gallery.urls', namespace='gallery')),
     url(r'^resources/', include('resources.urls', namespace='resources')),
+    url(r'^sitemap\.xml$', sitemap, {'sitemaps': sitemaps},
+        name='django.contrib.sitemaps.views.sitemap'),
     url(r'^', include('staticpages.urls')),
 ]
 
