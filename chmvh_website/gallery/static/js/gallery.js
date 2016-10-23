@@ -13,22 +13,25 @@ function resizeWhich(img) {
 $(document).ready(function() {
     $('.gallery__item').css('cursor', 'pointer');
     $('.gallery__item').click(function() {
-        var img = $(this).find('img');
+        var thumb = $(this).find('img');
+        var fullImg = $('<img />').attr('src', thumb.data('full-size'));
 
-        $.featherlight(img, {
+        $.featherlight(fullImg, {
             onResize: function() {
                 var img = $('.featherlight-inner').removeClass('gallery__img');
 
                 var prop = resizeWhich(img);
+                var winHeight = window.innerHeight;
+                var winWidth = window.innerWidth;
                 var parent = img.parent();
                 var padding = parseInt(parent.css('padding-top'));
 
                 if (prop === 'height') {
-                    var newHeight = parent.innerHeight() - 2 * padding;
-                    img.css('height', newHeight + 'px');
+                    var newHeight = (winHeight * .95) - 2 * padding - 1;
+                    img.css('max-height', newHeight + 'px');
                 } else {
-                    var newWidth = parent.innerWidth() - 2 * padding;
-                    img.css('width', newWidth + 'px');
+                    var newWidth = (winWidth * .95) - 2 * padding - 1;
+                    img.css('max-width', newWidth + 'px');
                 }
             }
         });
