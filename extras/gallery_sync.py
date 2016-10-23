@@ -13,9 +13,10 @@ import os
 import requests
 
 
-API_URL = 'http://localhost:8000/gallery/api/patients/'
+DOMAIN = input('Enter base site domain (eg http://example.com): ')
+API_URL = '{0}/gallery/api/patients/'.format(DOMAIN)
 
-API_USER = 'chathan'
+API_USER = input('API User: ')
 API_PASSWORD = getpass('API Password: ')
 
 LOCAL_FOLDER = input('Local folder to sync from: ')
