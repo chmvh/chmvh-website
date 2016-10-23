@@ -3,7 +3,7 @@ SECRET_KEY = '{{ secret_key }}'
 DEBUG = False
 
 ALLOWED_HOSTS = [
-    '{{ domain_name }}',
+    '.{{ domain_name }}',
 ]
 
 # Cookie Settings
