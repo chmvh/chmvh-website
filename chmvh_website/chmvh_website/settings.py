@@ -154,6 +154,19 @@ GALLERY_THUMBNAIL_SIZE = 300, 300
 SASS_PROCESSOR_ROOT = os.path.join(BASE_DIR, 'static')
 
 
+# Config for djangorestframework
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+}
+
+
 # Import local settings if they exist
 try:
     from chmvh_website.local_settings import *      # noqa
