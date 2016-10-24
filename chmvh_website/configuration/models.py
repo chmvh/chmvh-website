@@ -9,6 +9,12 @@ class PracticeInfo(SingletonModel):
         help_text=("This affects the text displayed on the 'Hours and Area' "
                    "page."),
         verbose_name='accepting new clients')
+    accepting_clients_text = models.TextField(
+        blank=True,
+        default='',
+        help_text=("This text is displayed on the 'Hours and Area' page when "
+                   "'Accepting new clients' is checked."),
+        verbose_name='accepting new clients message')
     address = models.TextField(
         blank=True,
         default='',
@@ -22,6 +28,12 @@ class PracticeInfo(SingletonModel):
         default='',
         max_length=17,
         verbose_name='practice fax number')
+    not_accepting_clients_text = models.TextField(
+        blank=True,
+        default='',
+        help_text=("This text is displayed on the 'Hours and Area' page when "
+                   "'Accepting new clients' is <strong>not</strong> checked."),
+        verbose_name='not accepting new clients message')
     phone = models.CharField(
         blank=True,
         default='',

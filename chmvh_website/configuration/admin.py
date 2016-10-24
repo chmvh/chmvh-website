@@ -12,6 +12,12 @@ class PracticeInfoAdmin(SingletonModelAdmin):
                 'accepting_clients', 'address', 'email', 'phone', 'fax'
             ),
         }),
+        ('Edit Conditional Messages', {
+            'classes': ('collapse',),
+            'fields': (
+                'accepting_clients_text', 'not_accepting_clients_text'
+            ),
+        }),
     )
 
 
