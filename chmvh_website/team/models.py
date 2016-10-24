@@ -1,8 +1,12 @@
+import os
+
 from django.db import models
 
 
 def team_member_image_name(instance, filename):
-    return 'team/{0}'.format(instance.name)
+    _, ext = os.path.splitext(filename)
+
+    return 'team/{0}{1}'.format(instance.name, ext)
 
 
 class TeamMember(models.Model):
