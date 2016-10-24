@@ -2,7 +2,7 @@ SECRET_KEY = '{{ secret_key }}'
 
 DEBUG = False
 
-ADMINS = {{ django_admins|safe }}
+ADMINS = (('{{ django_admin_name }}', '{{ django_admin_email }}'),)
 
 ALLOWED_HOSTS = [
     '.{{ domain_name }}',
