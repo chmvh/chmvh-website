@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'gallery',
     'resources',
     'staticpages',
+    'team',
 ]
 
 MIDDLEWARE = [
