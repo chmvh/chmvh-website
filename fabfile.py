@@ -19,11 +19,13 @@ CREDENTIAL_MAP = {
     'db_name': 'database name',
     'db_password': 'database password',
     'db_user': 'database user',
+    'django_admins': 'Django admins, as valid python',
     'secret_key': 'Django secret key',
     'sendgrid_password': 'SendGrid password',
     'sendgrid_user': 'SendGrid username',
     'sudo_password': 'sudo password',
 }
+DJANGO_LOG_FILE = '/var/log/django/logfile'
 REMOTE_PROJECT_DIR = '/home/chathan/chmvh-website'
 REPOSITORY_URL = 'https://github.com/cdriehuys/chmvh-website'
 
@@ -168,6 +170,8 @@ def post_update():
         'db_name': Credentials.get('db_name'),
         'db_password': Credentials.get('db_password'),
         'db_user': Credentials.get('db_user'),
+        'django_admins': Credentials.get('django_admins'),
+        'django_log_file': DJANGO_LOG_FILE,
         'domain_name': env.host,
         'secret_key': Credentials.get('secret_key'),
         'sendgrid_password': Credentials.get('sendgrid_password'),
