@@ -42,8 +42,10 @@ INSTALLED_APPS = [
     # Third Party Apps
     'rest_framework',
     'sass_processor',
+    'solo',
 
     # Custom Apps
+    'configuration',
     'contact',
     'gallery',
     'resources',
@@ -73,6 +75,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'configuration.context_processors.practice_info',
             ],
         },
     },

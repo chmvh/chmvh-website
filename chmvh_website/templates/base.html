@@ -69,12 +69,23 @@
             <div>
               <strong>Dr. Sunita Driehuys</strong>
             </div>
-            <div>
-              <a href='mailto:info@chapelhilvet.com' target='_blank'>info@chapelhillvet.com</a>
-            </div>
-            <div>
-              (919) 357-3440
-            </div>
+
+            {% if practice_info.email %}
+
+              <div>
+                <a href='mailto: {{ practice_info.email }}' target='_blank'>{{ practice_info.email }}</a>
+              </div>
+
+            {% endif %}
+
+            {% if practice_info.phone %}
+
+              <div>
+                {{ practice_info.phone }}
+              </div>
+
+            {% endif %}
+
           </div>
 
           <div class='footer__copyright'>

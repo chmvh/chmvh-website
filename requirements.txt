@@ -2,6 +2,7 @@ celery
 django ~= 1.10
 django-compressor
 django-sass-processor
+django-solo
 djangorestframework
 gunicorn
 pillow
