@@ -351,6 +351,7 @@ def _set_up_ssl():
         '-a webroot',
         '--agree-tos',
         '-d {0}'.format(env.host),
+        '-d www.{0}'.format(env.host),
         '--email cdriehuys@gmail.com',
         '--webroot-path=/var/www/chmvh-website/html',
     ))
