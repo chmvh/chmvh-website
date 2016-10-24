@@ -39,3 +39,10 @@ class PracticeInfo(SingletonModel):
         default='',
         max_length=17,
         verbose_name='practice phone number')
+
+    class Meta:
+        verbose_name = 'practice information'
+
+    def __str__(self):
+        """Return the model's verbose name"""
+        return self._meta.verbose_name.title()
