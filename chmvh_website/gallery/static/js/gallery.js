@@ -1,12 +1,28 @@
-function resizeWhich(img) {
+function calcMaxHeight(parent) {
+    var winHeight = window.innerHeight;
+    var padding = parseInt(parent.css('padding-top')) + parseInt(parent.css('margin-top'));
+
+    return (winHeight * .95) - (2 * padding) - 1;
+}
+
+function calcMaxWidth(parent) {
+    var winWidth = window.innerWidth;
+    var padding = parseInt(parent.css('padding-left')) + parseInt(parent.css('margin-left'));
+
+    return (winWidth * .95) - (2 * padding) - 1;
+}
+
+function resizeImg(img) {
     img.removeAttr('style');
 
-    if (window.innerWidth / img.width() < window.innerHeight / img.height()) {
-        return 'width';
-        console.log('Set width to 100%')
+    var parent = img.parent();
+    var maxHeight = calcMaxHeight(parent);
+    var maxWidth = calcMaxWidth(parent);
+
+    if (maxWidth / img.width() < maxHeight / img.height()) {
+        img.css('max-width', maxWidth + 'px');
     } else {
-        return 'height';
-        console.log('Set height to 100%')
+        img.css('max-height', maxHeight + 'px');
     }
 }
 
@@ -17,22 +33,12 @@ $(document).ready(function() {
         var fullImg = $('<img />').attr('src', thumb.data('full-size'));
 
         $.featherlight(fullImg, {
+            beforeOpen: function() {
+                $('.featherlight-inner').removeClass('gallery__img');
+            },
             onResize: function() {
-                var img = $('.featherlight-inner').removeClass('gallery__img');
-
-                var prop = resizeWhich(img);
-                var winHeight = window.innerHeight;
-                var winWidth = window.innerWidth;
-                var parent = img.parent();
-                var padding = parseInt(parent.css('padding-top'));
-
-                if (prop === 'height') {
-                    var newHeight = (winHeight * .95) - 2 * padding - 1;
-                    img.css('max-height', newHeight + 'px');
-                } else {
-                    var newWidth = (winWidth * .95) - 2 * padding - 1;
-                    img.css('max-width', newWidth + 'px');
-                }
+                var img = $('.featherlight-inner');
+                resizeImg(img);
             }
         });
     });
