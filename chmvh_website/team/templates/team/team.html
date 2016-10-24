@@ -1,0 +1,38 @@
+{% extends 'team/base.html' %}
+
+{% load static %}
+
+
+{% block content %}
+
+  <div class='container'>
+    <h1 class='text-center'>Meet The Team!</h1>
+
+    <div class='divider'></div>
+
+    {% for member in team_members %}
+
+      <div class='team-member'>
+        <h2 class='team-member__name'>{{ member.name }}</h2>
+
+        {% if member.picture %}
+
+          <img class='team-member__image' src='{{ member.picture.url }}' alt='{{ member.name }}' />
+
+        {% endif %}
+
+        <div class='team-member__description'>
+          {{ member.bio|linebreaks }}
+        </div>
+      </div>
+
+      {% if not forloop.last %}
+
+        <div class='divider'></div>
+
+      {% endif %}
+    {% endfor %}
+
+  </div>
+
+{% endblock %}
