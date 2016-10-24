@@ -41,7 +41,15 @@
 
     <h2>Service Area</h2>
 
-    <p><strong>We are not currently accepting new clients.</strong></p>
+    {% if practice_info.accepting_clients and practice_info.accepting_clients_text %}
+
+      <div>{{ practice_info.accepting_clients_text|linebreaks }}</div>
+
+    {% elif not practice_info.accepting_clients and practice_info.not_accepting_clients_text %}
+
+      <div>{{ practice_info.not_accepting_clients_text }}</div>
+
+    {% endif %}
 
     <div class='map-canvas' id='map-canvas'></div>
   </div>
