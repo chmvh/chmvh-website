@@ -16,10 +16,15 @@ class TeamMember(models.Model):
         max_length=50,
         unique=True,
         verbose_name='name')
+    order = models.PositiveSmallIntegerField(
+        default=0)
     picture = models.ImageField(
         blank=True,
         null=True,
         upload_to=team_member_image_name)
+
+    class Meta:
+        ordering = ('order',)
 
     def __str__(self):
         """Return the team member's name"""
