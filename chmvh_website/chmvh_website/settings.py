@@ -42,8 +42,10 @@ INSTALLED_APPS = [
     # Third Party Apps
     'rest_framework',
     'sass_processor',
+    'solo',
 
     # Custom Apps
+    'configuration',
     'contact',
     'gallery',
     'resources',
