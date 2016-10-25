@@ -1,7 +1,14 @@
+import logging
+
+from smtplib import SMTPException
+
 from django import forms
 from django.conf import settings
 from django.core import mail
 from django.template import loader
+
+
+logger = logging.getLogger('chmvh_website.{0}'.format(__name__))
 
 
 class ContactForm(forms.Form):
@@ -22,11 +29,20 @@ class ContactForm(forms.Form):
             'message': self.cleaned_data['message'],
         }
 
-        emails_sent = mail.send_mail(
-            subject,
-            self.template.render(context),
-            settings.DEFAULT_FROM_EMAIL,
-            ['info@chapelhillvet.com'],
-            fail_silently=True)
+        logger.debug("Preparing to send email")
+
+        try:
+            emails_sent = mail.send_mail(
+                subject,
+                self.template.render(context),
+                settings.DEFAULT_FROM_EMAIL,
+                ['info@chapelhillvet.com'])
+
+            logger.info("Succesfully sent email from {0}".format(
+                self.cleaned_data['email']))
+        except SMTPException as e:
+            emails_sent = 0
+
+            logger.exception("Failed to send email.", exc_info=e)
 
         return emails_sent == 1

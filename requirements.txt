@@ -1,7 +1,9 @@
 celery
 django ~= 1.10
+django-admin-sortable2
 django-compressor
 django-sass-processor
+django-solo
 djangorestframework
 gunicorn
 pillow

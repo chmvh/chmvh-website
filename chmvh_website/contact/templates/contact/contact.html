@@ -63,28 +63,44 @@
       <div class='contact-info'>
         <h2>Contact Info</h2>
 
-        <div class='contact-info__item'>
-          <i class='fa fa-map-marker'></i>
-          <div>
-            <p>111 Graylyn Drive</p>
-            <p>Chapel Hill, NC 27516</p>
+        {% if practice_info.address %}
+
+          <div class='contact-info__item'>
+            <i class='fa fa-map-marker'></i>
+            <div>
+              {{ practice_info.address|linebreaks }}
+            </div>
           </div>
-        </div>
 
-        <div class='contact-info__item'>
-          <i class='fa fa-envelope'></i>
-          <p><a href='mailto:info@chapelhillvet.com' target='_blank'>info@chapelhillvet.com</a></p>
-        </div>
+        {% endif %}
 
-        <div class='contact-info__item'>
-          <i class='fa fa-phone'></i>
-          <p>(919)&nbsp;357-3440</p>
-        </div>
+        {% if practice_info.email %}
 
-        <div class='contact-info__item'>
-          <i class='fa fa-fax'></i>
-          <p>(866)&nbsp;422-8401</p>
-        </div>
+          <div class='contact-info__item'>
+            <i class='fa fa-envelope'></i>
+            <p><a href='mailto:{{ practice_info.email }}' target='_blank'>{{ practice_info.email }}</a></p>
+          </div>
+
+        {% endif %}
+
+        {% if practice_info.phone %}
+
+          <div class='contact-info__item'>
+            <i class='fa fa-phone'></i>
+            <p>{{ practice_info.phone }}</p>
+          </div>
+
+        {% endif %}
+
+        {% if practice_info.fax %}
+
+          <div class='contact-info__item'>
+            <i class='fa fa-fax'></i>
+            <p>{{ practice_info.fax }}</p>
+          </div>
+
+        {% endif %}
+
     </div>
   </div>
 

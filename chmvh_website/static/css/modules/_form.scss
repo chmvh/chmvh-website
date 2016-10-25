@@ -62,7 +62,12 @@
     background: none;
     border: 0;
     border-bottom: $form-input-border;
+    margin: $form-search-input-margin;
     width: 100%;
+
+    @include media($tablet-up) {
+      margin: $form-search-input-margin-tablet;
+    }
 
     &:focus {
       border-bottom: $form-input-border-focused;
