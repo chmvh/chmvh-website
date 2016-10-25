@@ -128,7 +128,7 @@ def remote_setup():
     _configure_celery()
 
     # Create django log directory
-    log_dir = os.path.split(DJANGO_LOG_FILE)
+    log_dir, log_file = os.path.split(DJANGO_LOG_FILE)
     sudo('if ! test -d {0}; then mkdir -p {0}; fi'.format(log_dir))
     sudo('chown -R chathan:www-data {0}'.format(log_dir))
 
