@@ -12,13 +12,13 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.AlterModelOptions(
-            name='teammember',
-            options={'ordering': ('order',)},
-        ),
         migrations.AddField(
             model_name='teammember',
             name='order',
             field=models.PositiveSmallIntegerField(default=0),
+        ),
+        migrations.AlterModelOptions(
+            name='teammember',
+            options={'ordering': ('order',)},
         ),
     ]
