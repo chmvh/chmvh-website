@@ -19,11 +19,8 @@ function resizeImg(img) {
     var maxHeight = calcMaxHeight(parent);
     var maxWidth = calcMaxWidth(parent);
 
-    if (maxWidth / img.width() < maxHeight / img.height()) {
-        img.css('max-width', maxWidth + 'px');
-    } else {
-        img.css('max-height', maxHeight + 'px');
-    }
+    img.css('max-width', maxWidth + 'px');
+    img.css('max-height', maxHeight + 'px');
 }
 
 $(document).ready(function() {
