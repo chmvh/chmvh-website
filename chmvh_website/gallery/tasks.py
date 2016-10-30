@@ -28,10 +28,9 @@ def create_thumbnail(patient, logger=default_logger):
     elif pil_type == 'PNG':
         ext = 'png'
     else:
-        logger.warning(_INVALID_FORMAT_ERROR.format({
-            'path': patient.picture.path,
-            'type': pil_type,
-        }))
+        logger.warning(_INVALID_FORMAT_ERROR.format(
+            path=patient.picture.path,
+            type=pil_type))
 
         return False
 
