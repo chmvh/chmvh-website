@@ -157,18 +157,8 @@ def update_remote():
         run('rm -rf chmvh_website/chmvh_website/local_settings.py')
         run('rm -rf chmvh_website/staticfiles')
 
-    # Run migrations and collect static files
-    with cd(REMOTE_PROJECT_DIR), prefix('source env/bin/activate'):
-        run('chmvh_website/manage.py migrate')
-        run('chmvh_website/manage.py compilescss')
-        run('chmvh_website/manage.py collectstatic -i *.scss --noinput')
-
-
-@task
-def post_update():
-    """Runs after the remote machine has updated its codebase"""
     # Upload local settings
-    context = Context({
+    context = {
         'db_name': Credentials.get('db_name'),
         'db_password': Credentials.get('db_password'),
         'db_user': Credentials.get('db_user'),
@@ -179,12 +169,23 @@ def post_update():
         'secret_key': Credentials.get('secret_key'),
         'sendgrid_password': Credentials.get('sendgrid_password'),
         'sendgrid_user': Credentials.get('sendgrid_user'),
-    })
+    }
     _upload_template(
         'templates/local_settings.py.template',
         '{}/chmvh_website/chmvh_website/local_settings.py'.format(
             REMOTE_PROJECT_DIR),
         context)
+
+    # Run migrations and collect static files
+    with cd(REMOTE_PROJECT_DIR), prefix('source env/bin/activate'):
+        run('chmvh_website/manage.py migrate')
+        run('chmvh_website/manage.py compilescss')
+        run('chmvh_website/manage.py collectstatic -i *.scss --noinput')
+
+
+@task
+def post_update():
+    """Runs after the remote machine has updated its codebase"""
 
     # Stop celery so it can apply new settings, then start it again
     sudo('systemctl stop celery')
