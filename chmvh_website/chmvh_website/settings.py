@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'solo',
 
     # Custom Apps
+    'common',
     'configuration',
     'contact',
     'gallery',
