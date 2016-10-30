@@ -76,6 +76,11 @@ class Patient(models.Model):
     class Meta:
         ordering = ('first_name', 'last_name')
 
+    def __str__(self):
+        """Return the patients name"""
+        return '{fname} {lname}'.format(
+            fname=self.first_name, lname=self.last_name).strip()
+
     def save(self, *args, **kwargs):
         self.first_letter = self.first_name[0].upper()
 
