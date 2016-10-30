@@ -1,6 +1,6 @@
 server {
     client_max_body_size 5M;
-    listen 80 default_server;
+    listen 80;
     server_name {{ domain_name }};
     return 301 https://$server_name$request_uri;
 }
