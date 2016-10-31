@@ -1,23 +1,11 @@
-import logging
 from smtplib import SMTPException
 from unittest import mock
 
 from django.core import mail
 from django.template import loader
 
-import pytest
-
 from common.testing_utils import disable_logging
 from contact.forms import ContactForm
-
-
-@pytest.fixture
-def contact_info():
-    return {
-        'name': 'John Doe',
-        'email': 'johndoe@example.com',
-        'message': 'Test message content.',
-    }
 
 
 class TestContactForm(object):
