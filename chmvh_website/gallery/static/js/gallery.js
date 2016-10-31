@@ -2,14 +2,14 @@ function calcMaxHeight(parent) {
     var winHeight = window.innerHeight;
     var padding = parseInt(parent.css('padding-top')) + parseInt(parent.css('margin-top'));
 
-    return (winHeight * .95) - (2 * padding) - 1;
+    return parseInt((winHeight * .95) - (2 * padding) - 1);
 }
 
 function calcMaxWidth(parent) {
     var winWidth = window.innerWidth;
     var padding = parseInt(parent.css('padding-left')) + parseInt(parent.css('margin-left'));
 
-    return (winWidth * .95) - (2 * padding) - 1;
+    return parseInt((winWidth * .95) - (2 * padding) - 1);
 }
 
 function resizeImg(img) {
