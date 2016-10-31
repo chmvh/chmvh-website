@@ -30,7 +30,12 @@
           {% for pet in featured_pets %}
 
             <div class='slider__item'>
-              <h4 class='slider__caption'>{{ pet.first_name }}</h4>
+              <h4 class='slider__title'>{{ pet.first_name }}</h4>
+
+              {% if pet.description %}
+                <p class='slider__description'>{{ pet.description }}</p>
+              {% endif %}
+
               <img class='slider__img' src='{{ pet.picture.url }}' alt='{{ pet.first_name }}' />
             </div>
 

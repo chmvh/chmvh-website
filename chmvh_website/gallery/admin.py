@@ -8,7 +8,8 @@ class PatientAdmin(admin.ModelAdmin):
     fieldsets = (
         (None, {
             'fields': (
-                'first_name', 'last_name', 'picture', 'featured', 'deceased'
+                'first_name', 'last_name', 'description', 'picture',
+                'featured', 'deceased'
             )
         }),
     )

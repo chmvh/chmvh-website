@@ -1,5 +1,6 @@
 .slider {
-  @include element('caption') {
+  @include element('description') {
+    margin-top: 0;
     text-align: center;
   }
 
@@ -7,6 +8,11 @@
     height: auto;
     margin: 0 auto;
     max-width: 100%;
+  }
+
+  @include element('title') {
+    margin-bottom: $slider-title-margin-bottom;
+    text-align: center;
   }
 
   @include element('wrapper') {
