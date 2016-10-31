@@ -20,6 +20,8 @@ class ContactForm(forms.Form):
     template = loader.get_template('contact/email/message.txt')
 
     def send_email(self):
+        assert self.is_valid()
+
         subject = '[CHMVH Website] Message from {}'.format(
             self.cleaned_data['name'])
 
