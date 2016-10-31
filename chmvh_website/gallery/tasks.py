@@ -107,9 +107,17 @@ def process_patient_picture(patient, logger=default_logger):
 
             changed = orientation in (3, 6, 8)
 
-    image.save(patient.picture.path, pil_type)
+    try:
+        image.save(patient.picture.path, pil_type)
+    except OSError as e:
+        logger.exception(
+            "Failed to save {file_path}".format(
+                file_path=patient.picture.path),
+            exc_info=e)
+
+        return False
 
     if changed or not patient.thumbnail:
-        create_thumbnail.delay(patient)
+        return create_thumbnail(patient)
 
     return True
