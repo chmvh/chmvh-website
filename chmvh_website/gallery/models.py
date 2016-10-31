@@ -59,26 +59,12 @@ class Patient(models.Model):
         max_length=100,
         verbose_name='last name')
     picture = models.ImageField(
-        height_field='picture_height',
         upload_to=patient_image_path,
-        verbose_name='picture',
-        width_field='picture_width')
-    picture_height = models.IntegerField(
-        verbose_name='picture height')
-    picture_width = models.IntegerField(
-        verbose_name='picture width')
+        verbose_name='picture')
     thumbnail = models.ImageField(
-        height_field='thumbnail_height',
         null=True,
         upload_to=patient_thumbnail_path,
-        verbose_name='picture thumbnail',
-        width_field='thumbnail_width')
-    thumbnail_height = models.IntegerField(
-        null=True,
-        verbose_name='picture thumbnail height')
-    thumbnail_width = models.IntegerField(
-        null=True,
-        verbose_name='picture thumbnail width')
+        verbose_name='picture thumbnail')
 
     class Meta:
         ordering = ('first_name', 'last_name')
