@@ -5,3 +5,5 @@ fabric3
 flake8
 libsass
 pyaml
+pytest
+pytest-django
