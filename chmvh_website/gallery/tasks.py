@@ -69,9 +69,14 @@ def process_patient_picture(patient, logger=default_logger):
 
     image = Image.open(patient.picture.path)
 
+    # Keep track of if we changed the original image. If we did, we
+    # need to update the thumbnail as well.
+    changed = False
+
     pil_type = image.format
     if pil_type in ('JPEG', 'MPO'):
         pil_type = 'JPEG'   # Saving it as a jpeg makes it easier to process
+        changed = True
     else:
         # No need to process any other files
         return
@@ -100,9 +105,11 @@ def process_patient_picture(patient, logger=default_logger):
             elif orientation == 8:
                 image = image.rotate(90, expand=True)
 
+            changed = orientation in (3, 6, 8)
+
     image.save(patient.picture.path, pil_type)
 
-    if not patient.thumbnail:
+    if changed or not patient.thumbnail:
         create_thumbnail.delay(patient)
 
     return True
