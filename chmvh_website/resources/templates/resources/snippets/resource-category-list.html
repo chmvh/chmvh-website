@@ -1,3 +1,6 @@
+{% load common %}
+
+
 {% if categories %}
 
   <div class='resource-categories'>
@@ -37,7 +40,7 @@
               {% if resource.phone %}
 
                 <p class='elist-item__phone'>
-                  <i class='fa fa-phone'></i>{{ resource.phone }}
+                  <i class='fa fa-phone'></i>{% phone_number resource.phone %}
                 </p>
 
               {% endif %}

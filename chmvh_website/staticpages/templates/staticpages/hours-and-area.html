@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 
+{% load common %}
 {% load static %}
 
 
@@ -12,7 +13,7 @@
       <div class='two-col-layout__col'>
         <h2>Hours</h2>
         <p>
-          Dr. Driehuys is available by phone at {{ practice_info.phone }} and email at
+          Dr. Driehuys is available by phone at {% phone_number practice_info.phone %} and email at
           <a href='mailto:{{ practice_info.email }}' target='_blank'>{{ practice_info.email }}</a>
           weekdays from 8&nbsp;a.m.&nbsp;&ndash;&nbsp;6&nbsp;p.m. Appointments
           can be scheduled at mutually convenient times during weekdays.
