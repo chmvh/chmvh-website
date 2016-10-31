@@ -8,3 +8,4 @@ djangorestframework
 gunicorn
 pillow
 psycopg2
+tqdm
