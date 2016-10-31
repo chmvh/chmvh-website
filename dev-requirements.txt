@@ -1,6 +1,7 @@
 -r requirements.txt
 
 bumpversion
+coverage
 fabric3
 flake8
 libsass

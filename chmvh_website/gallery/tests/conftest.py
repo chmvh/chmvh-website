@@ -7,7 +7,8 @@ import pytest
 def patient_info():
     image = SimpleUploadedFile(
         name='test_image.jpg',
-        content='',
+        content=open(
+            'gallery/tests/fixtures/images/test_picture.jpg', 'rb').read(),
         content_type='image/jpeg')
 
     return {
