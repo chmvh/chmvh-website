@@ -3,7 +3,7 @@
   {% for pet in pets %}
 
     <div class='gallery__item'>
-      <img class='gallery__img' src='{{ pet.picture.url }}' alt='{{ pet.first_name }}'>
+      <img class='gallery__img' src='{% if pet.thumbnail %}{{ pet.thumbnail.url }}{% else %}{{ pet.picture.url }}{% endif %}' alt='{{ pet.first_name }}' data-full-size='{{ pet.picture.url }}' />
       <p class='gallery__item-title'>{{ pet.first_name }}</p>
     </div>
 
