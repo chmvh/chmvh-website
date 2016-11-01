@@ -4,11 +4,10 @@ from django.core.management import call_command
 import pytest
 
 
-@pytest.fixture(scope='session')
-def featured_pets(django_db_blocker):
+@pytest.fixture(scope='function')
+def featured_pets(db):
     """Populate the database with test data."""
-    with django_db_blocker.unblock():
-        call_command('loaddata', 'gallery/tests/fixtures/featured-pets.json')
+    call_command('loaddata', 'gallery/tests/fixtures/featured-pets.json')
 
 
 @pytest.fixture(scope='module')
@@ -29,8 +28,7 @@ def patient_info():
     }
 
 
-@pytest.fixture(scope='session')
-def pets(django_db_blocker):
+@pytest.fixture(scope='function')
+def pets(db):
     """Populate the database with pet data"""
-    with django_db_blocker.unblock():
-        call_command('loaddata', 'gallery/tests/fixtures/pets.json')
+    call_command('loaddata', 'gallery/tests/fixtures/pets.json')
