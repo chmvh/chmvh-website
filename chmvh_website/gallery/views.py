@@ -50,10 +50,10 @@ class GalleryIndexView(BasePatientView, generic.base.TemplateView):
 class PetListView(BasePatientView, generic.base.TemplateView):
     template_name = 'gallery/pet-list.html'
 
-    def get_context_data(self, *args, **kwargs):
+    def get_context_data(self, first_letter, *args, **kwargs):
         context = super(PetListView, self).get_context_data(*args, **kwargs)
 
-        letter = self.kwargs.get('first_letter').upper()
+        letter = first_letter.upper()
         context['category'] = letter
 
         pets = models.Patient.objects.filter(
