@@ -79,20 +79,23 @@ class PetMemoriamView(BasePatientView, generic.base.TemplateView):
         return context
 
 
-class PetSearchView(BasePatientView, generic.base.TemplateView):
+class PatientSearchView(BasePatientView, generic.base.TemplateView):
     template_name = 'gallery/search.html'
 
     def get_context_data(self, *args, **kwargs):
-        context = super(PetSearchView, self).get_context_data(*args, **kwargs)
+        context = super(PatientSearchView, self).get_context_data(*args, **kwargs)
 
         query = self.request.GET.get('q')
         context['query'] = query
 
-        pets = models.Patient.objects.filter(
-            reduce(
-                lambda q, f: q & Q(first_name__icontains=f),
-                query.split(),
-                Q()))
+        if query:
+            pets = models.Patient.objects.filter(
+                reduce(
+                    lambda q, f: q & Q(first_name__icontains=f),
+                    query.split(),
+                    Q()))
+        else:
+            pets = []
         context['pets'] = pets
 
         return context
