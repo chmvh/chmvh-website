@@ -1,6 +1,14 @@
 from django.core.files.uploadedfile import SimpleUploadedFile
+from django.core.management import call_command
 
 import pytest
+
+
+@pytest.fixture(scope='session')
+def featured_pets(django_db_blocker):
+    """Populate the database with test data."""
+    with django_db_blocker.unblock():
+        call_command('loaddata', 'gallery/tests/fixtures/featured-pets.json')
 
 
 @pytest.fixture(scope='module')

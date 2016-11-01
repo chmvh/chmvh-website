@@ -1,0 +1,58 @@
+[
+  {
+    "model": "gallery.patient",
+    "pk": 10,
+    "fields": {
+      "deceased": false,
+      "description": "Top notch fetcher.",
+      "featured": true,
+      "first_letter": "B",
+      "first_name": "Bailey",
+      "last_name": "",
+      "picture": "patients/B/Bailey.JPG",
+      "thumbnail": ""
+    }
+  },
+  {
+    "model": "gallery.patient",
+    "pk": 11,
+    "fields": {
+      "deceased": false,
+      "description": "Always looking for belly rubs.",
+      "featured": true,
+      "first_letter": "B",
+      "first_name": "Bella",
+      "last_name": "",
+      "picture": "patients/B/Bella.JPG",
+      "thumbnail": ""
+    }
+  },
+  {
+    "model": "gallery.patient",
+    "pk": 12,
+    "fields": {
+      "deceased": false,
+      "description": "Maximum friendliness.",
+      "featured": false,
+      "first_letter": "M",
+      "first_name": "Max",
+      "last_name": "",
+      "picture": "patients/M/Max.JPG",
+      "thumbnail": ""
+    }
+  },
+  {
+    "model": "gallery.patient",
+    "pk": 13,
+    "fields": {
+      "deceased": false,
+      "description": "Loves chew toys.",
+      "featured": true,
+      "first_letter": "L",
+      "first_name": "Lucy",
+      "last_name": "",
+      "picture": "patients/L/Lucy.JPG",
+      "thumbnail": ""
+    }
+  }
+]
