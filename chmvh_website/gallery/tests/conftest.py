@@ -27,3 +27,10 @@ def patient_info():
         'last_name': 'Barker',
         'picture': image,
     }
+
+
+@pytest.fixture(scope='session')
+def pets(django_db_blocker):
+    """Populate the database with pet data"""
+    with django_db_blocker.unblock():
+        call_command('loaddata', 'gallery/tests/fixtures/pets.json')

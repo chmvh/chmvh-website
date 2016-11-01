@@ -6,32 +6,39 @@ from django.views import generic
 from gallery import models
 
 
-ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+class BasePatientView(object):
+    """Responsible for generating basic patient context data"""
+
+    def get_context_data(self) -> dict:
+        """
+        Get context data about patients.
+
+        Specifically, this method adds context about existing patient
+        categories.
+
+        Returns:
+            Context about existing `Patient` instances.
+        """
+        context = dict()
+
+        context['in_memoriam'] = models.Patient.objects.filter(
+            deceased=True).exists()
+
+        categories = []
+        for letter in 'ABCDEFGHIJKLMNOPQRSTUVWXYZ':
+            if models.Patient.objects.filter(
+                    deceased=False, first_letter=letter).exists():
+                categories.append(letter)
+        context['pet_categories'] = categories
+
+        return context
 
 
-def patient_context():
-    context = {}
-
-    categories = []
-    for letter in ALPHABET:
-        if models.Patient.objects.filter(
-                deceased=False, first_letter=letter).exists():
-            categories.append(letter)
-    context['pet_categories'] = categories
-
-    context['in_memoriam'] = models.Patient.objects.filter(
-        deceased=True).exists()
-
-    return context
-
-
-class GalleryIndexView(generic.base.TemplateView):
+class GalleryIndexView(BasePatientView, generic.base.TemplateView):
     template_name = 'gallery/index.html'
 
     def get_context_data(self):
         context = super(GalleryIndexView, self).get_context_data()
-
-        context.update(patient_context())
 
         featured = models.Patient.objects.filter(featured=True)
         context['featured_pets'] = featured
@@ -39,7 +46,7 @@ class GalleryIndexView(generic.base.TemplateView):
         return context
 
 
-class PetListView(generic.base.TemplateView):
+class PetListView(BasePatientView, generic.base.TemplateView):
     template_name = 'gallery/pet-list.html'
 
     def get_context_data(self, *args, **kwargs):
@@ -53,12 +60,10 @@ class PetListView(generic.base.TemplateView):
             deceased=True)
         context['pets'] = pets
 
-        context.update(patient_context())
-
         return context
 
 
-class PetMemoriamView(generic.base.TemplateView):
+class PetMemoriamView(BasePatientView, generic.base.TemplateView):
     template_name = 'gallery/pet-list.html'
 
     def get_context_data(self, *args, **kwargs):
@@ -70,18 +75,14 @@ class PetMemoriamView(generic.base.TemplateView):
         pets = models.Patient.objects.filter(deceased=True)
         context['pets'] = pets
 
-        context.update(patient_context())
-
         return context
 
 
-class PetSearchView(generic.base.TemplateView):
+class PetSearchView(BasePatientView, generic.base.TemplateView):
     template_name = 'gallery/search.html'
 
     def get_context_data(self, *args, **kwargs):
         context = super(PetSearchView, self).get_context_data(*args, **kwargs)
-
-        context.update(patient_context())
 
         query = self.request.GET.get('q')
         context['query'] = query
