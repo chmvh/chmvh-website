@@ -1,3 +1,5 @@
+import string
+
 import pytest
 
 from gallery.models import Patient
@@ -32,7 +34,7 @@ class TestBasePatientView(object):
         context = view.get_context_data()
 
         expected_categories = []
-        for letter in 'ABCDEFGHIJKLMNOPQRSTUVWXYZ':
+        for letter in string.ascii_uppercase:
             if Patient.objects.filter(
                     deceased=False, first_letter=letter).exists():
                 expected_categories.append(letter)

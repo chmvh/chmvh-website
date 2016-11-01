@@ -1,4 +1,5 @@
 from functools import reduce
+import string
 
 from django.db.models import Q
 from django.views import generic
@@ -25,7 +26,7 @@ class BasePatientView(object):
             deceased=True).exists()
 
         categories = []
-        for letter in 'ABCDEFGHIJKLMNOPQRSTUVWXYZ':
+        for letter in string.ascii_uppercase:
             if models.Patient.objects.filter(
                     deceased=False, first_letter=letter).exists():
                 categories.append(letter)
