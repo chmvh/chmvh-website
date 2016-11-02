@@ -37,15 +37,24 @@ def create_patient(first_name: str='Spot', last_name: str='Barker',
         'deceased': deceased,
         'description': description,
         'featured': featured,
+        'picture': picture or get_test_picture(),
     }
 
-    if picture is None:
-        src = 'gallery/tests/fixtures/images/test_picture.jpg'
-        picture = SimpleUploadedFile(
-            name='test_image.jpg',
-            content=open(src, 'rb').read(),
-            content_type='image/jpeg')
-
-    patient_info['picture'] = picture
-
     return models.Patient.objects.create(**patient_info)
+
+
+def get_test_picture() -> SimpleUploadedFile:
+    """
+    Get a picture for testing.
+
+    The picture is 1x1 with a single white pixel.
+
+    Returns:
+        A file whose contents are the sample image described.
+    """
+    src = 'gallery/tests/fixtures/images/test_picture.jpg'
+
+    return SimpleUploadedFile(
+        content=open(src, 'rb').read(),
+        content_type='image/jpeg',
+        name='test_image.jpg')

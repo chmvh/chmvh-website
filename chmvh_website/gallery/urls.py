@@ -4,7 +4,7 @@ from gallery import api_views, views
 
 
 apiurls = [
-    url(r'^patients/$', api_views.PetListCreateView.as_view(),
+    url(r'^patients/$', api_views.PatientListCreateView.as_view(),
         name='patient-list'),
 ]
 
