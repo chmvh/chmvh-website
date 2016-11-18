@@ -59,6 +59,10 @@ LOGGING = {
             'level': 'ERROR',
             'class': 'django.utils.log.AdminEmailHandler',
         },
+        'null': {
+            'level': 'DEBUG',
+            'class': 'logging.NullHandler',
+        },
     },
     'loggers': {
         'chmvh_website': {
