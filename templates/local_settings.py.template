@@ -71,5 +71,9 @@ LOGGING = {
             'level':'WARN',
             'propagate': True,
         },
+        'django.security.DisallowedHost': {
+            'handlers': ['null'],
+            'propagate': False,
+        },
     }
 }
