@@ -1,1 +1,23 @@
+# Global
+service_group: appservices
+
+# Security
 deploy_user: sysadmin
+deploy_user_primary_group: null
+deploy_user_public_key_files:
+  - ~/.ssh/id_rsa.pub
+
+deploy_groups:
+  - "{{ service_group }}"
+
+# Database
+db_user: django
+
+postgresql_service_group: "{{ service_group }}"
+postgresql_databases:
+  - name: chmvh-website
+    owner: django
+postgresql_users:
+  - name: "{{ db_user }}"
+    pass: "{{ db_password }}"
+    encrypted: no

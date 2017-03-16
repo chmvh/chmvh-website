@@ -1,2 +1,5 @@
 [webservers]
 dev.chapelhillvet.com
+
+[webservers:vars]
+env=staging

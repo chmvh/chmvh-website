@@ -1,1 +1,2 @@
+- src: ANXS.postgresql
 - src: cdriehuys.ansible-role-security
