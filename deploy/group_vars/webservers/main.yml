@@ -10,6 +10,14 @@ deploy_user_public_key_files:
 deploy_groups:
   - "{{ service_group }}"
 
+ufw_enabled_ports:
+  web_traffic:
+    port: www
+    proto: any
+  secure_web_traffic:
+    port: 443
+    proto: tcp
+
 # Database
 db_user: django
 
