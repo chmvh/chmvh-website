@@ -1,4 +1,8 @@
-app_dir: /opt/app
+app_name: app
+app_package: app
+
+app_dir: /opt/{{ app_name }}
+
 app_repo_branch: master
 app_packages:
   - git
@@ -8,3 +12,10 @@ app_extra_packages: []
 virtualenv: /opt/virtualenvs/env
 virtualenv_python: python2
 virtualenv_requirements: "{{ app_dir }}/requirements.txt"
+
+gunicorn_bin: "{{ virtualenv }}/bin/gunicorn"
+gunicorn_user: gunicorn
+gunicorn_user_group: null
+gunicorn_service_conf: /etc/systemd/system/gunicorn.service
+gunicorn_workers: "{{ 2 * ansible_processor_cores + 1 }}"
+gunicorn_wsgi_app: "{{ app_package }}.wsgi:application"

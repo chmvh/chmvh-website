@@ -12,3 +12,5 @@
     version: "{{ app_repo_branch }}"
 
 - include: create-virtualenv.yml
+
+- include: configure-gunicorn.yml
