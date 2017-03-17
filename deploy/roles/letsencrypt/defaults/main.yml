@@ -1,0 +1,4 @@
+letsencrypt_email: webmaster@{{ inventory_hostname }}
+letsencrypt_extra_args:
+  - '-d {{ inventory_hostname }}'
+letsencrypt_live_dir: /etc/letsencrypt/live/{{ inventory_hostname }}

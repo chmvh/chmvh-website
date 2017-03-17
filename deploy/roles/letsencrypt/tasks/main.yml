@@ -1,0 +1,13 @@
+- name: Install letsencrypt
+  apt:
+    name: letsencrypt
+    state: present
+    cache_valid_time: "{{ apt_cache_time }}"
+
+- name: Check if certificate is installed
+  stat:
+    path: "{{ letsencrypt_live_dir }}"
+  register: cert_dir
+
+- include: create-cert.yml
+  when: not (cert_dir.stat.isdir is defined and cert_dir.stat.isdir)

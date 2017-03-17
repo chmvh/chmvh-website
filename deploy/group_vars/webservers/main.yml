@@ -32,6 +32,9 @@ postgresql_users:
     pass: "{{ db_password }}"
     encrypted: no
 
+# Letsencrypt
+letsencrypt_email: cdriehuys@gmail.com
+
 # NGINX
 nginx_site_conf_name: chmvh-website.conf
 nginx_user: nginx
