@@ -33,7 +33,12 @@ postgresql_users:
     encrypted: no
 
 # NGINX
-nginx_conf_name: chmvh-website.conf
+nginx_site_conf_name: chmvh-website.conf
+nginx_user: nginx
+nginx_user_groups:
+  - "{{ service_group }}"
+nginx_webroot: /var/www/{{ inventory_hostname }}
+
 nginx_servers:
   - listen: 80
     name: "{{ inventory_hostname }}"

@@ -10,5 +10,6 @@
 
   roles:
     - ANXS.postgresql
+    - letsencrypt
     - nginx
 
