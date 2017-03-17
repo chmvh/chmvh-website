@@ -107,3 +107,6 @@ media/
 
 # Credentials
 secure-config.yml
+
+# Ansible
+*.retry
