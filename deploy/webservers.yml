@@ -12,4 +12,5 @@
     - ANXS.postgresql
     - letsencrypt
     - nginx
+    - django-app
 
