@@ -1,0 +1,4 @@
+nginx_conf_name: site.conf
+nginx_conf_path: /etc/nginx/sites-available/{{ nginx_conf_name }}
+nginx_conf_enabled_path: /etc/nginx/sites-enabled/{{ nginx_conf_name }}
+nginx_servers: []

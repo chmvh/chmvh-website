@@ -1,6 +1,8 @@
 # Global
 service_group: appservices
 
+apt_cache_time: 3600
+
 # Security
 deploy_user: sysadmin
 deploy_user_primary_group: null
@@ -29,3 +31,9 @@ postgresql_users:
   - name: "{{ db_user }}"
     pass: "{{ db_password }}"
     encrypted: no
+
+# NGINX
+nginx_conf_name: chmvh-website.conf
+nginx_servers:
+  - listen: 80
+    name: "{{ inventory_hostname }}"

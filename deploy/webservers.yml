@@ -10,3 +10,5 @@
 
   roles:
     - ANXS.postgresql
+    - nginx
+
