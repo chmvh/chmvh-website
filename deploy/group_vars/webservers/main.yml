@@ -167,6 +167,9 @@ django_extra_settings:
   EMAIL_PORT: 587
   EMAIL_USE_TLS: True
 
+  # Google Analytics
+  GOOGLE_ANALYTICS_ID: "'{{ GOOGLE_ANALYTICS_ID }}'"
+
 django_log_file: /var/log/django/{{ app_name }}.log
 django_logging_config:
   version: 1
