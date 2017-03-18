@@ -9,10 +9,7 @@ DEBUG = {{ django_debug }}
     {% endfor %}
 ){% endif %}
 
-ALLOWED_HOSTS = [
-    {% for host in django_allowed_hosts %}'{{ host }}',
-    {% endfor %}
-]
+ALLOWED_HOSTS = {{ django_allowed_hosts }}
 
 DATABASES = {{ django_databases }}
 
