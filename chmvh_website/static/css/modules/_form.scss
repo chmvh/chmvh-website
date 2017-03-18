@@ -11,6 +11,19 @@
   }
 }
 
+.form-inline {
+  display: flex;
+
+  .form-input {
+    flex-grow: 1;
+    margin-left: $form-inline-gutter;
+  }
+
+  .form-input:first-child {
+    margin-left: 0;
+  }
+}
+
 .form-input {
   margin: $form-input-margin;
 
@@ -36,6 +49,17 @@
 
   textarea {
     resize: vertical;
+  }
+
+  .asterisk {
+    color: $form-asterisk-color;
+  }
+}
+
+.form-input-group {
+  .form-input {
+    margin-bottom: $form-input-group-vert-margin;
+    margin-top: $form-input-group-vert-margin;
   }
 }
 

@@ -73,10 +73,13 @@ $footer-max-width: 60em;
 $footer-padding: 1em 0;
 
 // Forms
+$form-asterisk-color: red;
 $form-error-margin: 1em 0 .5em 0;
 $form-error-padding: .5em;
+$form-inline-gutter: .5em;
 $form-input-border: 1px solid $color-gray;
 $form-input-border-focused: 1px solid $color-brand;
+$form-input-group-vert-margin: .25em;
 $form-input-margin: 1em 0;
 $form-label-color: $color-gray;
 $form-label-size: .75em;

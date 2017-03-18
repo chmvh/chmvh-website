@@ -16,6 +16,9 @@ class ContactForm(forms.Form):
     email = forms.EmailField()
     message = forms.CharField(widget=forms.Textarea(
         attrs={'rows': 5}))
+    street_address = forms.CharField(required=False)
+    city = forms.CharField(required=False)
+    zipcode = forms.CharField(required=False)
 
     template = loader.get_template('contact/email/message.txt')
 
