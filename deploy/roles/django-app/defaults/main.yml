@@ -19,3 +19,19 @@ gunicorn_user_group: null
 gunicorn_service_conf: /etc/systemd/system/gunicorn.service
 gunicorn_workers: "{{ 2 * ansible_processor_cores + 1 }}"
 gunicorn_wsgi_app: "{{ app_package }}.wsgi:application"
+
+
+# Django
+django_local_settings: "{{ app_dir }}/{{ app_package }}/{{ app_package }}/local_settings.py"
+
+# Django Settings
+django_admins: []
+django_allowed_hosts: []
+django_app_path: "{{ app_dir }}/{{ app_package }}"
+django_databases: {}
+django_debug: "True"
+django_extra_settings: {}
+django_log_file: null
+django_logging_config: null
+django_secret_key: "{{ vault_django_secret_key }}"
+
