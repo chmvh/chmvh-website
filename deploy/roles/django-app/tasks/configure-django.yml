@@ -7,6 +7,14 @@
     recurse: yes
   when: django_log_file is defined and django_log_file
 
+- name: Create log file with correct permissions
+  file:
+    path: "{{ django_log_file }}"
+    state: touch
+    owner: "{{ gunicorn_user }}"
+    group: "{{ gunicorn_user_group | default(omit) }}"
+  when: django_log_file is defined and django_log_file
+
 - name: Upload local settings file
   template:
     src: local_settings.py.j2
