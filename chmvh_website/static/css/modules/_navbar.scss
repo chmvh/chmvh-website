@@ -53,6 +53,7 @@
   @include element('nav') {
     flex-grow: 1;
     text-align: right;
+    z-index: $z-nav;
 
     @include media($navbar-breakpoint) {
       background: $navbar-bg;
