@@ -37,3 +37,20 @@ django_media_root: null
 django_secret_key: "{{ vault_django_secret_key }}"
 django_static_root: null
 
+
+# Celery
+celery_app: "{{ app_package }}"
+celery_bin: '{{ virtualenv }}/bin/celery'
+celery_enabled: no
+celery_service_conf: /etc/systemd/system/celery.service
+celery_user: celery
+celery_working_dir: '{{ app_dir }}/{{ app_package }}'
+
+# Celery daemon config
+celeryd_log_dir: /var/log/celery
+celeryd_log_file: '{{ celeryd_log_dir }}/worker%n.log'
+celeryd_log_level: INFO
+celeryd_nodes: worker
+celeryd_opts: ''
+celeryd_pid_dir: /var/run/celery
+celeryd_pid_file: '{{ celeryd_pid_dir }}/worker%n.pid'

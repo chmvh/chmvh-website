@@ -11,13 +11,18 @@
   template:
     src: local_settings.py.j2
     dest: "{{ django_local_settings }}"
-  notify: restart gunicorn
+  notify:
+    - reload celery
+    - restart gunicorn
 
 - name: Run Django migrations
   django_manage:
     command: migrate
     app_path: "{{ django_app_path }}"
     virtualenv: "{{ virtualenv }}"
+  notify:
+    - reload celery
+    - restart gunicorn
 
 - name: Compile SCSS
   django_manage:
