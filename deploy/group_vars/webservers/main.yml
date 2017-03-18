@@ -52,6 +52,7 @@ letsencrypt_renew_post_hook: systemctl start nginx
 
 # NGINX
 nginx_site_conf_name: chmvh-website.conf
+nginx_socket: "http://{{ app_socket }}"
 nginx_user: nginx
 nginx_user_groups:
   - "{{ service_group }}"
@@ -61,34 +62,52 @@ nginx_servers:
   - listen: 80
     name: "{{ inventory_hostname }}"
     extra_params: |
-      return 301 https://$server_name$request_uri;
+          return 301 https://$server_name$request_uri;
   - listen: 443 ssl http2
     name: "{{ inventory_hostname }}"
     extra_params: |
-      ssl_certificate {{ letsencrypt_live_dir }}/fullchain.pem;
-      ssl_certificate_key {{ letsencrypt_live_dir }}/privkey.pem;
+          ssl_certificate {{ letsencrypt_live_dir }}/fullchain.pem;
+          ssl_certificate_key {{ letsencrypt_live_dir }}/privkey.pem;
 
-      # from https://cipherli.st/
-      # and https://raymii.org/s/tutorials/Strong_SSL_Security_On_nginx.html
+          # from https://cipherli.st/
+          # and https://raymii.org/s/tutorials/Strong_SSL_Security_On_nginx.html
 
-      ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
-      ssl_prefer_server_ciphers on;
-      ssl_ciphers "EECDH+AESGCM:EDH+AESGCM:AES256+EECDH:AES256+EDH";
-      ssl_ecdh_curve secp384r1;
-      ssl_session_cache shared:SSL:10m;
-      ssl_session_tickets off;
-      ssl_stapling on;
-      ssl_stapling_verify on;
-      resolver 8.8.8.8 8.8.4.4 valid=300s;
-      resolver_timeout 5s;
-      # Disable preloading HSTS for now.  You can use the commented out header line that includes
-      # the "preload" directive if you understand the implications.
-      #add_header Strict-Transport-Security "max-age=63072000; includeSubdomains; preload";
-      add_header Strict-Transport-Security "max-age=63072000; includeSubdomains";
-      add_header X-Frame-Options DENY;
-      add_header X-Content-Type-Options nosniff;
+          ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
+          ssl_prefer_server_ciphers on;
+          ssl_ciphers "EECDH+AESGCM:EDH+AESGCM:AES256+EECDH:AES256+EDH";
+          ssl_ecdh_curve secp384r1;
+          ssl_session_cache shared:SSL:10m;
+          ssl_session_tickets off;
+          ssl_stapling on;
+          ssl_stapling_verify on;
+          resolver 8.8.8.8 8.8.4.4 valid=300s;
+          resolver_timeout 5s;
+          # Disable preloading HSTS for now.  You can use the commented out header line that includes
+          # the "preload" directive if you understand the implications.
+          #add_header Strict-Transport-Security "max-age=63072000; includeSubdomains; preload";
+          add_header Strict-Transport-Security "max-age=63072000; includeSubdomains";
+          add_header X-Frame-Options DENY;
+          add_header X-Content-Type-Options nosniff;
 
-      ssl_dhparam {{ letsencrypt_dh_group }};
+          ssl_dhparam {{ letsencrypt_dh_group }};
+
+          location = /favicon.ico {
+            access_log off;
+            root {{ django_static_root }}/images;
+          }
+
+          location /media/ {
+            alias {{ django_media_root }}/;
+          }
+
+          location /static/ {
+            alias {{ django_static_root }}/;
+          }
+
+          location / {
+            include proxy_params;
+            proxy_pass {{ nginx_socket }};
+          }
 
 # App Settings
 virtualenv: /opt/virtualenvs/chmvh-website
@@ -122,6 +141,10 @@ django_databases:
     HOST: "{{ db_host }}"
     PORT: ""
 django_debug: "False"
+
+# Django File Settings
+django_media_root: "{{ nginx_webroot }}/media"
+django_static_root: "{{ nginx_webroot }}/static"
 
 django_extra_settings:
   # Cookie Settings

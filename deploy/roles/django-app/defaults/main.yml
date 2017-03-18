@@ -33,5 +33,7 @@ django_debug: "True"
 django_extra_settings: {}
 django_log_file: null
 django_logging_config: null
+django_media_root: null
 django_secret_key: "{{ vault_django_secret_key }}"
+django_static_root: null
 

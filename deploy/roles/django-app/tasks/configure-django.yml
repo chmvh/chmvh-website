@@ -4,6 +4,7 @@
     state: directory
     owner: "{{ gunicorn_user }}"
     group: "{{ gunicorn_user_group }}"
+    recurse: yes
   when: django_log_file is defined and django_log_file
 
 - name: Upload local settings file
