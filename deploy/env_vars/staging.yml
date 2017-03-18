@@ -5,3 +5,6 @@ db_password: "{{ vault_db_password }}"
 # Letsencrypt
 letsencrypt_domains:
   - "{{ inventory_hostname }}"
+
+# Google Analytics
+GOOGLE_ANALYTICS_ID: UA-68149127-2
