@@ -1,0 +1,24 @@
+- name: Install required packages
+  apt:
+    name: "{{ item }}"
+    state: present
+    cache_valid_time: "{{ apt_cache_time }}"
+  with_items: "{{ app_packages }} + {{ app_extra_packages }}"
+
+- name: Pull app source code
+  git:
+    repo: "{{ app_repo }}"
+    dest: "{{ app_dir }}"
+    version: "{{ app_repo_branch }}"
+  notify:
+    - reload celery
+    - restart gunicorn
+
+- include: create-virtualenv.yml
+
+- include: configure-gunicorn.yml
+
+- include: configure-django.yml
+
+- include: configure-celery.yml
+  when: celery_enabled

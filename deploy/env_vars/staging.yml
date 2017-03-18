@@ -1,0 +1,7 @@
+app_repo_branch: development
+
+db_password: "{{ vault_db_password }}"
+
+# Letsencrypt
+letsencrypt_domains:
+  - "{{ inventory_hostname }}"

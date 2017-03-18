@@ -1,0 +1,220 @@
+# Global
+app_name: chmvh-website
+app_package: chmvh_website
+app_repo: https://github.com/cdriehuys/chmvh-website
+
+app_socket_dir: "/var/run/{{ app_name }}"
+app_socket: "unix:{{ app_socket_dir }}/socket.sock"
+
+service_group: appservices
+
+apt_cache_time: 3600
+
+# Security
+deploy_user: sysadmin
+deploy_user_primary_group: null
+deploy_user_public_key_files:
+  - ~/.ssh/id_rsa.pub
+
+deploy_groups:
+  - "{{ service_group }}"
+
+ufw_enabled_ports:
+  web_traffic:
+    port: www
+    proto: any
+  secure_web_traffic:
+    port: 443
+    proto: tcp
+
+# Database
+
+# Save db info for later use
+db_name: chmvh-website
+db_user: django
+db_host: localhost
+
+postgresql_service_group: "{{ service_group }}"
+postgresql_databases:
+  - name: chmvh-website
+    owner: django
+postgresql_users:
+  - name: "{{ db_user }}"
+    pass: "{{ db_password }}"
+    encrypted: no
+
+# Letsencrypt
+letsencrypt_email: cdriehuys@gmail.com
+letsencrypt_renew_hour: 2
+letsencrypt_renew_minute: 7
+letsencrypt_renew_pre_hook: systemctl stop nginx
+letsencrypt_renew_post_hook: systemctl start nginx
+
+# NGINX
+nginx_site_conf_name: chmvh-website.conf
+nginx_socket: "http://{{ app_socket }}"
+nginx_user: nginx
+nginx_user_groups:
+  - "{{ service_group }}"
+nginx_webroot: /var/www/{{ inventory_hostname }}
+
+nginx_servers:
+  - listen: 80
+    name: "{{ inventory_hostname }}"
+    extra_params: |
+          return 301 https://$server_name$request_uri;
+  - listen: 443 ssl http2
+    name: "{{ inventory_hostname }}"
+    extra_params: |
+          ssl_certificate {{ letsencrypt_live_dir }}/fullchain.pem;
+          ssl_certificate_key {{ letsencrypt_live_dir }}/privkey.pem;
+
+          # from https://cipherli.st/
+          # and https://raymii.org/s/tutorials/Strong_SSL_Security_On_nginx.html
+
+          ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
+          ssl_prefer_server_ciphers on;
+          ssl_ciphers "EECDH+AESGCM:EDH+AESGCM:AES256+EECDH:AES256+EDH";
+          ssl_ecdh_curve secp384r1;
+          ssl_session_cache shared:SSL:10m;
+          ssl_session_tickets off;
+          ssl_stapling on;
+          ssl_stapling_verify on;
+          resolver 8.8.8.8 8.8.4.4 valid=300s;
+          resolver_timeout 5s;
+          # Disable preloading HSTS for now.  You can use the commented out header line that includes
+          # the "preload" directive if you understand the implications.
+          #add_header Strict-Transport-Security "max-age=63072000; includeSubdomains; preload";
+          add_header Strict-Transport-Security "max-age=63072000; includeSubdomains";
+          add_header X-Frame-Options DENY;
+          add_header X-Content-Type-Options nosniff;
+
+          ssl_dhparam {{ letsencrypt_dh_group }};
+
+          location = /favicon.ico {
+            access_log off;
+            root {{ django_static_root }}/images;
+          }
+
+          location /media/ {
+            alias {{ django_media_root }}/;
+          }
+
+          location /static/ {
+            alias {{ django_static_root }}/;
+          }
+
+          location / {
+            include proxy_params;
+            proxy_pass {{ nginx_socket }};
+          }
+
+# App Settings
+virtualenv: /opt/virtualenvs/chmvh-website
+virtualenv_python: python3
+
+app_extra_packages:
+  - libjpeg-dev
+  - libpq-dev
+  - python3
+  - python3-dev
+  - python3-pip
+  - rabbitmq-server
+  - zlib1g-dev
+
+# Gunicorn
+gunicorn_user_group: "{{ service_group }}"
+gunicorn_socket: "{{ app_socket }}"
+gunicorn_socket_dir: "{{ app_socket_dir }}"
+
+# Django Settings
+django_admins:
+  - name: Chathan
+    email: cdriehuys@gmail.com
+django_allowed_hosts:
+  - '.{{ inventory_hostname }}'
+django_databases:
+  default:
+    ENGINE: django.db.backends.postgresql_psycopg2
+    NAME: "{{ db_name }}"
+    USER: "{{ db_user }}"
+    PASSWORD: "{{ db_password }}"
+    HOST: "{{ db_host }}"
+    PORT: ""
+django_debug: "False"
+
+# Django File Settings
+django_media_root: "{{ nginx_webroot }}/media"
+django_static_root: "{{ nginx_webroot }}/static"
+
+django_extra_settings:
+  # Cookie Settings
+  CSRF_COOKIE_HTTPONLY: True
+  CSRF_COOKIE_SECURE: True
+  SESSION_COOKIE_SECURE: True
+
+  # Security Options
+  SECURE_BROWSER_XSS_FILTER: True
+  SECURE_CONTENT_TYPE_NOSNIFF: True
+  SECURE_SSL_REDIRECT: True
+  X_FRAME_OPTIONS: "'DENY'"
+
+  # Email Settings
+  EMAIL_BACKEND: "'django.core.mail.backends.smtp.EmailBackend'"
+  EMAIL_HOST: "'smtp.sendgrid.net'"
+  EMAIL_HOST_USER: "'{{ vault_sendgrid_user }}'"
+  EMAIL_HOST_PASSWORD: "'{{ vault_sendgrid_password }}'"
+  EMAIL_PORT: 587
+  EMAIL_USE_TLS: True
+
+django_log_file: /var/log/django/{{ app_name }}.log
+django_logging_config:
+  version: 1
+  disable_existing_loggers: False
+
+  formatters:
+    standard:
+      format: "[%(asctime)s] %(levelname)s [%(name)s:%(lineno)s] %(message)s"
+      datefmt: "%d/%b/%Y %H:%M:%S"
+
+  handlers:
+    logfile:
+      level: DEBUG
+      class: logging.handlers.RotatingFileHandler
+      filename: "{{ django_log_file }}"
+      maxBytes: 50000000
+      backupCount: 2
+      formatter: standard
+
+    mail_admins:
+      level: ERROR
+      class: django.utils.log.AdminEmailHandler
+
+    'null':
+      level: DEBUG
+      class: logging.NullHandler
+
+  loggers:
+    chmvh_website:
+      handlers:
+        - logfile
+        - mail_admins
+      level: DEBUG
+      propagate: True
+
+    django:
+      handlers:
+        - logfile
+        - mail_admins
+      level: WARN
+      propagate: True
+
+    django.security.DisallowedHost:
+      handlers:
+        - 'null'
+      propagate: False
+
+
+# Celery
+celery_enabled: yes
+celery_user_group: "{{ service_group }}"

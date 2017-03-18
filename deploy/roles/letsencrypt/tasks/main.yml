@@ -1,0 +1,28 @@
+- name: Install letsencrypt
+  apt:
+    name: letsencrypt
+    state: present
+    cache_valid_time: "{{ apt_cache_time }}"
+
+- name: Check if certificate is installed
+  stat:
+    path: "{{ letsencrypt_live_dir }}"
+  register: cert_dir
+
+- include: create-cert.yml
+  when: not (cert_dir.stat.isdir is defined and cert_dir.stat.isdir)
+
+- name: Create strong Diffie-Hellman group
+  command: openssl dhparam -out {{ letsencrypt_dh_group }} {{ letsencrypt_dh_group_size }}
+  args:
+    creates: "{{ letsencrypt_dh_group }}"
+
+- name: Automatically renew certificates
+  cron:
+    name: 'Renew letsencrypt certificates'
+    hour: "{{ letsencrypt_renew_hour }}"
+    minute: "{{ letsencrypt_renew_minute }}"
+    job: >
+      letsencrypt renew
+      {% if letsencrypt_renew_pre_hook %}--pre-hook "{{ letsencrypt_renew_pre_hook }}"{% endif %}
+      {% if letsencrypt_renew_post_hook %}--post-hook "{{ letsencrypt_renew_post_hook }}"{% endif %}

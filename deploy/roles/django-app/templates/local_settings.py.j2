@@ -1,0 +1,23 @@
+# {{ ansible_managed }}
+
+SECRET_KEY = '{{ django_secret_key }}'
+
+DEBUG = {{ django_debug }}
+
+{% if django_admins %}ADMINS = (
+    {% for admin in django_admins %}('{{ admin.name }}', '{{ admin.email }}'),
+    {% endfor %}
+){% endif %}
+
+ALLOWED_HOSTS = {{ django_allowed_hosts }}
+
+DATABASES = {{ django_databases }}
+
+{% if django_media_root %}MEDIA_ROOT = '{{ django_media_root }}'{% endif %}
+
+{% if django_static_root %}STATIC_ROOT = '{{ django_static_root }}'{% endif %}
+
+{% if django_logging_config %}LOGGING = {{ django_logging_config }}{% endif %}
+
+{% for setting in django_extra_settings %}{{ setting }} = {{ django_extra_settings[setting] }}
+{% endfor %}
