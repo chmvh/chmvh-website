@@ -1,0 +1,22 @@
+[Unit]
+Description=Celery Service
+After=network.target
+
+[Service]
+Type=forking
+User={{ celery_user }}
+Group={{ celery_user_group }}
+WorkingDirectory={{ celery_working_dir }}
+ExecStart={{ celery_bin }} multi start {{ celeryd_nodes }} \
+        -A {{ celery_app }} --logfile={{ celeryd_log_file }} \
+        --loglevel={{ celeryd_log_level }} --pidfile={{ celeryd_pid_file }} \
+        {{ celeryd_opts }}
+ExecStop={{ celery_bin }} multi stopwait \
+        --pidfile={{ celeryd_pid_file }} {{ celeryd_nodes }}
+ExecReload={{ celery_bin }} multi restart {{ celeryd_nodes }} \
+        -A {{ celery_app }} --logfile={{ celeryd_log_file }} \
+        --loglevel={{ celeryd_log_level }} --pidfile={{ celeryd_pid_file }} \
+        {{ celeryd_opts }}
+
+[Install]
+WantedBy=multi-user.target
