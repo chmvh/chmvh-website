@@ -2,7 +2,6 @@
 
 bumpversion
 coverage
-fabric3
 flake8
 libsass
 pyaml
