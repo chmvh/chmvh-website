@@ -5,3 +5,8 @@ Email: {{ email }}
 Message:
 
 {{ message }}
+
+{% if address %}Address:
+
+{{ address }}
+{% endif %}
