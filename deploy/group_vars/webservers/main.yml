@@ -57,6 +57,7 @@ nginx_user: nginx
 nginx_user_groups:
   - "{{ service_group }}"
 nginx_webroot: /var/www/{{ inventory_hostname }}
+nginx_webroot_group: "{{ service_group }}"
 
 nginx_servers:
   - listen: 80
@@ -66,6 +67,9 @@ nginx_servers:
   - listen: 443 ssl http2
     name: "{{ inventory_hostname }}"
     extra_params: |
+          # Allow upload of large pictures
+          client_max_body_size 5M;
+
           ssl_certificate {{ letsencrypt_live_dir }}/fullchain.pem;
           ssl_certificate_key {{ letsencrypt_live_dir }}/privkey.pem;
 
