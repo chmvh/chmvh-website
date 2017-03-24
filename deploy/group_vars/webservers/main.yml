@@ -67,6 +67,9 @@ nginx_servers:
   - listen: 443 ssl http2
     name: "{{ inventory_hostname }}"
     extra_params: |
+          # Allow upload of large pictures
+          client_max_body_size 5M;
+
           ssl_certificate {{ letsencrypt_live_dir }}/fullchain.pem;
           ssl_certificate_key {{ letsencrypt_live_dir }}/privkey.pem;
 
