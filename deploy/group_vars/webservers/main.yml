@@ -57,6 +57,7 @@ nginx_user: nginx
 nginx_user_groups:
   - "{{ service_group }}"
 nginx_webroot: /var/www/{{ inventory_hostname }}
+nginx_webroot_group: "{{ service_group }}"
 
 nginx_servers:
   - listen: 80

@@ -6,3 +6,4 @@ nginx_servers: []
 nginx_user: www-data
 nginx_user_groups: []
 nginx_webroot: /var/www
+nginx_webroot_group: www-data
