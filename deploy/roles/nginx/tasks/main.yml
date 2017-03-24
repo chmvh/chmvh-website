@@ -22,13 +22,17 @@
     path: "{{ nginx_webroot }}"
     state: directory
     owner: "{{ nginx_user }}"
-    group: "{{ nginx_user }}"
+    group: "{{ nginx_webroot_group }}"
+    mode: 0775
+    recurse: yes
+
+- name: Set correct permissions on files in webroot
+  command: find {{ nginx_webroot }} -type f -exec chmod 0664 {} \;
 
 - name: Upload site configuration
   template:
     src: nginx.conf.j2
     dest: "{{ nginx_site_conf_path }}"
-    validate: "nginx -t -c /etc/nginx/nginx.conf -p %s"
   notify:
     - reload nginx
 
