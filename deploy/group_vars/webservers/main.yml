@@ -44,7 +44,7 @@ postgresql_users:
     encrypted: no
 
 # Letsencrypt
-letsencrypt_email: cdriehuys@gmail.com
+letsencrypt_email: chathan@driehuys.com
 letsencrypt_renew_hour: 2
 letsencrypt_renew_minute: 7
 letsencrypt_renew_pre_hook: systemctl stop nginx

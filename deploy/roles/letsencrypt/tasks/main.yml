@@ -23,6 +23,6 @@
     hour: "{{ letsencrypt_renew_hour }}"
     minute: "{{ letsencrypt_renew_minute }}"
     job: >
+      {% if letsencrypt_renew_pre_hook %}{{ letsencrypt_renew_pre_hook }}{% endif %} &&
       letsencrypt renew
-      {% if letsencrypt_renew_pre_hook %}--pre-hook "{{ letsencrypt_renew_pre_hook }}"{% endif %}
-      {% if letsencrypt_renew_post_hook %}--post-hook "{{ letsencrypt_renew_post_hook }}"{% endif %}
+      {% if letsencrypt_renew_post_hook %}&& {{ letsencrypt_renew_post_hook }}{% endif %}
