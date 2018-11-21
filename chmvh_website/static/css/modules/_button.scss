@@ -15,6 +15,16 @@
       background: darken($color-brand, 5%);
       color: darken($button-primary-color, 10%);
     }
+
+    &:active,
+    &:visited {
+      color: $button-primary-color;
+    }
+  }
+
+  @include modifier('block') {
+    display: block;
+    text-align: center;
   }
 
   &:focus {
