@@ -1,0 +1,31 @@
+$spacer: 1em;
+
+/*
+ * Function taken from:
+ * https://css-tricks.com/snippets/sass/power-function/
+ */
+@function pow($number, $exponent) {
+  $value: 1;
+
+  @if $exponent > 0 {
+    @for $i from 1 through $exponent {
+      $value: $value * $number;
+    }
+  } @else if $exponent < 0 {
+    @for $i from 1 through -$exponent {
+      $value: $value / $number;
+    }
+  }
+
+  @return $value;
+}
+
+
+@for $i from 1 through 5 {
+  $space: pow(2, $i - 3) * $spacer;
+
+  .my-#{$i} {
+    margin-bottom: $space;
+    margin-top: $space;
+  }
+}

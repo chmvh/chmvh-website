@@ -41,6 +41,7 @@ INSTALLED_APPS = [
 
     # Third Party Apps
     'adminsortable2',
+    'captcha',
     'rest_framework',
     'sass_processor',
     'solo',
@@ -150,6 +151,10 @@ MEDIA_URL = '/media/'
 DEFAULT_FROM_EMAIL = 'no-reply@chapelhillvet.com'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 EMAIL_SUBJECT_PREFIX = '[CHMVH Website] '
+
+
+# ReCAPTCHA
+NOCAPTCHA = True
 
 
 # Gallery Settings

@@ -2,6 +2,7 @@ import logging
 
 from smtplib import SMTPException
 
+from captcha.fields import ReCaptchaField
 from django import forms
 from django.conf import settings
 from django.core import mail
@@ -12,6 +13,7 @@ logger = logging.getLogger('chmvh_website.{0}'.format(__name__))
 
 
 class ContactForm(forms.Form):
+    captcha = ReCaptchaField()
     name = forms.CharField()
     email = forms.EmailField()
     message = forms.CharField(widget=forms.Textarea(
