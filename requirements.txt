@@ -1,4 +1,4 @@
-celery
+celery < 4.0.0
 django >= 1.11, < 1.12
 django-admin-sortable2
 django-compressor
