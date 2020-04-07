@@ -41,7 +41,7 @@ postgresql_databases:
 postgresql_users:
   - name: "{{ db_user }}"
     pass: "{{ db_password }}"
-    encrypted: no
+    encrypted: true
 
 # Letsencrypt
 letsencrypt_email: chathan@driehuys.com
