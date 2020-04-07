@@ -7,7 +7,7 @@
 
 - name: Create certificate
   command: >
-    letsencrypt certonly --standalone --agree-tos
+    certbot certonly --standalone --agree-tos
     --email {{ letsencrypt_email }}
     {% for d in letsencrypt_domains %}-d {{ d }} {% endfor %}
     {{ letsencrypt_extra_args | join(' ') }}

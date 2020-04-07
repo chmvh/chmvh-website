@@ -1,6 +1,10 @@
-- name: Install letsencrypt
+- name: Add certbot PPA
+  apt_repository:
+    repo: "ppa:certbot/certbot"
+
+- name: Install certbot
   apt:
-    name: letsencrypt
+    name: certbot
     state: present
     cache_valid_time: "{{ apt_cache_time }}"
 
@@ -24,5 +28,5 @@
     minute: "{{ letsencrypt_renew_minute }}"
     job: >
       {% if letsencrypt_renew_pre_hook %}{{ letsencrypt_renew_pre_hook }}{% endif %} &&
-      letsencrypt renew
+      certbot renew
       {% if letsencrypt_renew_post_hook %}&& {{ letsencrypt_renew_post_hook }}{% endif %}
