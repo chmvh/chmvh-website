@@ -4,21 +4,19 @@
     groups: "{{ gunicorn_user_group }}"
     createhome: no
 
+- name: Upload gunicorn socket config
+  template:
+    src: gunicorn.socket.j2
+    dest: "{{ gunicorn_socket_conf }}"
+
 - name: Upload gunicorn service config
   template:
     src: gunicorn.service.j2
     dest: "{{ gunicorn_service_conf }}"
 
-- name: Create socket directory with correct permissions
-  file:
-    path: "{{ gunicorn_socket_dir }}"
-    state: directory
-    owner: "{{ gunicorn_user }}"
-    group: "{{ gunicorn_user_group }}"
-
 - name: Start and enable gunicorn service
   systemd:
     daemon-reload: yes
-    name: gunicorn
+    name: gunicorn.socket
     enabled: yes
     state: started

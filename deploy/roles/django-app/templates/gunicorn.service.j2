@@ -1,12 +1,19 @@
 [Unit]
 Description=gunicorn daemon
+Requires=gunicorn.socket
 After=network.target
 
 [Service]
+Type=notify
 User={{ gunicorn_user }}
 Group={{ gunicorn_user_group }}
+RuntimeDirectory=gunicorn
 WorkingDirectory={{ app_dir }}/{{ app_package }}
-ExecStart={{ gunicorn_bin }} --workers {{ gunicorn_workers }} --bind {{ gunicorn_socket }} {{ gunicorn_wsgi_app }}
+ExecStart={{ gunicorn_bin }} --workers {{ gunicorn_workers }} {{ gunicorn_wsgi_app }}
+ExecReload=/bin/kill -s HUP $MAINPID
+KillMode=mixed
+TimeoutStopSec=5
+PrivateTmp=true
 
 [Install]
 WantedBy=mult-user.target

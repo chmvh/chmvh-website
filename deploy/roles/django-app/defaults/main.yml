@@ -17,6 +17,7 @@ gunicorn_bin: "{{ virtualenv }}/bin/gunicorn"
 gunicorn_user: gunicorn
 gunicorn_user_group: null
 gunicorn_service_conf: /etc/systemd/system/gunicorn.service
+gunicorn_socket_conf: /etc/systemd/system/gunicorn.socket
 gunicorn_workers: "{{ 2 * ansible_processor_cores + 1 }}"
 gunicorn_wsgi_app: "{{ app_package }}.wsgi:application"
 

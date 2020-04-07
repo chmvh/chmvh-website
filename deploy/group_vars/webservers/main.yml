@@ -3,8 +3,9 @@ app_name: chmvh-website
 app_package: chmvh_website
 app_repo: https://github.com/cdriehuys/chmvh-website
 
-app_socket_dir: "/var/run/{{ app_name }}"
-app_socket: "unix:{{ app_socket_dir }}/socket.sock"
+app_socket_dir: "/run/{{ app_name }}"
+app_socket_path: "/run/gunicorn.sock"
+app_socket: "unix:{{ app_socket_path }}"
 
 service_group: appservices
 
