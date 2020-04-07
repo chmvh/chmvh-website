@@ -7,6 +7,7 @@
   ufw:
     state: enabled
     policy: deny
+    direction: incoming
 
 - name: Allow SSH traffic
   ufw:
