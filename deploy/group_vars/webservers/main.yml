@@ -135,7 +135,7 @@ gunicorn_socket_dir: "{{ app_socket_dir }}"
 # Django Settings
 django_admins:
   - name: Chathan
-    email: cdriehuys@gmail.com
+    email: chathan@driehuys.com
 django_allowed_hosts:
   - '.{{ inventory_hostname }}'
 django_databases:
