@@ -10,5 +10,5 @@
     register: output
     changed_when: output.stdout != ""
 
-- include: security.yml
-- include: webservers.yml
+- import_playbook: security.yml
+- import_playbook: webservers.yml
