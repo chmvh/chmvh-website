@@ -49,7 +49,7 @@ celery_working_dir: '{{ app_dir }}/{{ app_package }}'
 
 # Celery daemon config
 celeryd_log_dir: /var/log/celery
-celeryd_log_file: '{{ celeryd_log_dir }}/worker%n.log'
+celeryd_log_file: '{{ celeryd_log_dir }}/worker%n%I.log'
 celeryd_log_level: INFO
 celeryd_nodes: worker
 celeryd_opts: ''

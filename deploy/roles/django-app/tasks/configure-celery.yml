@@ -4,16 +4,10 @@
     group: "{{ celery_user_group | default(omit) }}"
     createhome: no
 
-- name: Set permissions for celery dirs
-  file:
-    path: "{{ item }}"
-    state: directory
-    owner: "{{ celery_user }}"
-    group: "{{ celery_user_group | default(omit) }}"
-    recurse: yes
-  with_items:
-    - "{{ celeryd_log_dir }}"
-    - "{{ celeryd_pid_dir }}"
+- name: Create Celery directory config
+  template:
+    src: celery-tempfiles.conf.j2
+    dest: /etc/tmpfiles.d/celery.conf
 
 - name: Upload celery service config
   template:
