@@ -1,0 +1,15 @@
+@import "vars";
+
+.banner {
+  padding: 1em;
+}
+
+.banner__title {
+  font-size: 1.15rem;
+  margin: 0 0 0.5em 0;
+}
+
+.banner--warning {
+  background: rgba(255, 161, 161, 0.25);
+  color: #a00101;
+}
