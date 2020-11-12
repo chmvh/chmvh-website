@@ -30,6 +30,7 @@ class Resource(models.Model):
         blank=True,
         verbose_name='address')
     category = models.ForeignKey(
+        on_delete=models.CASCADE,
         to='Category',
         verbose_name='resource category')
     description = models.TextField(
