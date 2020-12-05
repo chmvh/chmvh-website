@@ -1,9 +1,0 @@
-- name: reload celery
-  service:
-    name: celery
-    state: reloaded
-
-- name: restart gunicorn
-  service:
-    name: gunicorn
-    state: restarted

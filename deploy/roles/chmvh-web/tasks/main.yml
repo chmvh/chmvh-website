@@ -1,0 +1,132 @@
+---
+- name: Create media root
+  become: true
+  ansible.builtin.file:
+    mode: 0755
+    path: "{{ chmvh_media_root }}"
+    state: directory
+
+- name: Create static root
+  become: true
+  ansible.builtin.file:
+    mode: 0755
+    path: "{{ chmvh_static_root }}"
+    state: directory
+
+- name: Create OS user for database
+  become: true
+  ansible.builtin.user:
+    create_home: false
+    name: "{{ chmvh_db_os_user }}"
+  register: db_user
+
+- name: Create database data directory
+  become: true
+  ansible.builtin.file:
+    mode: 0755
+    owner: "{{ chmvh_db_os_user }}"
+    path: "{{ chmvh_db_data_dir }}"
+    state: directory
+
+- name: Run Postgres server
+  community.general.docker_container:
+    env:
+      POSTGRES_PASSWORD: "{{ chmvh_db_super_password }}"
+      POSTGRES_USER: "{{ chmvh_db_super_user }}"
+    image: postgres:12
+    name: postgres
+    ports:
+      - 5432:5432
+    restart_policy: on_failure
+    user: "{{ db_user.uid }}"
+    volumes:
+      - "{{ chmvh_db_data_dir }}:/var/lib/postgresql/data"
+
+- name: Create application database user
+  no_log: true
+  postgresql_user:
+    login_db: postgres
+    login_host: localhost
+    login_password: "{{ chmvh_db_super_password }}"
+    login_user: "{{ chmvh_db_super_user }}"
+    name: "{{ chmvh_db_user }}"
+    password: "md5{{ (chmvh_db_password + chmvh_db_user) | hash('md5') }}"
+
+- name: Create application database
+  postgresql_db:
+    login_host: localhost
+    login_password: "{{ chmvh_db_super_password }}"
+    login_user: "{{ chmvh_db_super_user }}"
+    name: "{{ chmvh_db_name }}"
+    owner: "{{ chmvh_db_user }}"
+
+- name: Run management tasks
+  docker_container:
+    command: "{{ item }}"
+    detach: false
+    entrypoint: "./manage.py"
+    env:
+      CHMVH_DB_HOST: "postgres"
+      CHMVH_DB_NAME: "{{ chmvh_db_name }}"
+      CHMVH_DB_PASSWORD: "{{ chmvh_db_password }}"
+      CHMVH_DB_PORT: "5432"
+      CHMVH_DB_USER: "{{ chmvh_db_user }}"
+      CHMVH_SECRET_KEY: "{{ chmvh_secret_key }}"
+      CHMVH_STATIC_ROOT: "{{ chmvh_static_root }}"
+    image: "{{ chmvh_web_image }}"
+    name: "chmvh-{{ item }}"
+  with_items:
+    - "collectstatic"
+    - "migrate"
+
+- name: Serve static content
+  community.general.docker_container:
+    image: nginx:1.19
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.zeroed-books.entrypoints: websecure
+      traefik.http.routers.zeroed-books.rule: "Host(`{{ chmvh_hosts | join('`, `') }}`) && PathPrefix('/media/', '/static/')"
+      traefik.http.routers.zeroed-books.tls: "true"
+      traefik.http.routers.zeroed-books.tls.certresolver: "letsencrypt"
+      traefik.http.services.zeroed-books.loadbalancer.server.port: "80"
+      # Redirect HTTP to HTTPS
+      traefik.http.routers.zeroed-books-http.middlewares: "https-redirect@file"
+      traefik.http.routers.zeroed-books-http.rule: "Host(`{{ chmvh_hosts | join('`, `') }}`) && PathPrefix('/media/', '/static/')"
+    name: chmvh-static
+    restart_policy: on_failure
+    volumes:
+      - "{{ chmvh_media_root }}:/usr/share/nginx/html/media:ro"
+      - "{{ chmvh_static_root }}:/usr/share/nginx/html/static:ro"
+
+- name: Run web server
+  docker_container:
+    env:
+      CHMVH_ADMIN_EMAIL: "{{ admin_email }}"
+      CHMVH_ADMIN_PASSWORD: "{{ admin_name }}"
+      CHMVH_ALLOWED_HOSTS: "{{ chmvh_hosts | join(',') }}"
+      CHMVH_DB_HOST: "postgres"
+      CHMVH_DB_NAME: "{{ chmvh_db_name }}"
+      CHMVH_DB_PASSWORD: "{{ chmvh_db_password }}"
+      CHMVH_DB_PORT: "5432"
+      CHMVH_DB_USER: "{{ chmvh_db_user }}"
+      CHMVH_EMAIL_PASSWORD: "{{ sendgrid_password }}"
+      CHMVH_EMAIL_USER: "{{ sendgrid_user }}"
+      CHMVH_GOOGLE_ANALYTICS_ID: "{{ google_analytics_id }}"
+      CHMVH_MEDIA_ROOT: "{{ chmvh_media_root }}"
+      CHMVH_RECAPTCHA_PRIVATE_KEY: "{{ recaptcha_private_key }}"
+      CHMVH_RECAPTCHA_PUBLIC_KEY: "{{ recaptcha_public_key }}"
+      CHMVH_SECRET_KEY: "{{ chmvh_secret_key }}"
+      CHMVH_STATIC_ROOT: "{{ chmvh_static_root }}"
+    image: "{{ chmvh_web_image }}"
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.zeroed-books.entrypoints: websecure
+      traefik.http.routers.zeroed-books.rule: "Host(`{{ chmvh_hosts | join('`, `') }}`)"
+      traefik.http.routers.zeroed-books.tls: "true"
+      traefik.http.routers.zeroed-books.tls.certresolver: "letsencrypt"
+      traefik.http.services.zeroed-books.loadbalancer.server.port: "8000"
+      # Redirect HTTP to HTTPS
+      traefik.http.routers.zeroed-books-http.middlewares: "https-redirect@file"
+      traefik.http.routers.zeroed-books-http.rule: "Host(`{{ chmvh_hosts | join('`, `') }}`)"
+    name: "chmvh-web"
+    restart_policy: on_failure

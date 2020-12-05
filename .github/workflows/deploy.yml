@@ -5,7 +5,7 @@ on:
     branches: master
 
 jobs:
-  main:
+  build:
     name: Push Docker Image
     runs-on: ubuntu-latest
     steps:
@@ -26,3 +26,43 @@ jobs:
           tags: cdriehuys/chmvh-website:latest,cdriehuys/chmvh-website:${{ github.sha }}
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
+
+  deploy:
+    needs:
+      - build
+
+    name: Deploy
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup Python 3.9
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.9"
+      - run: |
+          cd deploy
+          pip install -r requirements.txt
+          ansible-galaxy install -r requirements.yml
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > .private-key
+          chmod 600 .private-key
+          cat > .deploy-vars.json <<EOF
+          {
+            "additional_hosts": ["www.chapelhillvet.com"],
+            "chmvh_db_password": "${{ secrets.DB_PASSWORD }}",
+            "chmvh_db_super_password": "${{ secrets.DB_SUPER_PASSWORD }}",
+            "chmvh_secret_key": "${{ secrets.SECRET_KEY }}",
+            "chmvh_web_version": "${{ github.sha }}",
+            "google_analytics_id": "${{ secrets.GOOGLE_ANALYTICS_ID }}",
+            "recaptcha_private_key": "${{ secrets.RECAPTCHA_PRIVATE_KEY }}",
+            "recaptcha_public_key": "${{ secrets.RECAPTCHA_PUBLIC_KEY }}",
+            "sendgrid_password": "${{ secrets.SENDGRID_PASSWORD }}",
+            "sendgrid_user": "${{ secrets.SENDGRID_USER }}",
+            "ssh_public_key": "${{ secrets.SSH_PUBLIC_KEY }}"
+          }
+          EOF
+          ansible-playbook \
+            --extra-vars "@./.deploy-vars.json" \
+            --inventory-file ./production \
+            --key-file ./.private-key \
+            ./site.yml

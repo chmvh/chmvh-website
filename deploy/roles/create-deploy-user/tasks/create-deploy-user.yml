@@ -1,0 +1,33 @@
+---
+- name: Create deploy user
+  remote_user: root
+  ansible.builtin.user:
+    create_home: True
+    name: "{{ deploy_user }}"
+    shell: /bin/bash
+
+- name: Enable password-less sudo for deploy user
+  remote_user: root
+  ansible.builtin.lineinfile:
+    path: /etc/sudoers
+    state: present
+    regexp: "^{{ deploy_user }} ALL="
+    line: "{{ deploy_user }} ALL=(ALL:ALL) NOPASSWD: ALL"
+    validate: /usr/sbin/visudo -cf %s
+
+- name: Add authorized keys for deploy user
+  remote_user: root
+  ansible.builtin.authorized_key:
+    key: "{{ ssh_public_key }}"
+    state: present
+    user: "{{ deploy_user }}"
+
+# Without enabling PAM, the password-less ansible user cannot log in.
+- name: Enable PAM for SSH
+  remote_user: root
+  ansible.builtin.lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: "^#?UsePAM"
+    line: UsePAM yes
+    validate: sshd -t -f %s
+  notify: restart_sshd

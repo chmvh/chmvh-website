@@ -1,0 +1,16 @@
+---
+chmvh_db_data_dir: /var/lib/postgres/data
+chmvh_db_os_user: postgres
+
+chmvh_db_name: chmvh-website
+chmvh_db_user: django
+
+chmvh_db_super_user: postgres
+
+chmvh_hosts:
+  - "{{ inventory_hostname }}"
+
+chmvh_media_root: /var/www/chmvh/media
+chmvh_static_root: /var/www/chmvh/static
+
+chmvh_web_image: "cdriehuys/chmvh-web:{{ chmvh_web_version | default('latest') }}"

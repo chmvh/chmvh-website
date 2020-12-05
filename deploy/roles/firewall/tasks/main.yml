@@ -1,0 +1,44 @@
+---
+- name: Install UFW
+  become: true
+  ansible.builtin.package:
+    name: ufw
+    state: latest
+
+- name: Allow ratelimitted SSH connections
+  become: true
+  community.general.ufw:
+    direction: in
+    name: OpenSSH
+    rule: limit
+
+- name: Allow HTTP traffic
+  become: true
+  community.general.ufw:
+    direction: in
+    port: "80"
+    rule: allow
+
+- name: Allow HTTPS traffic
+  become: true
+  community.general.ufw:
+    direction: in
+    port: "443"
+    rule: allow
+
+- name: Block incoming traffic by default
+  become: true
+  community.general.ufw:
+    default: deny
+    direction: incoming
+
+- name: Allow outgoing traffic by default
+  become: true
+  community.general.ufw:
+    default: allow
+    direction: outgoing
+
+- name: Enable the firewall
+  become: true
+  community.general.ufw:
+    state: enabled

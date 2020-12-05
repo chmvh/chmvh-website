@@ -1,0 +1,10 @@
+---
+- name: Test root connection
+  ansible.builtin.ping:
+  changed_when: "False"
+  ignore_unreachable: true
+  register: root_ping
+
+- include:
+    file: create-deploy-user.yml
+  when: "not (root_ping.unreachable | default(True))"

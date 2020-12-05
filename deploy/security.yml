@@ -1,8 +1,0 @@
-- hosts: all
-  become: yes
-  become_user: root
-  remote_user: root
-
-  roles:
-    - cdriehuys.ansible-role-security
-    - security

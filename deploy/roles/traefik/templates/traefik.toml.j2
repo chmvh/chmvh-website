@@ -1,0 +1,23 @@
+[certificatesResolvers.letsencrypt.acme]
+  email = "{{ letsencrypt_email }}"
+  storage = "{{ traefik_container_cert_file }}"
+
+  [certificatesResolvers.letsencrypt.acme.httpChallenge]
+    entryPoint = "web"
+
+[entryPoints]
+  [entryPoints.web]
+    address = ":80"
+
+  [entryPoints.websecure]
+    address = ":443"
+
+
+[providers]
+  # Enable docker access
+  [providers.docker]
+    exposedByDefault = false
+
+  # Expose common configurations defined in a static file.
+  [providers.file]
+    filename = "{{ traefik_container_shared_config }}"

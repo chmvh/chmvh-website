@@ -1,0 +1,10 @@
+---
+traefik_cert_file: "{{ traefik_config_dir }}/certs/acme.json"
+traefik_config_dir: /etc/traefik
+traefik_config_file: "{{ traefik_config_dir }}/traefik.toml"
+traefik_config_shared: "{{ traefik_config_dir }}/shared-config.toml"
+traefik_container_cert_file: /var/traefik/acme.json
+traefik_container_shared_config: /etc/traefik/shared-config.toml
+traefik_image: "traefik:{{ traefik_version }}"
+traefik_user: traefik
+traefik_version: v2.2

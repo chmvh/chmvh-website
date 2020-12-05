@@ -1,0 +1,22 @@
+---
+- name: Provision deploy user
+  hosts: webservers
+  remote_user: root
+  gather_facts: false
+
+  roles:
+    - create-deploy-user
+
+- name: Deploy site
+  hosts: webservers
+  remote_user: "{{ deploy_user }}"
+
+  roles:
+    - secure-ssh
+    - firewall
+    - role: geerlingguy.docker
+      become: true
+    - role: geerlingguy.pip
+      become: true
+    - traefik
+    - chmvh-web

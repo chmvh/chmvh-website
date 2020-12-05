@@ -1,0 +1,51 @@
+---
+- name: Create Traefik config dir
+  become: true
+  file:
+    mode: 0755
+    path: "{{ traefik_config_dir }}"
+    state: directory
+
+- name: Upload Traefik config
+  become: true
+  template:
+    dest: "{{ traefik_config_file }}"
+    mode: 0644
+    src: traefik.toml.j2
+  register: traefik_config_upload
+
+- name: Upload Traefik shared config
+  become: true
+  template:
+    dest: "{{ traefik_config_shared }}"
+    mode: 0644
+    src: traefik-shared-config.toml.j2
+
+- name: Create Traefik certificate store directory
+  become: true
+  file:
+    mode: 0755
+    path: "{{ traefik_cert_file | dirname }}"
+    state: directory
+
+- name: Create Traefik certificate store
+  become: true
+  file:
+    mode: 0600
+    path: "{{ traefik_cert_file }}"
+    state: touch
+
+- name: Run Traefik
+  docker_container:
+    image: "{{ traefik_image }}"
+    name: traefik
+    networks: "{{ traefik_networks }}"
+    published_ports: "{{ traefik_published_ports }}"
+    restart: "{{ traefik_config_upload.changed }}"
+    restart_policy: "always"
+    volumes:
+      - "{{ traefik_cert_file }}:{{ traefik_container_cert_file }}"
+      - "{{ traefik_config_file }}:/etc/traefik/traefik.toml"
+      - "{{ traefik_config_shared }}:{{ traefik_container_shared_config }}"
+      # Allow Traefik to listen to Docker events
+      - /var/run/docker.sock:/var/run/docker.sock
