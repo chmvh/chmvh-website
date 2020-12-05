@@ -75,12 +75,14 @@
       CHMVH_DB_PORT: "5432"
       CHMVH_DB_USER: "{{ chmvh_db_user }}"
       CHMVH_SECRET_KEY: "{{ chmvh_secret_key }}"
-      CHMVH_STATIC_ROOT: "{{ chmvh_static_root }}"
+      CHMVH_STATIC_ROOT: "/var/www/static"
     image: "{{ chmvh_web_image }}"
     name: "chmvh-{{ item }}"
     networks:
       - "{{ chmvh_docker_network }}"
     networks_cli_compatible: true
+    volumes:
+      - "{{ chmvh_static_root }}:/var/www/static"
   with_items:
     - "collectstatic"
     - "migrate"
@@ -121,11 +123,11 @@
       CHMVH_EMAIL_PASSWORD: "{{ sendgrid_password }}"
       CHMVH_EMAIL_USER: "{{ sendgrid_user }}"
       CHMVH_GOOGLE_ANALYTICS_ID: "{{ google_analytics_id }}"
-      CHMVH_MEDIA_ROOT: "{{ chmvh_media_root }}"
+      CHMVH_MEDIA_ROOT: "/var/www/media"
       CHMVH_RECAPTCHA_PRIVATE_KEY: "{{ recaptcha_private_key }}"
       CHMVH_RECAPTCHA_PUBLIC_KEY: "{{ recaptcha_public_key }}"
       CHMVH_SECRET_KEY: "{{ chmvh_secret_key }}"
-      CHMVH_STATIC_ROOT: "{{ chmvh_static_root }}"
+      CHMVH_STATIC_ROOT: "/var/www/static"
     image: "{{ chmvh_web_image }}"
     labels:
       traefik.enable: "true"
@@ -142,3 +144,6 @@
       - "{{ chmvh_docker_network }}"
     networks_cli_compatible: true
     restart_policy: unless-stopped
+    volumes:
+      - "{{ chmvh_media_root }}:/var/www/media"
+      - "{{ chmvh_static_root }}:/var/www/static:ro"
