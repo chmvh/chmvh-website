@@ -16,4 +16,4 @@
   service:
     name: nginx
     state: started
-  when: stop_nginx | succeeded
+  when: stop_nginx | success

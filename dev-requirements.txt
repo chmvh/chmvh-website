@@ -1,9 +1,8 @@
 -r requirements.txt
 
-bumpversion
-coverage
-flake8
-libsass
-pyaml
-pytest
-pytest-django
+bumpversion == 0.6.0
+coverage == 5.3
+flake8 == 3.8.4
+pyaml == 20.4.0
+pytest == 6.1.2
+pytest-django == 4.1.0
