@@ -91,13 +91,13 @@
     labels:
       traefik.enable: "true"
       traefik.http.routers.chmvh-static.entrypoints: websecure
-      traefik.http.routers.chmvh-static.rule: "Host(`{{ chmvh_hosts | join('`, `') }}`) && PathPrefix('/media/', '/static/')"
+      traefik.http.routers.chmvh-static.rule: "Host(`{{ chmvh_hosts | join('`, `') }}`) && PathPrefix(`/media/`, `/static/`)"
       traefik.http.routers.chmvh-static.tls: "true"
       traefik.http.routers.chmvh-static.tls.certresolver: "letsencrypt"
       traefik.http.services.chmvh-static.loadbalancer.server.port: "80"
       # Redirect HTTP to HTTPS
       traefik.http.routers.chmvh-static-http.middlewares: "https-redirect@file"
-      traefik.http.routers.chmvh-static-http.rule: "Host(`{{ chmvh_hosts | join('`, `') }}`) && PathPrefix('/media/', '/static/')"
+      traefik.http.routers.chmvh-static-http.rule: "Host(`{{ chmvh_hosts | join('`, `') }}`) && PathPrefix(`/media/', '/static/`)"
     name: chmvh-static
     networks:
       - "{{ chmvh_docker_network }}"
