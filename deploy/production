@@ -1,5 +1,5 @@
 [webservers]
-chapelhillvet.com
+chapelhillvet.com ansible_python_interpreter=python3
 
 [webservers:vars]
 env=production
