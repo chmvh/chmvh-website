@@ -41,7 +41,7 @@
     name: traefik
     published_ports: "{{ traefik_published_ports }}"
     restart: "{{ traefik_config_upload.changed }}"
-    restart_policy: "always"
+    restart_policy: "unless-stopped"
     volumes:
       - "{{ traefik_cert_file }}:{{ traefik_container_cert_file }}"
       - "{{ traefik_config_file }}:/etc/traefik/traefik.toml"

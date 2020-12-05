@@ -37,7 +37,7 @@
     name: postgres
     ports:
       - 5432:5432
-    restart_policy: on_failure
+    restart_policy: unless-stopped
     user: "{{ db_user.uid }}"
     volumes:
       - "{{ chmvh_db_data_dir }}:/var/lib/postgresql/data"
@@ -93,7 +93,7 @@
       traefik.http.routers.zeroed-books-http.middlewares: "https-redirect@file"
       traefik.http.routers.zeroed-books-http.rule: "Host(`{{ chmvh_hosts | join('`, `') }}`) && PathPrefix('/media/', '/static/')"
     name: chmvh-static
-    restart_policy: on_failure
+    restart_policy: unless-stopped
     volumes:
       - "{{ chmvh_media_root }}:/usr/share/nginx/html/media:ro"
       - "{{ chmvh_static_root }}:/usr/share/nginx/html/static:ro"
@@ -129,4 +129,4 @@
       traefik.http.routers.zeroed-books-http.middlewares: "https-redirect@file"
       traefik.http.routers.zeroed-books-http.rule: "Host(`{{ chmvh_hosts | join('`, `') }}`)"
     name: "chmvh-web"
-    restart_policy: on_failure
+    restart_policy: unless-stopped
