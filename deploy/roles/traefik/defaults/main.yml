@@ -7,4 +7,4 @@ traefik_container_cert_file: /var/traefik/acme.json
 traefik_container_shared_config: /etc/traefik/shared-config.toml
 traefik_image: "traefik:{{ traefik_version }}"
 traefik_user: traefik
-traefik_version: v2.2
+traefik_version: v2.3
