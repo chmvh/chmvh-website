@@ -18,3 +18,7 @@ pip_install_packages:
 chmvh_hosts: "{{ [inventory_hostname] + additional_hosts }}"
 
 letsencrypt_email: "{{ admin_email }}"
+
+traefik_published_ports:
+  - 80:80
+  - 443:443
