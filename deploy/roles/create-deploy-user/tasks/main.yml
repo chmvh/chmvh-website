@@ -7,4 +7,4 @@
 
 - include:
     file: create-deploy-user.yml
-  when: "'unreachable' in root_ping and root_ping.unreachable'"
+  when: "'unreachable' not in root_ping or not root_ping.unreachable"
