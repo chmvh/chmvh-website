@@ -9,8 +9,26 @@ https://docs.djangoproject.com/en/1.10/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.10/ref/settings/
 """
-
+import logging
 import os
+
+
+def env_bool(name: str) -> bool:
+    raw_value = os.getenv(name, "")
+
+    return raw_value.lower() == "true"
+
+
+def env_list(name: str) -> list[str]:
+    raw_value = os.getenv(name, "")
+
+    if not raw_value:
+        return []
+
+    return raw_value.split(",")
+
+SILENCED_SYSTEM_CHECKS = []
+
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -19,13 +37,14 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'secret'
-
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env_bool("CHMVH_DEBUG")
 
-ALLOWED_HOSTS = []
+SECRET_KEY = os.getenv("CHMVH_SECRET_KEY")
+if DEBUG and not SECRET_KEY:
+    SECRET_KEY = "debug"
+
+ALLOWED_HOSTS = env_list("CHMVH_ALLOWED_HOSTS")
 
 
 # Application definition
@@ -94,8 +113,12 @@ WSGI_APPLICATION = 'chmvh_website.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'HOST': os.getenv("CHMVH_DB_HOST", "localhost"),
+        'PORT': os.getenv("CHMVH_DB_PORT", "5432"),
+        'USER': os.getenv("CHMVH_DB_USER", "postgres"),
+        'PASSWORD': os.getenv("CHMVH_DB_PASSWORD"),
+        'NAME': os.getenv("CHMVH_DB_NAME", "postgres"),
     }
 }
 
@@ -130,7 +153,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_ROOT = os.getenv("CHMVH_STATIC_ROOT")
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
@@ -143,8 +166,19 @@ STATICFILES_FINDERS = [
 
 # Media Files (User Uploaded)
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = os.getenv("CHMVH_MEDIA_ROOT")
 MEDIA_URL = '/media/'
+
+# HTTPS
+if env_bool("CHMVH_HTTPS"):
+    CSRF_COOKIE_HTTPONLY = True
+    CSRF_COOKIE_SECURE = True
+    SESSION_COOKIE_SECURE = True
+
+    SECURE_BROWSER_XSS_FILTER = True
+    SECURE_CONTENT_TYPE_NOSNIFF = True
+    SECURE_SSL_REDIRECT = True
+    X_FRAME_OPTIONS = "DENY"
 
 
 # Email Settings
@@ -152,9 +186,29 @@ DEFAULT_FROM_EMAIL = 'no-reply@chapelhillvet.com'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 EMAIL_SUBJECT_PREFIX = '[CHMVH Website] '
 
+if os.getenv("CHMVH_EMAIL_USER"):
+    EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+    EMAIL_HOST = "smtp.sendgrid.net"
+    EMAIL_HOST_USER = os.getenv("CHMVH_EMAIL_USER")
+    EMAIL_HOST_PASSWORD = os.getenv("CHMVH_EMAIL_PASSWORD")
+    EMAIL_PORT = 587
+    EMAIL_USE_TLS = True
+
+if os.getenv("CHMVH_ADMIN_NAME"):
+    ADMINS = (
+        (os.getenv("CHMVH_ADMIN_NAME"), os.getenv("CHMVH_ADMIN_EMAIL"))
+    )
+
+# Google Analytics
+GOOGLE_ANALYTICS_ID = os.getenv("CHMVH_GOOGLE_ANALYTICS_ID")
 
 # ReCAPTCHA
-NOCAPTCHA = True
+if os.getenv("CHMVH_RECAPTCHA_PRIVATE_KEY"):
+    RECAPTCHA_PRIVATE_KEY = os.getenv("CHMVH_RECAPTCHA_PRIVATE_KEY")
+    RECAPTCHA_PUBLIC_KEY = os.getenv("CHMVH_RECAPTCHA_PUBLIC_KEY")
+else:
+    NOCAPTCHA = True
+    SILENCED_SYSTEM_CHECKS.append('captcha.recaptcha_test_key_error')
 
 
 # Gallery Settings
@@ -178,9 +232,31 @@ REST_FRAMEWORK = {
     ),
 }
 
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
 
-# Import local settings if they exist
-try:
-    from chmvh_website.local_settings import *      # noqa
-except ImportError:
-    pass
+    "formatters": {
+        "standard": {
+            "format": "[%(asctime)s] %(levelname)s [%(name)s:%(lineno)s] %(message)s",
+            "datefmt": "%d/%b/%Y %H:%M:%S",
+        },
+    },
+
+    "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",
+        },
+        'mail_admins': {
+            'level': 'ERROR',
+            'class': 'django.utils.log.AdminEmailHandler',
+        },
+    },
+
+    "loggers": {
+        "root": {
+            "handlers": ["console", "mail_admins"],
+            "level": logging.INFO,
+        }
+    }
+}

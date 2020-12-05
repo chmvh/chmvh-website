@@ -1,0 +1,56 @@
+version: "3.7"
+
+services:
+  postgres:
+    image: postgres:12
+
+    environment:
+      POSTGRES_PASSWORD: password
+
+    volumes:
+      - db:/var/lib/postgresql/data
+
+  migrate:
+    depends_on:
+      - postgres
+
+    build:
+      context: .
+      target: dev
+    image: chmvh-dev:latest
+
+    command: migrate
+
+    environment:
+      CHMVH_DB_HOST: postgres
+      CHMVH_DB_PASSWORD: password
+      CHMVH_DEBUG: "true"
+
+  chmvh-web:
+    depends_on:
+      - migrate
+
+    build:
+      context: .
+      target: dev
+    image: chmvh-dev:latest
+
+    environment:
+      CHMVH_DB_HOST: postgres
+      CHMVH_DB_PASSWORD: password
+      CHMVH_DEBUG: "true"
+      CHMVH_MEDIA_ROOT: /var/www/chmvh/media
+      CHMVH_STATIC_ROOT: /var/www/chmvh/static
+
+    ports:
+      - 8000:8000
+
+    volumes:
+      - ./chmvh_website:/opt/chmvh-website/chmvh_website
+      - media:/var/www/chmvh/media
+      - static:/var/www/chmvh/static
+
+volumes:
+  db:
+  media:
+  static:
