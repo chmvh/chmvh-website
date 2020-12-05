@@ -13,4 +13,4 @@ chmvh_hosts:
 chmvh_media_root: /var/www/chmvh/media
 chmvh_static_root: /var/www/chmvh/static
 
-chmvh_web_image: "cdriehuys/chmvh-web:{{ chmvh_web_version | default('latest') }}"
+chmvh_web_image: "cdriehuys/chmvh-website:{{ chmvh_web_version | default('latest') }}"
