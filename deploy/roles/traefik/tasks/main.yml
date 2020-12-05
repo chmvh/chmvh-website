@@ -39,6 +39,8 @@
   docker_container:
     image: "{{ traefik_image }}"
     name: traefik
+    networks: "{{ traefik_networks }}"
+    networks_cli_compatible: true
     published_ports: "{{ traefik_published_ports }}"
     restart: "{{ traefik_config_upload.changed }}"
     restart_policy: "unless-stopped"

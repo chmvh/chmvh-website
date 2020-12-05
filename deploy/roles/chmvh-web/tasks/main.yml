@@ -35,6 +35,9 @@
       POSTGRES_USER: "{{ chmvh_db_super_user }}"
     image: postgres:12
     name: postgres
+    networks:
+      - "{{ chmvh_docker_network }}"
+    networks_cli_compatible: true
     ports:
       - 5432:5432
     restart_policy: unless-stopped
@@ -75,6 +78,9 @@
       CHMVH_STATIC_ROOT: "{{ chmvh_static_root }}"
     image: "{{ chmvh_web_image }}"
     name: "chmvh-{{ item }}"
+    networks:
+      - "{{ chmvh_docker_network }}"
+    networks_cli_compatible: true
   with_items:
     - "collectstatic"
     - "migrate"
@@ -84,15 +90,18 @@
     image: nginx:1.19
     labels:
       traefik.enable: "true"
-      traefik.http.routers.zeroed-books.entrypoints: websecure
-      traefik.http.routers.zeroed-books.rule: "Host(`{{ chmvh_hosts | join('`, `') }}`) && PathPrefix('/media/', '/static/')"
-      traefik.http.routers.zeroed-books.tls: "true"
-      traefik.http.routers.zeroed-books.tls.certresolver: "letsencrypt"
-      traefik.http.services.zeroed-books.loadbalancer.server.port: "80"
+      traefik.http.routers.chmvh-static.entrypoints: websecure
+      traefik.http.routers.chmvh-static.rule: "Host(`{{ chmvh_hosts | join('`, `') }}`) && PathPrefix('/media/', '/static/')"
+      traefik.http.routers.chmvh-static.tls: "true"
+      traefik.http.routers.chmvh-static.tls.certresolver: "letsencrypt"
+      traefik.http.services.chmvh-static.loadbalancer.server.port: "80"
       # Redirect HTTP to HTTPS
-      traefik.http.routers.zeroed-books-http.middlewares: "https-redirect@file"
-      traefik.http.routers.zeroed-books-http.rule: "Host(`{{ chmvh_hosts | join('`, `') }}`) && PathPrefix('/media/', '/static/')"
+      traefik.http.routers.chmvh-static-http.middlewares: "https-redirect@file"
+      traefik.http.routers.chmvh-static-http.rule: "Host(`{{ chmvh_hosts | join('`, `') }}`) && PathPrefix('/media/', '/static/')"
     name: chmvh-static
+    networks:
+      - "{{ chmvh_docker_network }}"
+    networks_cli_compatible: true
     restart_policy: unless-stopped
     volumes:
       - "{{ chmvh_media_root }}:/usr/share/nginx/html/media:ro"
@@ -120,13 +129,16 @@
     image: "{{ chmvh_web_image }}"
     labels:
       traefik.enable: "true"
-      traefik.http.routers.zeroed-books.entrypoints: websecure
-      traefik.http.routers.zeroed-books.rule: "Host(`{{ chmvh_hosts | join('`, `') }}`)"
-      traefik.http.routers.zeroed-books.tls: "true"
-      traefik.http.routers.zeroed-books.tls.certresolver: "letsencrypt"
-      traefik.http.services.zeroed-books.loadbalancer.server.port: "8000"
+      traefik.http.routers.chmvh.entrypoints: websecure
+      traefik.http.routers.chmvh.rule: "Host(`{{ chmvh_hosts | join('`, `') }}`)"
+      traefik.http.routers.chmvh.tls: "true"
+      traefik.http.routers.chmvh.tls.certresolver: "letsencrypt"
+      traefik.http.services.chmvh.loadbalancer.server.port: "8000"
       # Redirect HTTP to HTTPS
-      traefik.http.routers.zeroed-books-http.middlewares: "https-redirect@file"
-      traefik.http.routers.zeroed-books-http.rule: "Host(`{{ chmvh_hosts | join('`, `') }}`)"
+      traefik.http.routers.chmvh-http.middlewares: "https-redirect@file"
+      traefik.http.routers.chmvh-http.rule: "Host(`{{ chmvh_hosts | join('`, `') }}`)"
     name: "chmvh-web"
+    networks:
+      - "{{ chmvh_docker_network }}"
+    networks_cli_compatible: true
     restart_policy: unless-stopped

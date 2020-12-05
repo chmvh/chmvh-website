@@ -9,6 +9,13 @@ admin_email: "chathan@driehuys.com"
 docker_users:
   - "{{ deploy_user }}"
 
+chmvh_docker_network: chmvh
+docker_networks:
+  - "{{ chmvh_docker_network }}"
+
+traefik_networks:
+  - "{{ chmvh_docker_network }}"
+
 # Global pip packages
 pip_install_packages:
   - docker
