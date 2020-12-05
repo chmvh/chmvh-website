@@ -16,3 +16,5 @@ pip_install_packages:
 
 # Web settings
 chmvh_hosts: "{{ [inventory_hostname] + additional_hosts }}"
+
+letsencrypt_email: "{{ admin_email }}"
