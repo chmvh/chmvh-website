@@ -61,6 +61,8 @@ jobs:
             "ssh_public_key": "${{ secrets.SSH_PUBLIC_KEY }}"
           }
           EOF
+          export ANSIBLE_HOST_KEY_CHECKING=False
+          export ANSIBLE_FORCE_COLOR=True
           ansible-playbook \
             --extra-vars "@./.deploy-vars.json" \
             --inventory-file ./production \
