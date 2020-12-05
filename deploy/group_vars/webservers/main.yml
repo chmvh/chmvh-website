@@ -9,7 +9,9 @@ admin_email: "chathan@driehuys.com"
 docker_users:
   - "{{ deploy_user }}"
 
-chmvh_docker_network: chmvh
+chmvh_docker_network:
+  name: chmvh
+
 docker_networks:
   - "{{ chmvh_docker_network }}"
 

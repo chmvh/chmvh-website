@@ -1,5 +1,5 @@
 ---
 - name: Provision docker networks
   community.general.docker_network:
-    name: "{{ item }}"
+    name: "{{ item.name }}"
   with_items: "{{ docker_networks }}"
