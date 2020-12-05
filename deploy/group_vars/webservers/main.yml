@@ -96,6 +96,10 @@ nginx_servers:
 
           ssl_dhparam {{ letsencrypt_dh_group }};
 
+          if ($host !~* ^({{ inventory_hostname }})$) {
+              return 444;
+          }
+
           location = /favicon.ico {
             access_log off;
             root {{ django_static_root }}/images;
@@ -202,10 +206,6 @@ django_logging_config:
       level: ERROR
       class: django.utils.log.AdminEmailHandler
 
-    'null':
-      level: DEBUG
-      class: logging.NullHandler
-
   loggers:
     chmvh_website:
       handlers:
@@ -220,11 +220,6 @@ django_logging_config:
         - mail_admins
       level: WARN
       propagate: True
-
-    django.security.DisallowedHost:
-      handlers:
-        - 'null'
-      propagate: False
 
 
 # Celery
