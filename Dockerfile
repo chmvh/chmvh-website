@@ -17,5 +17,11 @@ CMD ["runserver", "0.0.0.0:8000"]
 # Production development environment runs Gunicorn instead of the Django dev
 # server.
 FROM dev
-ENTRYPOINT ["gunicorn", "-b", "0.0.0.0:8000", "chmvh_website.wsgi:application"]
+
+# The combination of this environment variable and the
+# "--enable-stdio-inheritance" switch allow for messages sent by Django to
+# stdout to propagate properly.
+ENV PYTHONUNBUFFERED=true
+
+ENTRYPOINT ["gunicorn", "--enable-stdio-inheritance", "-b", "0.0.0.0:8000", "chmvh_website.wsgi:application"]
 CMD []
