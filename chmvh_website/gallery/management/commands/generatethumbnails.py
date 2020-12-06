@@ -49,10 +49,24 @@ class Command(BaseCommand):
 
         for patient in patients:
             if kwargs["overwrite"] and patient.thumbnail:
-                patient.thumbnail.delete()
+                patient.thumbnail.delete(save=False)
+                patient.save(update_fields=["thumbnail"])
 
-            if create_thumbnail(patient.id):
-                successes += 1
+            try:
+                if create_thumbnail(patient.id):
+                    successes += 1
+                else:
+                    self.stdout.write(
+                        self.style.WARNING(
+                            f"Failed to generate thumbnail for {patient}."
+                        )
+                    )
+            except Exception as e:
+                self.stdout.write(
+                    self.style.ERROR(
+                        f"Failed to generate thumbnail for {patient}: {e}"
+                    )
+                )
 
         self.stdout.write(
             self.style.SUCCESS(
