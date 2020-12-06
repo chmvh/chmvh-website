@@ -2,6 +2,7 @@ from django.core.management.base import BaseCommand
 from django.db.models import F, Q
 
 from gallery import models
+from gallery.tasks import create_thumbnail
 
 
 class Command(BaseCommand):
@@ -48,15 +49,10 @@ class Command(BaseCommand):
 
         for patient in patients:
             if kwargs["overwrite"] and patient.thumbnail:
-                patient.thumbnail.delete(save=False)
-                patient.save()
+                patient.thumbnail.delete()
 
-            try:
-                patient.generate_thumbnail()
-                patient.save()
+            if create_thumbnail(patient.id):
                 successes += 1
-            except Exception as e:
-                self.stderr.write(e)
 
         self.stdout.write(
             self.style.SUCCESS(
