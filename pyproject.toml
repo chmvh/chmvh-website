@@ -1,0 +1,4 @@
+[tool.black]
+exclude = "deploy/.ansible"
+# Match flake8
+line-length = 79
