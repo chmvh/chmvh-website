@@ -10,17 +10,36 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='TeamMember',
+            name="TeamMember",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('bio', models.TextField(verbose_name='biography')),
-                ('name', models.CharField(max_length=50, unique=True, verbose_name='name')),
-                ('picture', models.ImageField(blank=True, null=True, upload_to=team.models.team_member_image_name)),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("bio", models.TextField(verbose_name="biography")),
+                (
+                    "name",
+                    models.CharField(
+                        max_length=50, unique=True, verbose_name="name"
+                    ),
+                ),
+                (
+                    "picture",
+                    models.ImageField(
+                        blank=True,
+                        null=True,
+                        upload_to=team.models.team_member_image_name,
+                    ),
+                ),
             ],
         ),
     ]

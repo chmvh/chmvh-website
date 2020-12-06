@@ -16,7 +16,7 @@ class TestPetMemoriamView(object):
 
         When this view is used, only deceased patients should be shown.
         """
-        url = reverse('gallery:pet-memoriam')
+        url = reverse("gallery:pet-memoriam")
         request = rf.get(url)
         response = PetMemoriamView.as_view()(request)
 
@@ -27,7 +27,7 @@ class TestPetMemoriamView(object):
         base_context = BasePatientView().get_context_data()
         assert base_context.items() <= response.context_data.items()
 
-        assert list(response.context_data['pets']) == list(expected)
+        assert list(response.context_data["pets"]) == list(expected)
 
     @pytest.mark.django_db
     def test_no_patients(self, rf: RequestFactory):
@@ -35,15 +35,15 @@ class TestPetMemoriamView(object):
 
         If there are no patients, the `pets` list should be empty.
         """
-        url = reverse('gallery:pet-memoriam')
+        url = reverse("gallery:pet-memoriam")
         request = rf.get(url)
         response = PetMemoriamView.as_view()(request)
 
         assert response.status_code == 200
-        assert 'gallery/pet-list.html' in response.template_name
+        assert "gallery/pet-list.html" in response.template_name
 
         base_context = BasePatientView().get_context_data()
         assert base_context.items() <= response.context_data.items()
 
-        assert response.context_data['category'] == 'In Memoriam'
-        assert list(response.context_data['pets']) == []
+        assert response.context_data["category"] == "In Memoriam"
+        assert list(response.context_data["pets"]) == []

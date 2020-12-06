@@ -6,19 +6,21 @@ from gallery import models
 
 class GallerySitemap(sitemaps.Sitemap):
     """Sitemap for the gallery"""
-    changefreq = 'daily'
+
+    changefreq = "daily"
     priority = 0.5
 
     def items(self):
-        urls = [('gallery:index', {})]
+        urls = [("gallery:index", {})]
 
-        for letter in 'ABCDEFGHIJKLMNOPQRSTUVWXYZ':
+        for letter in "ABCDEFGHIJKLMNOPQRSTUVWXYZ":
             if models.Patient.objects.filter(
-                    deceased=False, first_letter=letter).exists():
-                urls.append(('gallery:pet-list', {'first_letter': letter}))
+                deceased=False, first_letter=letter
+            ).exists():
+                urls.append(("gallery:pet-list", {"first_letter": letter}))
 
         if models.Patient.objects.filter(deceased=True).exists():
-            urls.append(('gallery:pet-memoriam', {}))
+            urls.append(("gallery:pet-memoriam", {}))
 
         return urls
 
@@ -28,14 +30,20 @@ class GallerySitemap(sitemaps.Sitemap):
 
 class StaticPageSitemap(sitemaps.Sitemap):
     """Sitemap for the static pages"""
-    changefreq = 'weekly'
+
+    changefreq = "weekly"
     priority = 0.5
 
     def items(self):
         """Get a list of url names to add to the sitemap"""
         return (
-            'contact:contact', 'homepage', 'hours-and-area', 'housecalls',
-            'resources:resource-list', 'services', 'team',
+            "contact:contact",
+            "homepage",
+            "hours-and-area",
+            "housecalls",
+            "resources:resource-list",
+            "services",
+            "team",
         )
 
     def location(self, item):
@@ -44,6 +52,6 @@ class StaticPageSitemap(sitemaps.Sitemap):
 
 
 sitemaps = {
-    'gallery': GallerySitemap,
-    'static': StaticPageSitemap,
+    "gallery": GallerySitemap,
+    "static": StaticPageSitemap,
 }

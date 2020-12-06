@@ -8,20 +8,22 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('gallery', '0001_initial'),
+        ("gallery", "0001_initial"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='patient',
-            name='picture_height',
-            field=models.IntegerField(default=0, verbose_name='picture height'),
+            model_name="patient",
+            name="picture_height",
+            field=models.IntegerField(
+                default=0, verbose_name="picture height"
+            ),
             preserve_default=False,
         ),
         migrations.AddField(
-            model_name='patient',
-            name='picture_width',
-            field=models.IntegerField(default=0, verbose_name='picture width'),
+            model_name="patient",
+            name="picture_width",
+            field=models.IntegerField(default=0, verbose_name="picture width"),
             preserve_default=False,
         ),
     ]

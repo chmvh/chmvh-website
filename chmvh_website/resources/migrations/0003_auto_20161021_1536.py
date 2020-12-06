@@ -8,13 +8,17 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('resources', '0002_auto_20161018_1847'),
+        ("resources", "0002_auto_20161018_1847"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='category',
-            name='important',
-            field=models.BooleanField(default=False, help_text='Categories marked important will be shown at the top of the resource list', verbose_name='important'),
+            model_name="category",
+            name="important",
+            field=models.BooleanField(
+                default=False,
+                help_text="Categories marked important will be shown at the top of the resource list",
+                verbose_name="important",
+            ),
         ),
     ]

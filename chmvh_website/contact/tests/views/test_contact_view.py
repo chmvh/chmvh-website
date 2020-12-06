@@ -9,8 +9,9 @@ from contact.views import ContactView
 
 class TestContactView(object):
     """Test cases for the contact view"""
-    success_url = reverse('contact:success')
-    url = reverse('contact:contact')
+
+    success_url = reverse("contact:success")
+    url = reverse("contact:contact")
 
     def test_get_initial(self, rf: RequestFactory):
         """Test the initial GET request to the view.
@@ -22,7 +23,7 @@ class TestContactView(object):
 
         assert response.status_code == 200
 
-        form = response.context_data['form']
+        form = response.context_data["form"]
         assert isinstance(form, ContactForm)
         assert not form.is_bound
 
@@ -34,17 +35,19 @@ class TestContactView(object):
         """
         request = rf.post(self.url, contact_info)
 
-        with mock.patch('contact.forms.ContactForm.send_email',
-                        autospec=True,
-                        return_value=False):
+        with mock.patch(
+            "contact.forms.ContactForm.send_email",
+            autospec=True,
+            return_value=False,
+        ):
             response = ContactView.as_view()(request)
 
         assert response.status_code == 200
 
-        form = response.context_data['form']
+        form = response.context_data["form"]
         assert form.is_bound
         assert form.errors == {
-            '__all__': ['Failed to send message. Please try again later.'],
+            "__all__": ["Failed to send message. Please try again later."],
         }
 
     def test_submit(self, contact_info, rf: RequestFactory):
@@ -55,9 +58,11 @@ class TestContactView(object):
         """
         request = rf.post(self.url, contact_info)
 
-        with mock.patch('contact.forms.ContactForm.send_email',
-                        autospec=True,
-                        return_value=True) as mock_mail:
+        with mock.patch(
+            "contact.forms.ContactForm.send_email",
+            autospec=True,
+            return_value=True,
+        ) as mock_mail:
             response = ContactView.as_view()(request)
 
         assert response.status_code == 302
@@ -72,14 +77,14 @@ class TestContactView(object):
         displayed with errors.
         """
         data = {
-            'name': 'John Doe',
-            'email': 'johndoe@example.com',
+            "name": "John Doe",
+            "email": "johndoe@example.com",
         }
         request = rf.post(self.url, data)
         response = ContactView.as_view()(request)
 
         assert response.status_code == 200
 
-        form = response.context_data['form']
+        form = response.context_data["form"]
         assert form.is_bound
-        assert form.errors == {'message': ['This field is required.']}
+        assert form.errors == {"message": ["This field is required."]}

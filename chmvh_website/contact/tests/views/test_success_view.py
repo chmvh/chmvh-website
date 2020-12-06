@@ -6,7 +6,8 @@ from contact.views import SuccessView
 
 class TestSuccessView(object):
     """Test cases for the success view"""
-    url = reverse('contact:success')
+
+    url = reverse("contact:success")
 
     def test_get(self, rf: RequestFactory):
         """Test sending a GET request to the view.
@@ -18,4 +19,4 @@ class TestSuccessView(object):
         response = SuccessView.as_view()(request)
 
         assert response.status_code == 200
-        assert 'contact/success.html' in response.template_name
+        assert "contact/success.html" in response.template_name

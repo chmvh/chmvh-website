@@ -9,7 +9,8 @@ from gallery.views import GalleryIndexView
 
 class TestGalleryIndexView(object):
     """Test cases for the gallery index view"""
-    url = reverse('gallery:index')
+
+    url = reverse("gallery:index")
 
     @pytest.mark.django_db
     def test_featured_pets(self, featured_pets, rf: RequestFactory):
@@ -19,12 +20,12 @@ class TestGalleryIndexView(object):
         view.
         """
         request = rf.get(self.url)
-        response =GalleryIndexView.as_view()(request)
+        response = GalleryIndexView.as_view()(request)
 
         expected = list(Patient.objects.filter(featured=True))
 
         assert response.status_code == 200
-        assert list(response.context_data['featured_pets']) == expected
+        assert list(response.context_data["featured_pets"]) == expected
 
     @pytest.mark.django_db
     def test_no_featured_pets(self, rf: RequestFactory):
@@ -37,7 +38,7 @@ class TestGalleryIndexView(object):
         response = GalleryIndexView.as_view()(request)
 
         assert response.status_code == 200
-        assert not response.context_data['featured_pets'].exists()
+        assert not response.context_data["featured_pets"].exists()
 
     @pytest.mark.django_db
     def test_template(self, rf: RequestFactory):
@@ -50,4 +51,4 @@ class TestGalleryIndexView(object):
         response = GalleryIndexView.as_view()(request)
 
         assert response.status_code == 200
-        assert 'gallery/index.html' in response.template_name
+        assert "gallery/index.html" in response.template_name

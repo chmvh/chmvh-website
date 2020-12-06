@@ -9,23 +9,33 @@ import gallery.models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('gallery', '0004_patient_featured'),
+        ("gallery", "0004_patient_featured"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='patient',
-            name='thumbnail',
-            field=models.ImageField(height_field='thumbnail_height', null=True, upload_to=gallery.models.patient_thumbnail_path, verbose_name='picture thumbnail', width_field='thumbnail_width'),
+            model_name="patient",
+            name="thumbnail",
+            field=models.ImageField(
+                height_field="thumbnail_height",
+                null=True,
+                upload_to=gallery.models.patient_thumbnail_path,
+                verbose_name="picture thumbnail",
+                width_field="thumbnail_width",
+            ),
         ),
         migrations.AddField(
-            model_name='patient',
-            name='thumbnail_height',
-            field=models.IntegerField(null=True, verbose_name='picture thumbnail height'),
+            model_name="patient",
+            name="thumbnail_height",
+            field=models.IntegerField(
+                null=True, verbose_name="picture thumbnail height"
+            ),
         ),
         migrations.AddField(
-            model_name='patient',
-            name='thumbnail_width',
-            field=models.IntegerField(null=True, verbose_name='picture thumbnail width'),
+            model_name="patient",
+            name="thumbnail_width",
+            field=models.IntegerField(
+                null=True, verbose_name="picture thumbnail width"
+            ),
         ),
     ]

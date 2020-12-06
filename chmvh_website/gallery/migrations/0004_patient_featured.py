@@ -8,13 +8,17 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('gallery', '0003_auto_20161006_0417'),
+        ("gallery", "0003_auto_20161006_0417"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='patient',
-            name='featured',
-            field=models.BooleanField(default=False, help_text='Patients marked as featured will be displayed on the gallery home page.', verbose_name='featured'),
+            model_name="patient",
+            name="featured",
+            field=models.BooleanField(
+                default=False,
+                help_text="Patients marked as featured will be displayed on the gallery home page.",
+                verbose_name="featured",
+            ),
         ),
     ]

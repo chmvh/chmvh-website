@@ -19,8 +19,8 @@ class TestBasePatientView(object):
         view = BasePatientView()
         context = view.get_context_data()
 
-        assert context['pet_categories'] == []
-        assert not context['in_memoriam']
+        assert context["pet_categories"] == []
+        assert not context["in_memoriam"]
 
     @pytest.mark.django_db
     def test_context_pets(self, pets):
@@ -36,10 +36,11 @@ class TestBasePatientView(object):
         expected_categories = []
         for letter in string.ascii_uppercase:
             if Patient.objects.filter(
-                    deceased=False, first_letter=letter).exists():
+                deceased=False, first_letter=letter
+            ).exists():
                 expected_categories.append(letter)
 
         expected_in_memoriam = Patient.objects.filter(deceased=True).exists()
 
-        assert context['pet_categories'] == expected_categories
-        assert context['in_memoriam'] == expected_in_memoriam
+        assert context["pet_categories"] == expected_categories
+        assert context["in_memoriam"] == expected_in_memoriam

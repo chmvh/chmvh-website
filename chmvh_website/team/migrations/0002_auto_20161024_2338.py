@@ -8,17 +8,17 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('team', '0001_initial'),
+        ("team", "0001_initial"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='teammember',
-            name='order',
+            model_name="teammember",
+            name="order",
             field=models.PositiveSmallIntegerField(default=0),
         ),
         migrations.AlterModelOptions(
-            name='teammember',
-            options={'ordering': ('order',)},
+            name="teammember",
+            options={"ordering": ("order",)},
         ),
     ]

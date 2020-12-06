@@ -7,7 +7,7 @@ from gallery.tasks import process_patient_picture
 
 
 class Command(BaseCommand):
-    help = 'Processes patient pictures.'
+    help = "Processes patient pictures."
 
     def handle(self, *args, **kwargs):
         count = models.Patient.objects.all().count()
@@ -16,11 +16,11 @@ class Command(BaseCommand):
 
             return
         elif count == 1:
-            count_bit = '1 patient'
+            count_bit = "1 patient"
         else:
-            count_bit = '{0} patients'.format(count)
+            count_bit = "{0} patients".format(count)
 
-        self.stdout.write('Processing {}...'.format(count_bit))
+        self.stdout.write("Processing {}...".format(count_bit))
 
         successes = 0
 
@@ -28,6 +28,10 @@ class Command(BaseCommand):
             if process_patient_picture(patient.id):
                 successes += 1
 
-        self.stdout.write(self.style.SUCCESS(
-            "Successfully processed {0} of {1} patient pictures".format(
-                successes, count)))
+        self.stdout.write(
+            self.style.SUCCESS(
+                "Successfully processed {0} of {1} patient pictures".format(
+                    successes, count
+                )
+            )
+        )

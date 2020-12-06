@@ -22,10 +22,7 @@ def copyright_years():
     if cur_year == 2016:
         return str(cur_year)
 
-    return format_html(
-        '{} &ndash; {}',
-        2016,
-        cur_year)
+    return format_html("{} &ndash; {}", 2016, cur_year)
 
 
 @register.simple_tag
@@ -39,4 +36,4 @@ def phone_number(number: str) -> str:
     Returns:
         The phone number with spaces replaced with non-breaking spaces.
     """
-    return mark_safe(re.sub(r'[\s]+', '&nbsp;', number))
+    return mark_safe(re.sub(r"[\s]+", "&nbsp;", number))
