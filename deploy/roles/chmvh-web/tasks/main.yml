@@ -65,7 +65,7 @@
 
 - name: Run management tasks
   docker_container:
-    command: "{{ item }}"
+    command: ["{{ item }}", "--no-input"]
     detach: false
     entrypoint: "./manage.py"
     env:
