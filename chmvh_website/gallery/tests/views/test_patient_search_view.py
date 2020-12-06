@@ -1,9 +1,6 @@
-from unittest import mock
-
+import pytest
 from django.test import RequestFactory
 from django.urls import reverse
-
-import pytest
 
 from gallery.testing_utils import create_patient
 from gallery.views import PatientSearchView
