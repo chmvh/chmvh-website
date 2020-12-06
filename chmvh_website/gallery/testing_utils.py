@@ -1,12 +1,19 @@
+import pathlib
+
 from django.core.files import File
 from django.core.files.uploadedfile import SimpleUploadedFile
 
 from gallery import models
 
 
-def create_patient(first_name: str='Spot', last_name: str='Barker',
-                   deceased: bool=False, description: str='',
-                   featured: bool=False, picture: File=None) -> models.Patient:
+def create_patient(
+    first_name: str = "Spot",
+    last_name: str = "Barker",
+    deceased: bool = False,
+    description: str = "",
+    featured: bool = False,
+    picture: File = None,
+) -> models.Patient:
     """
     Create a patient for testing purposes.
 
@@ -32,12 +39,12 @@ def create_patient(first_name: str='Spot', last_name: str='Barker',
         A new `Patient` instance with the supplied attributes.
     """
     patient_info = {
-        'first_name': first_name,
-        'last_name': last_name,
-        'deceased': deceased,
-        'description': description,
-        'featured': featured,
-        'picture': picture or get_test_picture(),
+        "first_name": first_name,
+        "last_name": last_name,
+        "deceased": deceased,
+        "description": description,
+        "featured": featured,
+        "picture": picture or get_test_picture(),
     }
 
     return models.Patient.objects.create(**patient_info)
@@ -52,9 +59,11 @@ def get_test_picture() -> SimpleUploadedFile:
     Returns:
         A file whose contents are the sample image described.
     """
-    src = 'gallery/tests/fixtures/images/test_picture.jpg'
+    current_dir = pathlib.Path(__file__).parent
+    src = current_dir / "tests" / "fixtures" / "images" / "test_picture.jpg"
 
     return SimpleUploadedFile(
-        content=open(src, 'rb').read(),
-        content_type='image/jpeg',
-        name='test_image.jpg')
+        content=open(src, "rb").read(),
+        content_type="image/jpeg",
+        name="test_image.jpg",
+    )

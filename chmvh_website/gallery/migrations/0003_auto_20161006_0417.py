@@ -8,18 +8,20 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('gallery', '0002_auto_20161006_0355'),
+        ("gallery", "0002_auto_20161006_0355"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='patient',
-            options={'ordering': ('first_name', 'last_name')},
+            name="patient",
+            options={"ordering": ("first_name", "last_name")},
         ),
         migrations.AddField(
-            model_name='patient',
-            name='first_letter',
-            field=models.CharField(default='B', max_length=1, verbose_name='first letter'),
+            model_name="patient",
+            name="first_letter",
+            field=models.CharField(
+                default="B", max_length=1, verbose_name="first letter"
+            ),
             preserve_default=False,
         ),
     ]

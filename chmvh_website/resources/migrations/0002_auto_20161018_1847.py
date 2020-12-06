@@ -8,16 +8,19 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('resources', '0001_initial'),
+        ("resources", "0001_initial"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='category',
-            options={'ordering': ('title',), 'verbose_name_plural': 'categories'},
+            name="category",
+            options={
+                "ordering": ("title",),
+                "verbose_name_plural": "categories",
+            },
         ),
         migrations.AlterModelOptions(
-            name='resource',
-            options={'ordering': ('title',)},
+            name="resource",
+            options={"ordering": ("title",)},
         ),
     ]

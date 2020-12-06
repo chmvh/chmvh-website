@@ -6,8 +6,8 @@ from team import models
 
 
 class TeamMemberAdmin(SortableAdminMixin, admin.ModelAdmin):
-    fields = ('name', 'picture', 'bio')
-    list_display = ('name',)
+    fields = ("name", "picture", "bio")
+    list_display = ("name",)
 
 
 admin.site.register(models.TeamMember, TeamMemberAdmin)

@@ -17,16 +17,18 @@ class TestContactForm(object):
         Sending an email from the form should use the data from the
         form to construct the email.
         """
-        settings.EMAIL_BACKEND = ('django.core.mail.backends.locmem.'
-                                  'EmailBackend')
+        settings.EMAIL_BACKEND = (
+            "django.core.mail.backends.locmem." "EmailBackend"
+        )
 
-        template = loader.get_template('contact/email/message.txt')
+        template = loader.get_template("contact/email/message.txt")
         context = contact_info
-        expected_subject = '[CHMVH Website] Message from {name}'.format(
-            name=contact_info['name'])
+        expected_subject = "[CHMVH Website] Message from {name}".format(
+            name=contact_info["name"]
+        )
         expected_body = template.render(context)
         expected_from_address = settings.DEFAULT_FROM_EMAIL
-        expected_to_address = ['info@chapelhillvet.com']
+        expected_to_address = ["info@chapelhillvet.com"]
 
         form = ContactForm(data=contact_info)
 
@@ -45,15 +47,17 @@ class TestContactForm(object):
 
         If the email fails to send, the method should return false.
         """
-        settings.EMAIL_BACKEND = ('django.core.mail.backends.locmem.'
-                                  'EmailBackend')
+        settings.EMAIL_BACKEND = (
+            "django.core.mail.backends.locmem." "EmailBackend"
+        )
 
         form = ContactForm(data=contact_info)
 
         with mock.patch(
-                'contact.forms.mail.send_mail',
-                autospec=True,
-                side_effect=SMTPException()):
+            "contact.forms.mail.send_mail",
+            autospec=True,
+            side_effect=SMTPException(),
+        ):
             with disable_logging():
                 assert not form.send_email()
 
@@ -66,4 +70,4 @@ class TestContactForm(object):
         """
         form = ContactForm(data=contact_info)
 
-        assert form.is_valid()
+        assert form.is_valid(), form.errors

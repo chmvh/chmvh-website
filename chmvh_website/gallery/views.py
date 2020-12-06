@@ -22,80 +22,87 @@ class BasePatientView(object):
         """
         context = dict()
 
-        context['in_memoriam'] = models.Patient.objects.filter(
-            deceased=True).exists()
+        context["in_memoriam"] = models.Patient.objects.filter(
+            deceased=True
+        ).exists()
 
         categories = []
         for letter in string.ascii_uppercase:
             if models.Patient.objects.filter(
-                    deceased=False, first_letter=letter).exists():
+                deceased=False, first_letter=letter
+            ).exists():
                 categories.append(letter)
-        context['pet_categories'] = categories
+        context["pet_categories"] = categories
 
         return context
 
 
 class GalleryIndexView(BasePatientView, generic.base.TemplateView):
-    template_name = 'gallery/index.html'
+    template_name = "gallery/index.html"
 
     def get_context_data(self):
         context = super(GalleryIndexView, self).get_context_data()
 
         featured = models.Patient.objects.filter(featured=True)
-        context['featured_pets'] = featured
+        context["featured_pets"] = featured
 
         return context
 
 
 class PetListView(BasePatientView, generic.base.TemplateView):
-    template_name = 'gallery/pet-list.html'
+    template_name = "gallery/pet-list.html"
 
     def get_context_data(self, first_letter, *args, **kwargs):
         context = super(PetListView, self).get_context_data(*args, **kwargs)
 
         letter = first_letter.upper()
-        context['category'] = letter
+        context["category"] = letter
 
         pets = models.Patient.objects.filter(
-            first_letter__iexact=letter).exclude(
-            deceased=True)
-        context['pets'] = pets
+            first_letter__iexact=letter
+        ).exclude(deceased=True)
+        context["pets"] = pets
 
         return context
 
 
 class PetMemoriamView(BasePatientView, generic.base.TemplateView):
-    template_name = 'gallery/pet-list.html'
+    template_name = "gallery/pet-list.html"
 
     def get_context_data(self, *args, **kwargs):
         context = super(PetMemoriamView, self).get_context_data(
-            *args, **kwargs)
+            *args, **kwargs
+        )
 
-        context['category'] = 'In Memoriam'
+        context["category"] = "In Memoriam"
 
         pets = models.Patient.objects.filter(deceased=True)
-        context['pets'] = pets
+        context["pets"] = pets
 
         return context
 
 
 class PatientSearchView(BasePatientView, generic.base.TemplateView):
-    template_name = 'gallery/search.html'
+    template_name = "gallery/search.html"
 
     def get_context_data(self, *args, **kwargs):
-        context = super(PatientSearchView, self).get_context_data(*args, **kwargs)
+        context = super(PatientSearchView, self).get_context_data(
+            *args, **kwargs
+        )
 
-        query = self.request.GET.get('q')
-        context['query'] = query
+        query = self.request.GET.get("q")
+        context["query"] = query
 
         if query:
             pets = models.Patient.objects.filter(
                 reduce(
                     lambda q, f: q & Q(first_name__icontains=f),
                     query.split(),
-                    Q()))
+                    Q(),
+                )
+            )
         else:
             pets = []
-        context['pets'] = pets
+        context["pets"] = pets
 
         return context

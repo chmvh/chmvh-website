@@ -30,12 +30,12 @@ class TestPracticeInfoModel(object):
         info = PracticeInfo.objects.create()
 
         assert not info.accepting_clients
-        assert info.accepting_clients_text == ''
-        assert info.address == ''
-        assert info.email == ''
-        assert info.fax == ''
-        assert info.not_accepting_clients_text == ''
-        assert info.phone == ''
+        assert info.accepting_clients_text == ""
+        assert info.address == ""
+        assert info.email == ""
+        assert info.fax == ""
+        assert info.not_accepting_clients_text == ""
+        assert info.phone == ""
 
     @pytest.mark.django_db
     def test_empty(self):

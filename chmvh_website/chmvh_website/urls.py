@@ -23,19 +23,22 @@ from chmvh_website.sitemaps import sitemaps
 
 
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
-    url(r'^contact/', include('contact.urls', namespace='contact')),
-    url(r'^gallery/', include('gallery.urls', namespace='gallery')),
-    url(r'^resources/', include('resources.urls', namespace='resources')),
-    url(r'^team/', include('team.urls', namespace='team')),
-
-    url(r'^sitemap\.xml$', sitemap, {'sitemaps': sitemaps},
-        name='django.contrib.sitemaps.views.sitemap'),
-
-    url(r'^', include('staticpages.urls')),
+    url(r"^admin/", admin.site.urls),
+    url(r"^contact/", include("contact.urls", namespace="contact")),
+    url(r"^gallery/", include("gallery.urls", namespace="gallery")),
+    url(r"^resources/", include("resources.urls", namespace="resources")),
+    url(r"^team/", include("team.urls", namespace="team")),
+    url(
+        r"^sitemap\.xml$",
+        sitemap,
+        {"sitemaps": sitemaps},
+        name="django.contrib.sitemaps.views.sitemap",
+    ),
+    url(r"^", include("staticpages.urls")),
 ]
 
 
 if settings.DEBUG:
     urlpatterns += static(
-        settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+        settings.MEDIA_URL, document_root=settings.MEDIA_ROOT
+    )

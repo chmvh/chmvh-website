@@ -11,10 +11,12 @@ from gallery.serializers import PatientSerializer
 
 class TestPatientListCreateView(object):
     """Test cases for the patient list/create api view"""
-    url = reverse('gallery:api:patient-list')
 
-    def test_create_patient(self, admin_user: User, patient_info: dict,
-                            api_rf: APIRequestFactory):
+    url = reverse("gallery:api:patient-list")
+
+    def test_create_patient(
+        self, admin_user: User, patient_info: dict, api_rf: APIRequestFactory
+    ):
         """Test creating a new patient with a POST request.
 
         If valid data is POSTed to the view, a new patient should be
@@ -34,19 +36,20 @@ class TestPatientListCreateView(object):
 
         assert Patient.objects.count() == 1
 
-    def test_create_patient_invalid(self, admin_user: User,
-                                    api_rf: APIRequestFactory):
+    def test_create_patient_invalid(
+        self, admin_user: User, api_rf: APIRequestFactory
+    ):
         """Test POSTing invalid data.
 
         If invalid data is submitted, the response should contain the
         errors.
         """
         data = {
-            'first_name': 'Spot',
-            'last_name': 'Barker',
+            "first_name": "Spot",
+            "last_name": "Barker",
         }
         expected = {
-            'picture': ['No file was submitted.'],
+            "picture": ["No file was submitted."],
         }
 
         request = api_rf.post(self.url, data)
@@ -60,12 +63,19 @@ class TestPatientListCreateView(object):
 
         assert Patient.objects.count() == 0
 
-    def test_list_patients(self, admin_user: User, pets, rf: RequestFactory):
+    def test_list_patients(
+        self, admin_user: User, pet_factory, rf: RequestFactory
+    ):
         """Test the patient list view with multiple patients.
 
-        If there are multiple patients, they should be listed in order.
+        If there are multiple patients, they should be listed in of
+        first and last name.
         """
-        patients = Patient.objects.all()
+        pet_factory(first_name="A", last_name="B")
+        pet_factory(first_name="A", last_name="A")
+        pet_factory(first_name="B", last_name="A")
+
+        patients = Patient.objects.order_by("first_name", "last_name")
         serializer = PatientSerializer(patients, many=True)
 
         request = rf.get(self.url)

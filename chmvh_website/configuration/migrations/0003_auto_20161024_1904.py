@@ -8,12 +8,12 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('configuration', '0002_auto_20161024_1842'),
+        ("configuration", "0002_auto_20161024_1842"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='practiceinfo',
-            options={'verbose_name': 'practice information'},
+            name="practiceinfo",
+            options={"verbose_name": "practice information"},
         ),
     ]

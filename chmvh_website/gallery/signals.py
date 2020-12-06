@@ -4,7 +4,7 @@ from django.dispatch import receiver
 from gallery.tasks import process_patient_picture
 
 
-@receiver(post_save, sender='gallery.Patient')
+@receiver(post_save, sender="gallery.Patient")
 def process_picture(sender, instance, update_fields, *args, **kwargs):
     """
     Process a patients picture.
@@ -24,5 +24,5 @@ def process_picture(sender, instance, update_fields, *args, **kwargs):
         **kwargs:
             Additional keyword arguments.
     """
-    if not update_fields or 'thumbnail' not in update_fields:
+    if not update_fields or "thumbnail" not in update_fields:
         process_patient_picture(instance.id)

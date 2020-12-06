@@ -7,7 +7,7 @@ from django.db import migrations
 
 def preset_order(apps, schema_editor):
     """Make sure each team member has an order value"""
-    TeamMember = apps.get_model('team', 'TeamMember')
+    TeamMember = apps.get_model("team", "TeamMember")
 
     for i, member in enumerate(TeamMember.objects.all()):
         member.order = i + 1
@@ -17,7 +17,7 @@ def preset_order(apps, schema_editor):
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('team', '0002_auto_20161024_2338'),
+        ("team", "0002_auto_20161024_2338"),
     ]
 
     operations = [

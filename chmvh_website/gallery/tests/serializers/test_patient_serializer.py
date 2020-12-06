@@ -20,10 +20,10 @@ class TestPatientSerializer(object):
 
         patient = serializer.save()
 
-        assert patient.first_name == patient_info['first_name']
-        assert patient.last_name == patient_info['last_name']
-        assert patient.featured == patient_info['featured']
-        assert patient.deceased == patient_info['deceased']
+        assert patient.first_name == patient_info["first_name"]
+        assert patient.last_name == patient_info["last_name"]
+        assert patient.featured == patient_info["featured"]
+        assert patient.deceased == patient_info["deceased"]
 
     @pytest.mark.django_db
     def test_serialize(self, patient_info):
@@ -36,10 +36,10 @@ class TestPatientSerializer(object):
         serializer = PatientSerializer(patient)
 
         expected = {
-            'first_name': patient_info['first_name'],
-            'last_name': patient_info['last_name'],
-            'featured': patient_info['featured'],
-            'deceased': patient_info['deceased'],
+            "first_name": patient_info["first_name"],
+            "last_name": patient_info["last_name"],
+            "featured": patient_info["featured"],
+            "deceased": patient_info["deceased"],
         }
 
         assert serializer.data == expected

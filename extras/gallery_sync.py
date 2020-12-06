@@ -13,15 +13,15 @@ import os
 import requests
 
 
-DOMAIN = input('Enter base site domain (eg http://example.com): ')
-API_URL = '{0}/gallery/api/patients/'.format(DOMAIN)
+DOMAIN = input("Enter base site domain (eg http://example.com): ")
+API_URL = "{0}/gallery/api/patients/".format(DOMAIN)
 
-API_USER = input('API User: ')
-API_PASSWORD = getpass('API Password: ')
+API_USER = input("API User: ")
+API_PASSWORD = getpass("API Password: ")
 
-LOCAL_FOLDER = input('Local folder to sync from: ')
+LOCAL_FOLDER = input("Local folder to sync from: ")
 
-PICTURE_EXTENSIONS = ('jpg', 'jpeg', 'png')
+PICTURE_EXTENSIONS = ("jpg", "jpeg", "png")
 
 
 def check_deceased(path, name):
@@ -37,7 +37,7 @@ def get_patient_list():
     patients = []
 
     for patient in response.json():
-        name = '{0} {1}'.format(patient['first_name'], patient['last_name'])
+        name = "{0} {1}".format(patient["first_name"], patient["last_name"])
 
         patients.append(name)
 
@@ -45,29 +45,27 @@ def get_patient_list():
 
 
 def upload_picture(path, name):
-    parts = name.rsplit(' ', 1)
+    parts = name.rsplit(" ", 1)
     if len(parts) != 2:
-        print('\tCould not parse name {0}. Skipping.'.format(name))
+        print("\tCould not parse name {0}. Skipping.".format(name))
 
         return False
 
     fname, lname = parts
     data = {
-        'first_name': fname,
-        'last_name': lname,
-        'deceased': check_deceased(path, name),
+        "first_name": fname,
+        "last_name": lname,
+        "deceased": check_deceased(path, name),
     }
 
-    with open(path, 'rb') as f:
+    with open(path, "rb") as f:
         files = {
-            'picture': f,
+            "picture": f,
         }
 
         requests.post(
-            API_URL,
-            auth=(API_USER, API_PASSWORD),
-            data=data,
-            files=files)
+            API_URL, auth=(API_USER, API_PASSWORD), data=data, files=files
+        )
 
 
 def upload_pictures(start_folder):
@@ -79,12 +77,12 @@ def upload_pictures(start_folder):
         for file in files:
             name, ext = os.path.splitext(file)
 
-            if ext.strip('.').lower() in PICTURE_EXTENSIONS:
+            if ext.strip(".").lower() in PICTURE_EXTENSIONS:
                 if name not in existing_patients:
                     path = os.path.join(root, file)
 
                     upload_picture(path, name)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     upload_pictures(LOCAL_FOLDER)

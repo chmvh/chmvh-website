@@ -9,34 +9,41 @@ import gallery.models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('gallery', '0006_patient_description'),
+        ("gallery", "0006_patient_description"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='patient',
-            name='picture_height',
+            model_name="patient",
+            name="picture_height",
         ),
         migrations.RemoveField(
-            model_name='patient',
-            name='picture_width',
+            model_name="patient",
+            name="picture_width",
         ),
         migrations.RemoveField(
-            model_name='patient',
-            name='thumbnail_height',
+            model_name="patient",
+            name="thumbnail_height",
         ),
         migrations.RemoveField(
-            model_name='patient',
-            name='thumbnail_width',
+            model_name="patient",
+            name="thumbnail_width",
         ),
         migrations.AlterField(
-            model_name='patient',
-            name='picture',
-            field=models.ImageField(upload_to=gallery.models.patient_image_path, verbose_name='picture'),
+            model_name="patient",
+            name="picture",
+            field=models.ImageField(
+                upload_to=gallery.models.patient_image_path,
+                verbose_name="picture",
+            ),
         ),
         migrations.AlterField(
-            model_name='patient',
-            name='thumbnail',
-            field=models.ImageField(null=True, upload_to=gallery.models.patient_thumbnail_path, verbose_name='picture thumbnail'),
+            model_name="patient",
+            name="thumbnail",
+            field=models.ImageField(
+                null=True,
+                upload_to=gallery.models.patient_thumbnail_path,
+                verbose_name="picture thumbnail",
+            ),
         ),
     ]

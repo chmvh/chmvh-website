@@ -8,13 +8,18 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('gallery', '0005_auto_20161022_2244'),
+        ("gallery", "0005_auto_20161022_2244"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='patient',
-            name='description',
-            field=models.CharField(blank=True, help_text='For featured patients, their description will be displayed underneath their name on the gallery home page', max_length=100, verbose_name='featured description'),
+            model_name="patient",
+            name="description",
+            field=models.CharField(
+                blank=True,
+                help_text="For featured patients, their description will be displayed underneath their name on the gallery home page",
+                max_length=100,
+                verbose_name="featured description",
+            ),
         ),
     ]

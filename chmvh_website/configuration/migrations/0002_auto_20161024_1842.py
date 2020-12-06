@@ -8,18 +8,28 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('configuration', '0001_initial'),
+        ("configuration", "0001_initial"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='practiceinfo',
-            name='accepting_clients_text',
-            field=models.TextField(blank=True, default='', help_text="This text is displayed on the 'Hours and Area' page when 'Accepting new clients' is checked.", verbose_name='accepting new clients message'),
+            model_name="practiceinfo",
+            name="accepting_clients_text",
+            field=models.TextField(
+                blank=True,
+                default="",
+                help_text="This text is displayed on the 'Hours and Area' page when 'Accepting new clients' is checked.",
+                verbose_name="accepting new clients message",
+            ),
         ),
         migrations.AddField(
-            model_name='practiceinfo',
-            name='not_accepting_clients_text',
-            field=models.TextField(blank=True, default='', help_text="This text is displayed on the 'Hours and Area' page when 'Accepting new clients' is <strong>not</strong> checked.", verbose_name='not accepting new clients message'),
+            model_name="practiceinfo",
+            name="not_accepting_clients_text",
+            field=models.TextField(
+                blank=True,
+                default="",
+                help_text="This text is displayed on the 'Hours and Area' page when 'Accepting new clients' is <strong>not</strong> checked.",
+                verbose_name="not accepting new clients message",
+            ),
         ),
     ]

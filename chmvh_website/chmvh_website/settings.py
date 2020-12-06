@@ -27,6 +27,7 @@ def env_list(name: str) -> list[str]:
 
     return raw_value.split(",")
 
+
 SILENCED_SYSTEM_CHECKS = []
 
 
@@ -50,77 +51,83 @@ ALLOWED_HOSTS = env_list("CHMVH_ALLOWED_HOSTS")
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.messages',
-    'django.contrib.sessions',
-    'django.contrib.sitemaps',
-    'django.contrib.staticfiles',
-
+    "django.contrib.admin",
+    "django.contrib.auth",
+    "django.contrib.contenttypes",
+    "django.contrib.messages",
+    "django.contrib.sessions",
+    "django.contrib.sitemaps",
+    "django.contrib.staticfiles",
     # Third Party Apps
-    'adminsortable2',
-    'captcha',
-    'rest_framework',
-    'sass_processor',
-    'solo',
-
+    "adminsortable2",
+    "captcha",
+    "rest_framework",
+    "sass_processor",
+    "solo",
     # Custom Apps
-    'common',
-    'configuration',
-    'contact',
-    'gallery',
-    'resources',
-    'staticpages',
-    'team',
+    "common",
+    "configuration",
+    "contact",
+    "gallery",
+    "resources",
+    "staticpages",
+    "team",
 ]
 
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "django.middleware.security.SecurityMiddleware",
+    "django.contrib.sessions.middleware.SessionMiddleware",
+    "django.middleware.common.CommonMiddleware",
+    "django.middleware.csrf.CsrfViewMiddleware",
+    "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "django.contrib.messages.middleware.MessageMiddleware",
+    "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-ROOT_URLCONF = 'chmvh_website.urls'
+ROOT_URLCONF = "chmvh_website.urls"
 
 TEMPLATES = [
     {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')],
-        'APP_DIRS': True,
-        'OPTIONS': {
-            'context_processors': [
-                'django.template.context_processors.debug',
-                'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
-                'common.context_processors.analytics',
-                'configuration.context_processors.practice_info',
+        "BACKEND": "django.template.backends.django.DjangoTemplates",
+        "DIRS": [os.path.join(BASE_DIR, "templates")],
+        "APP_DIRS": True,
+        "OPTIONS": {
+            "context_processors": [
+                "django.template.context_processors.debug",
+                "django.template.context_processors.request",
+                "django.contrib.auth.context_processors.auth",
+                "django.contrib.messages.context_processors.messages",
+                "common.context_processors.analytics",
+                "configuration.context_processors.practice_info",
             ],
         },
     },
 ]
 
-WSGI_APPLICATION = 'chmvh_website.wsgi.application'
+WSGI_APPLICATION = "chmvh_website.wsgi.application"
 
 
 # Database
 # https://docs.djangoproject.com/en/1.10/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'HOST': os.getenv("CHMVH_DB_HOST", "localhost"),
-        'PORT': os.getenv("CHMVH_DB_PORT", "5432"),
-        'USER': os.getenv("CHMVH_DB_USER", "postgres"),
-        'PASSWORD': os.getenv("CHMVH_DB_PASSWORD"),
-        'NAME': os.getenv("CHMVH_DB_NAME", "postgres"),
+    "default": {
+        "ENGINE": "django.db.backends.postgresql_psycopg2",
+        "HOST": os.getenv("CHMVH_DB_HOST", "localhost"),
+        "PORT": os.getenv("CHMVH_DB_PORT", "5432"),
+        "USER": os.getenv("CHMVH_DB_USER", "postgres"),
+        "PASSWORD": os.getenv("CHMVH_DB_PASSWORD"),
+        "NAME": os.getenv("CHMVH_DB_NAME", "postgres"),
     }
 }
+
+if os.getenv("CHMVH_TEST"):
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": ":memory:",
+        }
+    }
 
 
 # Password validation
@@ -128,10 +135,10 @@ DATABASES = {
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',       # noqa
+        "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",  # noqa
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',      # noqa
+        "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",  # noqa
     },
 ]
 
@@ -139,9 +146,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/1.10/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = "en-us"
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = "UTC"
 
 USE_I18N = True
 
@@ -154,20 +161,20 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
 STATIC_ROOT = os.getenv("CHMVH_STATIC_ROOT")
-STATIC_URL = '/static/'
+STATIC_URL = "/static/"
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'),
+    os.path.join(BASE_DIR, "static"),
 ]
 STATICFILES_FINDERS = [
-    'django.contrib.staticfiles.finders.FileSystemFinder',
-    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-    'sass_processor.finders.CssFinder',
+    "django.contrib.staticfiles.finders.FileSystemFinder",
+    "django.contrib.staticfiles.finders.AppDirectoriesFinder",
+    "sass_processor.finders.CssFinder",
 ]
 
 # Media Files (User Uploaded)
 
-MEDIA_ROOT = os.getenv("CHMVH_MEDIA_ROOT")
-MEDIA_URL = '/media/'
+MEDIA_ROOT = os.getenv("CHMVH_MEDIA_ROOT", os.path.join(BASE_DIR, "media"))
+MEDIA_URL = "/media/"
 
 # HTTPS
 if env_bool("CHMVH_HTTPS"):
@@ -182,9 +189,9 @@ if env_bool("CHMVH_HTTPS"):
 
 
 # Email Settings
-DEFAULT_FROM_EMAIL = 'no-reply@chapelhillvet.com'
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-EMAIL_SUBJECT_PREFIX = '[CHMVH Website] '
+DEFAULT_FROM_EMAIL = "no-reply@chapelhillvet.com"
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+EMAIL_SUBJECT_PREFIX = "[CHMVH Website] "
 
 if os.getenv("CHMVH_EMAIL_USER"):
     EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
@@ -195,9 +202,7 @@ if os.getenv("CHMVH_EMAIL_USER"):
     EMAIL_USE_TLS = True
 
 if os.getenv("CHMVH_ADMIN_NAME"):
-    ADMINS = (
-        (os.getenv("CHMVH_ADMIN_NAME"), os.getenv("CHMVH_ADMIN_EMAIL"))
-    )
+    ADMINS = ((os.getenv("CHMVH_ADMIN_NAME"), os.getenv("CHMVH_ADMIN_EMAIL")),)
 
 # Google Analytics
 GOOGLE_ANALYTICS_ID = os.getenv("CHMVH_GOOGLE_ANALYTICS_ID")
@@ -208,7 +213,7 @@ if os.getenv("CHMVH_RECAPTCHA_PRIVATE_KEY"):
     RECAPTCHA_PUBLIC_KEY = os.getenv("CHMVH_RECAPTCHA_PUBLIC_KEY")
 else:
     NOCAPTCHA = True
-    SILENCED_SYSTEM_CHECKS.append('captcha.recaptcha_test_key_error')
+    SILENCED_SYSTEM_CHECKS.append("captcha.recaptcha_test_key_error")
 
 
 # Gallery Settings
@@ -217,47 +222,44 @@ GALLERY_THUMBNAIL_SIZE = 300, 300
 
 # Config for django-sass-processor
 
-SASS_PROCESSOR_ROOT = os.path.join(BASE_DIR, 'static')
+SASS_PROCESSOR_ROOT = os.path.join(BASE_DIR, "static")
 
 
 # Config for djangorestframework
 
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework.authentication.BasicAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework.authentication.BasicAuthentication",
+        "rest_framework.authentication.SessionAuthentication",
     ),
-    'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.IsAuthenticated',
+    "DEFAULT_PERMISSION_CLASSES": (
+        "rest_framework.permissions.IsAuthenticated",
     ),
 }
 
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
-
     "formatters": {
         "standard": {
-            "format": "[%(asctime)s] %(levelname)s [%(name)s:%(lineno)s] %(message)s",
+            "format": "[%(asctime)s] %(levelname)s [%(name)s:%(lineno)s] %(message)s",  # noqa
             "datefmt": "%d/%b/%Y %H:%M:%S",
         },
     },
-
     "handlers": {
         "console": {
             "class": "logging.StreamHandler",
             "formatter": "standard",
         },
-        'mail_admins': {
-            'level': 'ERROR',
-            'class': 'django.utils.log.AdminEmailHandler',
+        "mail_admins": {
+            "level": "ERROR",
+            "class": "django.utils.log.AdminEmailHandler",
         },
     },
-
     "loggers": {
         "root": {
             "handlers": ["console", "mail_admins"],
             "level": logging.INFO,
         }
-    }
+    },
 }
