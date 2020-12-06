@@ -1,15 +1,12 @@
 from io import BytesIO
 
+from PIL import ExifTags, Image
 from celery.utils.log import get_task_logger
-
 from django.conf import settings
 from django.core.files.base import ContentFile
 
-from PIL import ExifTags, Image
-
-from chmvh_website import celery_app
-
 from gallery.models import Patient
+
 
 _INVALID_FORMAT_ERROR = ("Can't generate thumbnail for {type} filetype. "
                          "(Path: {path})")
@@ -18,7 +15,6 @@ _INVALID_FORMAT_ERROR = ("Can't generate thumbnail for {type} filetype. "
 default_logger = get_task_logger(__name__)
 
 
-@celery_app.task
 def create_thumbnail(patient_id, logger=default_logger):
     patient = Patient.objects.get(pk=patient_id)
 
@@ -58,13 +54,12 @@ def create_thumbnail(patient_id, logger=default_logger):
     return True
 
 
-@celery_app.task
 def process_patient_picture(patient_id, logger=default_logger):
     """
     Process
     Args:
-        patient:
-            The patient whose image to process.
+        patient_id:
+            The ID of the patient whose images should be processed.
         logger:
             The logger to use for the function.
     """

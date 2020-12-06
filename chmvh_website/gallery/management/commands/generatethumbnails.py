@@ -1,7 +1,7 @@
 from django.core.management.base import BaseCommand
+from django.db.models import F, Q
 
 from gallery import models
-from gallery.tasks import create_thumbnail
 
 
 class Command(BaseCommand):
@@ -22,7 +22,11 @@ class Command(BaseCommand):
 
             patients = models.Patient.objects.all()
         else:
-            patients = models.Patient.objects.filter(thumbnail=None)
+            patients = models.Patient.objects.filter(
+                Q(picture_mod_time__isnull=True)
+                | Q(thumbnail_mod_time__isnull=True)
+                | Q(thumbnail_mod_time__lt=F("picture_mod_time"))
+            )
 
         count = patients.count()
         if count == 0:
@@ -41,10 +45,14 @@ class Command(BaseCommand):
         for patient in patients:
             if kwargs['overwrite'] and patient.thumbnail:
                 patient.thumbnail.delete(save=False)
-                patient.save(update_fields=['thumbnail'])
+                patient.save()
 
-            if create_thumbnail(patient):
+            try:
+                patient.generate_thumbnail()
+                patient.save()
                 successes += 1
+            except Exception as e:
+                self.stderr.write(e)
 
         self.stdout.write(self.style.SUCCESS(
             "Successfully generated {0} of {1} thumbnails.".format(

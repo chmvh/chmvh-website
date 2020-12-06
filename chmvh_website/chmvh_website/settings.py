@@ -246,6 +246,7 @@ LOGGING = {
     "handlers": {
         "console": {
             "class": "logging.StreamHandler",
+            "formatter": "standard",
         },
         'mail_admins': {
             'level': 'ERROR',

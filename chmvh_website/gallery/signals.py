@@ -25,4 +25,4 @@ def process_picture(sender, instance, update_fields, *args, **kwargs):
             Additional keyword arguments.
     """
     if not update_fields or 'thumbnail' not in update_fields:
-        process_patient_picture.delay(instance.id)
+        process_patient_picture(instance.id)

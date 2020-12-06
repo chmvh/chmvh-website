@@ -25,7 +25,7 @@ class Command(BaseCommand):
         successes = 0
 
         for patient in tqdm(models.Patient.objects.all()):
-            if process_patient_picture(patient):
+            if process_patient_picture(patient.id):
                 successes += 1
 
         self.stdout.write(self.style.SUCCESS(
