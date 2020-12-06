@@ -1,7 +1,7 @@
+import logging
 from io import BytesIO
 
 from PIL import ExifTags, Image
-from celery.utils.log import get_task_logger
 from django.conf import settings
 from django.core.files.base import ContentFile
 
@@ -12,7 +12,7 @@ _INVALID_FORMAT_ERROR = ("Can't generate thumbnail for {type} filetype. "
                          "(Path: {path})")
 
 
-default_logger = get_task_logger(__name__)
+default_logger = logging.getLogger(__name__)
 
 
 def create_thumbnail(patient_id, logger=default_logger):
