@@ -70,4 +70,4 @@ class TestContactForm(object):
         """
         form = ContactForm(data=contact_info)
 
-        assert form.is_valid()
+        assert form.is_valid(), form.errors

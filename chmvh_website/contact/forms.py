@@ -33,7 +33,7 @@ class ContactForm(forms.Form):
         return self.cleaned_data["city"]
 
     def send_email(self):
-        assert self.is_valid()
+        assert self.is_valid(), self.errors
 
         subject = "[CHMVH Website] Message from {}".format(
             self.cleaned_data["name"]

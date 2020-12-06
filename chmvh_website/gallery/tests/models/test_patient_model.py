@@ -35,14 +35,14 @@ class TestPatientModel(object):
         assert patient.first_letter == "F"
 
     @pytest.mark.django_db
-    def test_ordering(self):
+    def test_ordering(self, pet_factory):
         """Test the ordering of patient instances.
 
         Patients should be ordered by first name, then last name.
         """
-        p1 = Patient.objects.create(first_name="B")
-        p2 = Patient.objects.create(first_name="A", last_name="A")
-        p3 = Patient.objects.create(first_name="A", last_name="B")
+        p1 = pet_factory(first_name="B")
+        p2 = pet_factory(first_name="A", last_name="A")
+        p3 = pet_factory(first_name="A", last_name="B")
 
         patients = [p2, p3, p1]
 

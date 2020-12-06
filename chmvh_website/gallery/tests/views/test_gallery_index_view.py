@@ -13,16 +13,21 @@ class TestGalleryIndexView(object):
     url = reverse("gallery:index")
 
     @pytest.mark.django_db
-    def test_featured_pets(self, featured_pets, rf: RequestFactory):
+    def test_featured_pets(self, pet_factory, rf: RequestFactory):
         """Test the index view with featured pets.
 
         If there are featured pets, they should be passed to the index
         view.
         """
+        p1 = pet_factory(first_name="Sherman", featured=True)
+        p2 = pet_factory(first_name="Fido", featured=True)
+        pet_factory(first_name="Spot")
+
+        # Expected in alphabetical order
+        expected = [p2, p1]
+
         request = rf.get(self.url)
         response = GalleryIndexView.as_view()(request)
-
-        expected = list(Patient.objects.filter(featured=True))
 
         assert response.status_code == 200
         assert list(response.context_data["featured_pets"]) == expected

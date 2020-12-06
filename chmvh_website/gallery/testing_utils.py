@@ -1,3 +1,5 @@
+import pathlib
+
 from django.core.files import File
 from django.core.files.uploadedfile import SimpleUploadedFile
 
@@ -57,7 +59,8 @@ def get_test_picture() -> SimpleUploadedFile:
     Returns:
         A file whose contents are the sample image described.
     """
-    src = "gallery/tests/fixtures/images/test_picture.jpg"
+    current_dir = pathlib.Path(__file__).parent
+    src = current_dir / "tests" / "fixtures" / "images" / "test_picture.jpg"
 
     return SimpleUploadedFile(
         content=open(src, "rb").read(),

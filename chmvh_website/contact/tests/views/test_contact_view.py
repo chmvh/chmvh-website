@@ -77,6 +77,7 @@ class TestContactView(object):
         displayed with errors.
         """
         data = {
+            "g-recaptcha-response": "foo",
             "name": "John Doe",
             "email": "johndoe@example.com",
         }

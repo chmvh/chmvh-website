@@ -11,23 +11,23 @@ class TestPetMemoriamView(object):
     """Test cases for the pet memoriam view"""
 
     @pytest.mark.django_db
-    def test_filter_patients(self, pets, rf: RequestFactory):
+    def test_filter_patients(self, pet_factory, rf: RequestFactory):
         """Test filtering patients by category.
 
         When this view is used, only deceased patients should be shown.
         """
+        p1 = pet_factory(first_name="Fido", deceased=True)
+        p2 = pet_factory(first_name="Jane", deceased=True)
+        pet_factory(first_name="Gus")
+
+        expected = [p1, p2]
+
         url = reverse("gallery:pet-memoriam")
         request = rf.get(url)
         response = PetMemoriamView.as_view()(request)
 
-        expected = Patient.objects.filter(deceased=True)
-
         assert response.status_code == 200
-
-        base_context = BasePatientView().get_context_data()
-        assert base_context.items() <= response.context_data.items()
-
-        assert list(response.context_data["pets"]) == list(expected)
+        assert list(response.context_data["pets"]) == expected
 
     @pytest.mark.django_db
     def test_no_patients(self, rf: RequestFactory):

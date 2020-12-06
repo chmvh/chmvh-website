@@ -121,6 +121,14 @@ DATABASES = {
     }
 }
 
+if os.getenv("CHMVH_TEST"):
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": ":memory:",
+        }
+    }
+
 
 # Password validation
 # https://docs.djangoproject.com/en/1.10/ref/settings/#auth-password-validators
@@ -165,7 +173,7 @@ STATICFILES_FINDERS = [
 
 # Media Files (User Uploaded)
 
-MEDIA_ROOT = os.getenv("CHMVH_MEDIA_ROOT")
+MEDIA_ROOT = os.getenv("CHMVH_MEDIA_ROOT", os.path.join(BASE_DIR, "media"))
 MEDIA_URL = "/media/"
 
 # HTTPS
