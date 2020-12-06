@@ -202,7 +202,7 @@ if os.getenv("CHMVH_EMAIL_USER"):
     EMAIL_USE_TLS = True
 
 if os.getenv("CHMVH_ADMIN_NAME"):
-    ADMINS = (os.getenv("CHMVH_ADMIN_NAME"), os.getenv("CHMVH_ADMIN_EMAIL"))
+    ADMINS = ((os.getenv("CHMVH_ADMIN_NAME"), os.getenv("CHMVH_ADMIN_EMAIL")),)
 
 # Google Analytics
 GOOGLE_ANALYTICS_ID = os.getenv("CHMVH_GOOGLE_ANALYTICS_ID")
