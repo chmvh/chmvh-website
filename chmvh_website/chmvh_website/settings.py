@@ -160,7 +160,6 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
-STATIC_ROOT = os.getenv("CHMVH_STATIC_ROOT")
 STATIC_URL = "/static/"
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
@@ -173,6 +172,7 @@ STATICFILES_FINDERS = [
 
 # Media Files (User Uploaded)
 
+# This is only used for development when we're not uploading files to S3.
 MEDIA_ROOT = os.getenv("CHMVH_MEDIA_ROOT", os.path.join(BASE_DIR, "media"))
 MEDIA_URL = "/media/"
 
@@ -218,6 +218,21 @@ else:
 
 # Gallery Settings
 GALLERY_THUMBNAIL_SIZE = 300, 300
+
+
+# Django Storages
+
+AWS_S3_ENDPOINT_URL = os.getenv('CHMVH_S3_ENDPOINT_URL')
+AWS_S3_REGION_NAME = os.getenv('CHMVH_S3_REGION_NAME')
+
+S3_MEDIA_BUCKET = os.getenv('CHMVH_S3_MEDIA_BUCKET')
+S3_STATIC_BUCKET = os.getenv('CHMVH_S3_STATIC_BUCKET')
+
+if S3_MEDIA_BUCKET:
+    DEFAULT_FILE_STORAGE = 'custom_storage.s3.MediaStorage'
+
+if S3_STATIC_BUCKET:
+    STATICFILES_STORAGE = 'custom_storage.s3.StaticStorage'
 
 
 # Config for django-sass-processor
