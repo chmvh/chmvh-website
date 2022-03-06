@@ -160,6 +160,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
+STATIC_ROOT = os.getenv('CHMVH_STATIC_ROOT')
 STATIC_URL = "/static/"
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
@@ -237,7 +238,11 @@ if S3_STATIC_BUCKET:
 
 # Config for django-sass-processor
 
-SASS_PROCESSOR_STORAGE = 'custom_storage.s3.StaticStorage'
+SASS_PROCESSOR_STORAGE = 'django.core.files.storage.FileSystemStorage'
+SASS_PROCESSOR_STORAGE_OPTIONS = {
+    'location': '/srv/media/generated',
+    'base_url': STATIC_URL
+}
 SASS_PROCESSOR_ROOT = os.path.join(BASE_DIR, "static")
 
 
