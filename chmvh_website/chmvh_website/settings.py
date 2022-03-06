@@ -238,6 +238,7 @@ if S3_STATIC_BUCKET:
 
 # Config for django-sass-processor
 
+COMPRESS_ROOT = os.getenv("CHMVH_COMPRESS_ROOT")
 SASS_PROCESSOR_STORAGE = 'django.core.files.storage.FileSystemStorage'
 SASS_PROCESSOR_STORAGE_OPTIONS = {
     'location': STATIC_ROOT,

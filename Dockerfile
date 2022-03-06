@@ -18,6 +18,11 @@ CMD ["runserver", "0.0.0.0:8000"]
 # server.
 FROM dev
 
+ENV CHMVH_COMPRESS_ROOT=/srv/chmvh/static
+
+RUN mkdir -p $CHMVH_COMPRESS_ROOT \
+    && CHMVH_SECRET_KEY=none ./manage.py compilescss
+
 COPY ./entrypoint.sh .
 
 # The combination of this environment variable and the
