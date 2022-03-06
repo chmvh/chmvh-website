@@ -240,7 +240,7 @@ if S3_STATIC_BUCKET:
 
 SASS_PROCESSOR_STORAGE = 'django.core.files.storage.FileSystemStorage'
 SASS_PROCESSOR_STORAGE_OPTIONS = {
-    'location': '/srv/media/generated',
+    'location': STATIC_ROOT,
     'base_url': STATIC_URL
 }
 SASS_PROCESSOR_ROOT = os.path.join(BASE_DIR, "static")
