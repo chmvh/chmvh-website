@@ -19,7 +19,7 @@ default_logger = logging.getLogger(__name__)
 def create_thumbnail(patient_id, logger=default_logger):
     patient = Patient.objects.get(pk=patient_id)
 
-    logger.debug("Generating thumbnail for {0}".format(patient.picture.path))
+    logger.debug("Generating thumbnail for {0}".format(patient.picture.name))
     image = Image.open(patient.picture)
 
     pil_type = image.format
@@ -30,7 +30,7 @@ def create_thumbnail(patient_id, logger=default_logger):
     else:
         logger.warning(
             _INVALID_FORMAT_ERROR.format(
-                path=patient.picture.path, type=pil_type
+                path=patient.picture.name, type=pil_type
             )
         )
 
@@ -43,9 +43,6 @@ def create_thumbnail(patient_id, logger=default_logger):
     temp_handle.seek(0)
 
     path = patient.picture.name.rsplit(".", 1)[0]
-    if settings.S3_MEDIA_BUCKET and path.startswith('/'):
-        path = path[1:]
-
     thumb_path = "{0}_thumbnail.{1}".format(path, ext)
     patient.thumbnail.save(
         thumb_path, ContentFile(temp_handle.getvalue()), save=False
@@ -71,10 +68,10 @@ def process_patient_picture(patient_id, logger=default_logger):
     patient = Patient.objects.get(pk=patient_id)
 
     logger.debug(
-        "Processing {file_path}".format(file_path=patient.picture.path)
+        "Processing {file_path}".format(file_path=patient.picture.name)
     )
 
-    image = Image.open(patient.picture.path)
+    image = Image.open(patient.picture.name)
 
     # Keep track of if we changed the original image. If we did, we
     # need to update the thumbnail as well.
@@ -116,11 +113,11 @@ def process_patient_picture(patient_id, logger=default_logger):
             changed = orientation in (3, 6, 8)
 
     try:
-        image.save(patient.picture.path, pil_type)
+        image.save(patient.picture.name, pil_type)
     except OSError as e:
         logger.exception(
             "Failed to save {file_path}".format(
-                file_path=patient.picture.path
+                file_path=patient.picture.name
             ),
             exc_info=e,
         )
