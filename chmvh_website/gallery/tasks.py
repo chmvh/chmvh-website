@@ -71,7 +71,7 @@ def process_patient_picture(patient_id, logger=default_logger):
         "Processing {file_path}".format(file_path=patient.picture.name)
     )
 
-    image = Image.open(patient.picture.name)
+    image = Image.open(patient.picture)
 
     # Keep track of if we changed the original image. If we did, we
     # need to update the thumbnail as well.
