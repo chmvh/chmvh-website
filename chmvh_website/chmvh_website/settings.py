@@ -237,6 +237,7 @@ if S3_STATIC_BUCKET:
 
 # Config for django-sass-processor
 
+SASS_PROCESSOR_STORAGE = 'custom_storage.s3.StaticStorage'
 SASS_PROCESSOR_ROOT = os.path.join(BASE_DIR, "static")
 
 
