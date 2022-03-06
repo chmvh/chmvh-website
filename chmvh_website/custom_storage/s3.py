@@ -9,6 +9,7 @@ class MediaStorage(S3Boto3Storage):
 
 class StaticStorage(S3ManifestStaticStorage):
     bucket_name = S3_STATIC_BUCKET
+    default_acl = 'public'
 
 
 class CachedStaticStorage(StaticStorage):
