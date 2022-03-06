@@ -1,6 +1,6 @@
 from storages.backends.s3boto3 import S3Boto3Storage, S3ManifestStaticStorage
 
-from chmvh_website.settings import S3_MEDIA_BUCKET, S3_STATIC_BUCKET
+from django.conf.settings import S3_MEDIA_BUCKET, S3_STATIC_BUCKET
 
 
 class MediaStorage(S3Boto3Storage):

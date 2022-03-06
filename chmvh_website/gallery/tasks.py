@@ -20,7 +20,7 @@ def create_thumbnail(patient_id, logger=default_logger):
     patient = Patient.objects.get(pk=patient_id)
 
     logger.debug("Generating thumbnail for {0}".format(patient.picture.path))
-    image = Image.open(patient.picture.path)
+    image = Image.open(patient.picture)
 
     pil_type = image.format
     if pil_type == "JPEG":
@@ -43,6 +43,9 @@ def create_thumbnail(patient_id, logger=default_logger):
     temp_handle.seek(0)
 
     path = patient.picture.name.rsplit(".", 1)[0]
+    if settings.S3_MEDIA_BUCKET and path.startswith('/'):
+        path = path[1:]
+
     thumb_path = "{0}_thumbnail.{1}".format(path, ext)
     patient.thumbnail.save(
         thumb_path, ContentFile(temp_handle.getvalue()), save=False
