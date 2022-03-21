@@ -29,7 +29,6 @@ services:
     volumes:
       - ./chmvh_website:/opt/chmvh-website/chmvh_website
       - media:/var/www/chmvh/media
-      - static:/var/www/chmvh/static
 
 volumes:
   db:

@@ -9,7 +9,7 @@ from gallery.models import Patient
 
 
 _INVALID_FORMAT_ERROR = (
-    "Can't generate thumbnail for {type} filetype. " "(Path: {path})"
+    "Can't generate thumbnail for {type} filetype. (Path: {path})"
 )
 
 
@@ -113,7 +113,7 @@ def process_patient_picture(patient_id, logger=default_logger):
             changed = orientation in (3, 6, 8)
 
     try:
-        image.save(patient.picture.name, pil_type)
+        image.save(patient.picture, pil_type)
     except OSError as e:
         logger.exception(
             "Failed to save {file_path}".format(
